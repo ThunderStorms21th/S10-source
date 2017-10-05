@@ -298,6 +298,7 @@ static void hvs_do_close_lock_held(struct vsock_sock *vsk,
 {
 	struct sock *sk = sk_vsock(vsk);
 
+	sk->sk_state = TCP_CLOSE;
 	sock_set_flag(sk, SOCK_DONE);
 	vsk->peer_shutdown = SHUTDOWN_MASK;
 	if (vsock_stream_has_data(vsk) <= 0)
