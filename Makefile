@@ -777,6 +777,11 @@ else ifeq ($(cc-name),gcc)
 ifdef CONFIG_GCC_GRAPHITE
 KBUILD_CFLAGS   += -fgraphite-identity
 endif
+
+ifdef CONFIG_CC_DISABLE_WARN_MAYBE_UNINITIALIZED
+KBUILD_CFLAGS   += -Wno-maybe-uninitialized
+endif
+
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
