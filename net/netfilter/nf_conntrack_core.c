@@ -320,6 +320,7 @@ EXPORT_SYMBOL_GPL(nf_ct_invert_tuple);
  * 2. nf_conn->master address (normally NULL)
  * 3. the associated net namespace
  * 4. the original direction tuple
+ * 5. the associated net namespace
  */
 u32 nf_ct_get_id(const struct nf_conn *ct)
 {
