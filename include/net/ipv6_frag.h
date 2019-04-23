@@ -63,6 +63,7 @@ ip6frag_obj_cmpfn(struct rhashtable_compare_arg *arg, const void *ptr)
 static inline void
 ip6frag_expire_frag_queue(struct net *net, struct frag_queue *fq)
 {
+
 	struct net_device *dev = NULL;
 	struct sk_buff *head;
 
@@ -82,27 +83,12 @@ ip6frag_expire_frag_queue(struct net *net, struct frag_queue *fq)
 	__IP6_INC_STATS(net, __in6_dev_get(dev), IPSTATS_MIB_REASMTIMEOUT);
 
 	/* Don't send error if the first segment did not arrive. */
-<<<<<<< HEAD
-	if (!(fq->q.flags & INET_FRAG_FIRST_IN))
-		goto out;
-
-	/* sk_buff::dev and sk_buff::rbnode are unionized. So we
-	 * pull the head out of the tree in order to be able to
-	 * deal with head->dev.
-	 */
-	head = inet_frag_pull_head(&fq->q);
-	if (!head)
-		goto out;
-
-	head->dev = dev;
-=======
 	head = fq->q.fragments;
 	if (!(fq->q.flags & INET_FRAG_FIRST_IN) || !head)
 		goto out;
 
 	head->dev = dev;
 	skb_get(head);
->>>>>>> 5d827bfe37a5... ipv6: remove dependency of nf_defrag_ipv6 on ipv6 module
 	spin_unlock(&fq->q.lock);
 
 	icmpv6_send(head, ICMPV6_TIME_EXCEED, ICMPV6_EXC_FRAGTIME, 0);
