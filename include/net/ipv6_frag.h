@@ -82,6 +82,7 @@ ip6frag_expire_frag_queue(struct net *net, struct frag_queue *fq)
 	__IP6_INC_STATS(net, __in6_dev_get(dev), IPSTATS_MIB_REASMTIMEOUT);
 
 	/* Don't send error if the first segment did not arrive. */
+<<<<<<< HEAD
 	if (!(fq->q.flags & INET_FRAG_FIRST_IN))
 		goto out;
 
@@ -94,6 +95,14 @@ ip6frag_expire_frag_queue(struct net *net, struct frag_queue *fq)
 		goto out;
 
 	head->dev = dev;
+=======
+	head = fq->q.fragments;
+	if (!(fq->q.flags & INET_FRAG_FIRST_IN) || !head)
+		goto out;
+
+	head->dev = dev;
+	skb_get(head);
+>>>>>>> 5d827bfe37a5... ipv6: remove dependency of nf_defrag_ipv6 on ipv6 module
 	spin_unlock(&fq->q.lock);
 
 	icmpv6_send(head, ICMPV6_TIME_EXCEED, ICMPV6_EXC_FRAGTIME, 0);
