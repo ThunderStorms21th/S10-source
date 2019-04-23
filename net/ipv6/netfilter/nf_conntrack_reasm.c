@@ -265,14 +265,8 @@ static int nf_ct_frag6_queue(struct frag_queue *fq, struct sk_buff *skb,
 
 	prev = fq->q.fragments_tail;
 	err = inet_frag_queue_insert(&fq->q, skb, offset, end);
-	if (err) {
-		if (err == IPFRAG_DUP) {
-			/* No error for duplicates, pretend they got queued. */
-			kfree_skb(skb);
-			return -EINPROGRESS;
-		}
+	if (err)
 		goto insert_error;
-	}
 
 	if (dev)
 		fq->iif = dev->ifindex;
@@ -299,17 +293,15 @@ static int nf_ct_frag6_queue(struct frag_queue *fq, struct sk_buff *skb,
 		skb->_skb_refdst = 0UL;
 		err = nf_ct_frag6_reasm(fq, skb, prev, dev);
 		skb->_skb_refdst = orefdst;
-
-		/* After queue has assumed skb ownership, only 0 or
-		 * -EINPROGRESS must be returned.
-		 */
-		return err ? -EINPROGRESS : 0;
+		return err;
 	}
 
 	skb_dst_drop(skb);
 	return -EINPROGRESS;
 
 insert_error:
+	if (err == IPFRAG_DUP)
+		goto err;
 	inet_frag_kill(&fq->q);
 err:
 	skb_dst_drop(skb);
