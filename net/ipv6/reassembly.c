@@ -127,7 +127,6 @@ static int ip6_frag_queue(struct frag_queue *fq, struct sk_buff *skb,
 			((u8 *)(fhdr + 1) - (u8 *)(ipv6_hdr(skb) + 1)));
 
 	if ((unsigned int)end > IPV6_MAXPLEN) {
-		DROPDUMP_QUEUE_SKB(skb, NET_DROPDUMP_IPSTATS_MIB_INHDRERRORS15);
 		*prob_offset = (u8 *)&fhdr->frag_off - skb_network_header(skb);
 		/* note that if prob_offset is set, the skb is freed elsewhere,
 		 * we do not free it here.
@@ -162,7 +161,6 @@ static int ip6_frag_queue(struct frag_queue *fq, struct sk_buff *skb,
 			/* RFC2460 says always send parameter problem in
 			 * this case. -DaveM
 			 */
-			DROPDUMP_QUEUE_SKB(skb, NET_DROPDUMP_IPSTATS_MIB_INHDRERRORS16);
 			*prob_offset = offsetof(struct ipv6hdr, payload_len);
 			return -1;
 		}
