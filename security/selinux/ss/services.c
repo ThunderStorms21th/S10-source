@@ -2067,6 +2067,7 @@ static void security_load_policycaps(void)
 			pr_info("SELinux:  unknown policy capability %u\n",
 				i);
 	}
+
 	selinux_android_netlink_route = policydb.android_netlink_route;
 	selinux_nlmsg_init();
 }
