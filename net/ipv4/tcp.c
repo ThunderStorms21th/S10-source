@@ -2589,6 +2589,8 @@ int tcp_disconnect(struct sock *sk, int flags)
 	tp->bytes_acked = 0;
 	tp->bytes_received = 0;
 	tp->fast_ack_mode = 0;
+	tp->data_segs_in = 0;
+	tp->data_segs_out = 0;
 
 	/* Clean up fastopen related fields */
 	tcp_free_fastopen_req(tp);
