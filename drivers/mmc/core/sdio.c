@@ -726,8 +726,6 @@ try_again:
 				/* Retry init sequence, but without R4_18V_PRESENT. */
 				retries = 0;
 				goto try_again;
-			} else {
-				goto remove;
 			}
 		}
 #ifdef CONFIG_MMC_EMBEDDED_SDIO
