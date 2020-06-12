@@ -43,10 +43,12 @@ static void remove_flag(char *cmd, const char *flag)
 
 static void remove_safetynet_flags(char *cmd)
 {
+	remove_flag(cmd, "androidboot.flash.locked=");
 	remove_flag(cmd, "androidboot.enable_dm_verity=");
 	remove_flag(cmd, "androidboot.secboot=");
 	remove_flag(cmd, "androidboot.verifiedbootstate=");
 	remove_flag(cmd, "androidboot.veritymode=");
+	remove_flag(cmd, "androidboot.vbmeta.device_state=");
 }
 #endif
 
