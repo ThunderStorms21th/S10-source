@@ -1702,9 +1702,11 @@ static int s3c24xx_serial_init_port(struct s3c24xx_uart_port *ourport,
 		ourport->tx_irq = ret + 1;
 	}
 
-	ret = platform_get_irq(platdev, 1);
-	if (ret > 0)
-		ourport->tx_irq = ret;
+	if (!s3c24xx_serial_has_interrupt_mask(port)) {
+		ret = platform_get_irq(platdev, 1);
+		if (ret > 0)
+			ourport->tx_irq = ret;
+	}
 
 	if (of_get_property(platdev->dev.of_node,
 			"samsung,separate-uart-clk", NULL))
@@ -1715,6 +1717,7 @@ static int s3c24xx_serial_init_port(struct s3c24xx_uart_port *ourport,
 	if (of_property_read_u32(platdev->dev.of_node, "samsung,source-clock-rate", &ourport->src_clk_rate)){
 		dev_err(&platdev->dev, "No explicit src-clk. Use default src-clk\n");
 		ourport->src_clk_rate = DEFAULT_SOURCE_CLK;
+
 	}
 
 	snprintf(clkname, sizeof(clkname), "ipclk_uart%d", ourport->port.line);
