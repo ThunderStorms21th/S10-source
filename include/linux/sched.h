@@ -1909,3 +1909,12 @@ extern long sched_getaffinity(pid_t pid, struct cpumask *mask);
 #endif
 
 #endif
+
+/* EAS governors */
+#define SCHED_CPUFREQ_RT        (1U << 0)
+#define SCHED_CPUFREQ_DL        (1U << 1)
+#define SCHED_CPUFREQ_IOWAIT    (1U << 2)
+#define SCHED_CPUFREQ_INTERCLUSTER_MIG (1U << 3)
+#define SCHED_CPUFREQ_IDLE	    (1U << 3)
+#define SCHED_CPUFREQ_PL        (1U << 5)
+#define SCHED_CPUFREQ_RT_DL (SCHED_CPUFREQ_RT | SCHED_CPUFREQ_DL)
