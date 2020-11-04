@@ -1,3 +1,4 @@
+obj-y += sec_control.o
 ifeq ($(CONFIG_BATTERY_SAMSUNG_MHS), y)
 obj-$(CONFIG_BATTERY_SAMSUNG)	+= sec_battery_mhs.o sec_battery_sysfs.o sec_battery_dt.o
 else
