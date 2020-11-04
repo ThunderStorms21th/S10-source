@@ -2180,6 +2180,8 @@ static void max77705_enable_aicl_irq(struct max77705_charger_data *charger)
 	pr_info("%s: enabled(%d)\n", __func__, charger->irq_aicl_enabled);
 }
 
+bool unstable_power_detection = true;
+
 static void max77705_chgin_isr_work(struct work_struct *work)
 {
 	struct max77705_charger_data *charger =
@@ -2215,43 +2217,47 @@ static void max77705_chgin_isr_work(struct work_struct *work)
 		msleep(100);
 	}
 
-	pr_info("%s: irq(%d), chgin(0x%x), chg_dtls(0x%x) prev 0x%x\n", __func__,
-		charger->irq_chgin, chgin_dtls, chg_dtls, prev_chgin_dtls);
-	if (charger->is_charging) {
-		if ((chgin_dtls == 0x02) &&
-			(battery_health != POWER_SUPPLY_HEALTH_OVERVOLTAGE)) {
-			pr_info("%s: charger is over voltage\n", __func__);
-			value.intval = POWER_SUPPLY_HEALTH_OVERVOLTAGE;
-			psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
-		} else if (((chgin_dtls == 0x0) || (chgin_dtls == 0x01))
-			&& (chg_dtls & 0x08)
-			&& (chg_cnfg_00 & MAX77705_MODE_BUCK)
-			&& (chg_cnfg_00 & MAX77705_MODE_CHGR)
-			&& (battery_health != POWER_SUPPLY_HEALTH_UNDERVOLTAGE)
-			&& (is_not_wireless_type(charger->cable_type) && !is_wcin_port(charger))) {
-			pr_info("%s: vbus_state : 0x%x, chg_state : 0x%x\n",
-				__func__, chgin_dtls, chg_dtls);
-			pr_info("%s: vBus is undervoltage\n", __func__);
-			value.intval = POWER_SUPPLY_HEALTH_UNDERVOLTAGE;
-			psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
-		}
-	} else {
-		if ((battery_health == POWER_SUPPLY_HEALTH_OVERVOLTAGE)
-			&& (chgin_dtls != 0x02)) {
-			pr_info("%s: vbus_state : 0x%x, chg_state : 0x%x\n",
-				__func__, chgin_dtls, chg_dtls);
-			pr_info("%s: overvoltage->normal\n", __func__);
-			value.intval = POWER_SUPPLY_HEALTH_GOOD;
-			psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
-		} else if ((battery_health == POWER_SUPPLY_HEALTH_UNDERVOLTAGE)
-				&& !((chgin_dtls == 0x0) || (chgin_dtls == 0x01))) {
-			pr_info("%s: vbus_state : 0x%x, chg_state : 0x%x\n",
-			     __func__, chgin_dtls, chg_dtls);
-			pr_info("%s: undervoltage->normal\n", __func__);
-			value.intval = POWER_SUPPLY_HEALTH_GOOD;
-			psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
-			max77705_set_input_current(charger, charger->input_current);
-		}
+	if (stable_count > 10 || !unstable_power_detection) {
+	    pr_info("%s: irq(%d), chgin(0x%x), chg_dtls(0x%x) prev 0x%x\n", __func__,
+		    charger->irq_chgin, chgin_dtls, chg_dtls, prev_chgin_dtls);
+	    if (charger->is_charging) {
+		    if ((chgin_dtls == 0x02) &&
+			    (battery_health != POWER_SUPPLY_HEALTH_OVERVOLTAGE)) {
+			    pr_info("%s: charger is over voltage\n", __func__);
+			    value.intval = POWER_SUPPLY_HEALTH_OVERVOLTAGE;
+			    psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
+		    } else if (((chgin_dtls == 0x0) || (chgin_dtls == 0x01))
+			    && (chg_dtls & 0x08)
+			    && (chg_cnfg_00 & MAX77705_MODE_BUCK)
+			    && (chg_cnfg_00 & MAX77705_MODE_CHGR)
+			    && (battery_health != POWER_SUPPLY_HEALTH_UNDERVOLTAGE)
+			    && (is_not_wireless_type(charger->cable_type) && !is_wcin_port(charger))) {
+			    pr_info("%s: vbus_state : 0x%x, chg_state : 0x%x\n",
+				    __func__, chgin_dtls, chg_dtls);
+			    pr_info("%s: vBus is undervoltage\n", __func__);
+			    value.intval = POWER_SUPPLY_HEALTH_UNDERVOLTAGE;
+			    psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
+		    }
+	    } else {
+		    if ((battery_health == POWER_SUPPLY_HEALTH_OVERVOLTAGE)
+			    && (chgin_dtls != 0x02)) {
+			    pr_info("%s: vbus_state : 0x%x, chg_state : 0x%x\n",
+				    __func__, chgin_dtls, chg_dtls);
+			    pr_info("%s: overvoltage->normal\n", __func__);
+			    value.intval = POWER_SUPPLY_HEALTH_GOOD;
+			    psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
+		    } else if ((battery_health == POWER_SUPPLY_HEALTH_UNDERVOLTAGE)
+				    && !((chgin_dtls == 0x0) || (chgin_dtls == 0x01))) {
+			    pr_info("%s: vbus_state : 0x%x, chg_state : 0x%x\n",
+			         __func__, chgin_dtls, chg_dtls);
+			    pr_info("%s: undervoltage->normal\n", __func__);
+			    value.intval = POWER_SUPPLY_HEALTH_GOOD;
+			    psy_do_property("battery", set, POWER_SUPPLY_PROP_HEALTH, value);
+			    max77705_set_input_current(charger, charger->input_current);
+		    }
+		    prev_chgin_dtls = chgin_dtls;
+		    msleep(100);
+        }
 	}
 	max77705_update_reg(charger->i2c,
 			    MAX77705_CHG_REG_INT_MASK, 0, MAX77705_CHGIN_IM);

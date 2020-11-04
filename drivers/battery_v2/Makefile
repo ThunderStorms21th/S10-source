@@ -1,4 +1,3 @@
-obj-y += sec_control.o
 ifeq ($(CONFIG_BATTERY_SAMSUNG_MHS), y)
 obj-$(CONFIG_BATTERY_SAMSUNG)	+= sec_battery_mhs.o sec_battery_sysfs.o sec_battery_dt.o
 else
@@ -38,7 +37,7 @@ obj-$(CONFIG_CHARGER_MAX77888)	+= max77888_charger.o
 obj-$(CONFIG_CHARGER_MAX77833)	+= max77833_charger.o
 obj-$(CONFIG_CHARGER_MAX77854)	+= max77854_charger.o
 obj-$(CONFIG_CHARGER_MAX77865)	+= max77865_charger.o
-obj-$(CONFIG_CHARGER_MAX77705)	+= max77705_charger.o
+obj-$(CONFIG_CHARGER_MAX77705)	+= max77705_charger.o sec_control.o
 obj-$(CONFIG_CHARGER_S2MU003)   += s2mu003_charger.o
 obj-$(CONFIG_CHARGER_DA9155)    += da9155_charger.o
 
