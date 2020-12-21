@@ -261,14 +261,6 @@ static void bbr_set_pacing_rate(struct sock *sk, u32 bw, int gain)
 		sk->sk_pacing_rate = rate;
 }
 
-/* Return count of segments we want in the skbs we send, or 0 for default. */
-static u32 bbr_tso_segs_goal(struct sock *sk)
-{
-	struct bbr *bbr = inet_csk_ca(sk);
-
-	return bbr->tso_segs_goal;
-}
-
 static u32 bbr_min_tso_segs(struct sock *sk)
 {
 	struct bbr *bbr = inet_csk_ca(sk);
@@ -304,18 +296,19 @@ static u32 bbr_tso_segs_generic(struct sock *sk, unsigned int mss_now,
 	return segs;
 }
 
-/* Custom tcp_tso_autosize() for BBR, used at transmit time to cap skb size. */
-static u32  bbr_tso_segs(struct sock *sk, unsigned int mss_now)
-{
-	return bbr_tso_segs_generic(sk, mss_now, sk->sk_gso_max_size);
-}
-
+/* Return count of segments we want in the skbs we send, or 0 for default. */
 /* Like bbr_tso_segs(), using mss_cache, ignoring driver's sk_gso_max_size. */
 static u32 bbr_tso_segs_goal(struct sock *sk)
 {
 	struct tcp_sock *tp = tcp_sk(sk);
 
 	return  bbr_tso_segs_generic(sk, tp->mss_cache, GSO_MAX_SIZE);
+}
+
+/* Custom tcp_tso_autosize() for BBR, used at transmit time to cap skb size. */
+static u32  bbr_tso_segs(struct sock *sk, unsigned int mss_now)
+{
+	return bbr_tso_segs_generic(sk, mss_now, sk->sk_gso_max_size);
 }
 
 /* Save "last known good" cwnd so we can restore it after losses or PROBE_RTT */

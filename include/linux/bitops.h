@@ -26,6 +26,8 @@
 	(((~0ULL) - (1ULL << (l)) + 1) & \
 	 (~0ULL >> (BITS_PER_LONG_LONG - 1 - (h))))
 
+#define BITS_PER_TYPE(type)	(sizeof(type) * BITS_PER_BYTE)
+
 extern unsigned int __sw_hweight8(unsigned int w);
 extern unsigned int __sw_hweight16(unsigned int w);
 extern unsigned int __sw_hweight32(unsigned int w);

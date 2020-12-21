@@ -1003,9 +1003,11 @@ struct tcp_skb_cb {
 #endif
 	union {
 		struct {
+#define TCPCB_DELIVERED_CE_MASK ((1U<<20) - 1)
 			/* There is space for up to 24 bytes */
 			__u32 in_flight:30,/* Bytes in flight at transmit */
 			      is_app_limited:1, /* cwnd not fully used? */
+			      delivered_ce:20,
 			      unused:1;
 			/* pkts S/ACKed so far upon tx of skb, incl retrans: */
 			__u32 delivered;
@@ -1015,8 +1017,6 @@ struct tcp_skb_cb {
 			u32 delivered_mstamp;
 #define TCPCB_IN_FLIGHT_BITS 20
 #define TCPCB_IN_FLIGHT_MAX ((1U << TCPCB_IN_FLIGHT_BITS) - 1)
-			u32 in_flight:20,   /* packets in flight at transmit */
-			    unused2:12;
 			u32 lost;	/* packets lost so far upon tx of skb */
 		} tx;   /* only used for outgoing skbs */
 		union {
