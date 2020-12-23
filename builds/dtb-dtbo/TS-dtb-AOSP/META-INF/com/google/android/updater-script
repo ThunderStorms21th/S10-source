@@ -1,0 +1,43 @@
+ifelse(is_mounted("/system_root"), unmount("/system_root"));
+ifelse(is_mounted("/data"), unmount("/data"));
+ifelse(is_mounted("/vendor"), unmount("/vendor"));
+
+ui_print(" ");
+ui_print("*******************************************************************");
+ui_print("             ThunderStorm Device Tree Blobs OneUI-Q                ");
+ui_print("                     For Samsung Galaxy S10 & N10                  ");
+ui_print("                Developed by ThundeRStormS Team                    ");
+ui_print("                G970F/N, G973F, G975F/N, G977B/N                   ");
+ui_print("                     N970F, N971N, N975F, N976N/B                  ");
+ui_print("*******************************************************************");
+ui_print(" ");
+set_progress(0.01);
+
+ui_print(" ");
+ui_print("@Mounting partitions...");
+
+# Copy scripts
+package_extract_dir("ts", "/data/tmp/ts");
+set_perm_recursive(0, 0, 0777, 0777, "/data/tmp/ts");
+
+# MODELS - Thx to Ambasadii for this line and file
+run_program("/sbin/sh", "/data/tmp/ts/device_model.sh");
+ui_print("@Checking Device Model: ",file_getprop("/data/tmp/ts/device_model","androidboot.em.model"),"...");
+
+# Run install script
+run_program("/sbin/sh", "/data/tmp/ts/install_script.sh");
+
+#####################################################
+
+# ui_print(" ");
+# ui_print("-- Delete temporary files...");
+delete_recursive("/data/tmp/ts");
+
+set_progress(1.00);
+show_progress(1.00, "-1000");
+ui_print(" ");
+ui_print("*******************************************************************");
+ui_print("** The ThundeRStormS Device Tree Blobs are installed **");
+ui_print("*******************************************************************");
+ui_print(" ");
+

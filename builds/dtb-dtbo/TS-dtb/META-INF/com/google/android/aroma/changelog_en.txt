@@ -1,0 +1,49 @@
+	
+<b>KERNEL INFORMATION:</b>
+
+	NAME	: <b><#selectbg_g>ThundeRStormS-Device Tree Blobs</#></b>	
+	VERSION	: <b><#selectbg_g>v1.4</#></b>
+	DATE	: <b><#selectbg_g>18/12/2020</#></b>
+	AUTHOR	: <b><#selectbg_g>ThundeRStormS Team</#></b>
+
+<#53a6f4><b>        Only For Galaxy S10/N10 | OneUI Q Roms |</b></#>
+
+
+<b>CHANGELOG:</b>
+
+--------------------------------------------------------------------------
+<u><b><#selectbg_g>ThunderStorms-DTB/DTBO-v1.4 : 18.12.2020</#></b></u>
+<*>Samsung source : DTJ4/DTJA </*>
+<*>Linux source : upstreamed to 4.14.133 </*>
+<*>Freqvar Tune - removed block edit time_rate </*>
+<*>Support for lower frequencies in Little CPU to 187 MHz</*>
+<*>Support for lower frequencies in GPU back to 156 MHz</*>
+<*>Optimize for GPU </*>
+<*>Optimize for CPUs </*>
+<*>Optimized for battery life </*>
+<*>Rest like in realease 1.3 </*>
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+<u><b><#selectbg_g>ThunderStorms-DTB/DTBO-v1.3 : 01.12.2020</#></b></u>
+<*>Samsung source : DTJ4/DTJA </*>
+<*>Linux source : upstreamed to 4.14.133 </*>
+<*>Freqvar Tune - removed block edit time_rate </*>
+<*>Support for lower frequencies in Little CPU to 187 MHz</*>
+<*>Support for lower frequencies in GPU to 100 MHz</*>
+<*>Optimize for GPU </*>
+<*>Optimize for CPUs </*>
+<*>Optimized for battery life </*>
+<*>Rest like in realease 1.2 </*>
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+<u><b><#selectbg_g>ThunderStorms-DTB/DTBO-v1.2 : 05.11.2020</#></b></u>
+<*>Samsung source : DTI8 </*>
+<*>Linux source : 4.14.113 </*>
+<*>Freqvar Tune - removed block edit time_rate </*>
+<*>Support for lower frequencies in Little CPU to 187 MHz</*>
+<*>Optimize for GPU </*>
+<*>Optimize for CPUs </*>
+<*>Optimized for battery life </*>
+<*>Initial Release</*>
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------

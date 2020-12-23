@@ -1,0 +1,37 @@
+# Copyright (C) 2012 The Android Open Source Project
+#
+# IMPORTANT: Do not create world writable files or directories.
+# This is a common source of Android security bugs.
+#
+
+import /init.spectrum.rc
+
+on boot
+
+   # I/O sched settings
+   write /sys/block/sda/queue/nr_requests 128
+   write /sys/block/mmcblk0/queue/nr_requests 128
+   write /sys/block/sda/queue/iostats 0
+   write /sys/block/mmcblk0/queue/iostats 0
+   # VM
+   write /proc/sys/vm/dirty_expire_centisecs 800
+   write /proc/sys/vm/dirty_writeback_centisecs 800
+   # MISC
+   write > /sys/module/mmc_core/parameters/use_spi_crc N
+
+
+on property:sys.boot_completed=1
+    start kernelinit
+    stop proca
+    stop secure_storage
+    stop irisd
+
+
+service kernelinit /sbin/ts-kernel.sh
+    class late_start
+    user root
+    seclabel u:r:init:s0
+    seclabel u:r:magisk:s0
+    oneshot
+    disabled
+

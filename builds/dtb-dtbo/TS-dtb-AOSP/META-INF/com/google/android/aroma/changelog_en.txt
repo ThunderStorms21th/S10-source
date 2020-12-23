@@ -1,0 +1,25 @@
+	
+<b>KERNEL INFORMATION:</b>
+
+	NAME	: <b><#selectbg_g>ThundeRStormS-Device Tree Blobs</#></b>	
+	VERSION	: <b><#selectbg_g>v1.2</#></b>
+	DATE	: <b><#selectbg_g>05/11/2020</#></b>
+	AUTHOR	: <b><#selectbg_g>ThundeRStormS Team</#></b>
+
+<#53a6f4><b>        Only For Galaxy S10/N10 | OneUI Q Roms |</b></#>
+
+
+<b>CHANGELOG:</b>
+
+--------------------------------------------------------------------------
+<u><b><#selectbg_g>ThunderStorms-DTB/DTBO-v1.2 : 05.11.2020</#></b></u>
+<*>Samsung source : DTI8 </*>
+<*>Linux source : 4.14.113 </*>
+<*>Freqvar Tune - removed block edit time_rate </*>
+<*>Support for lower frequencies in Little CPU to 187 MHz</*>
+<*>Optimize for GPU </*>
+<*>Optimize for CPUs </*>
+<*>Optimized for battery life </*>
+<*>Initial Release</*>
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------

@@ -1,0 +1,35 @@
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_00.dtbo
+    custom0 = 0x00000000
+    custom1 = 0x00000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_01.dtbo
+    custom0 = 0x10000000
+    custom1 = 0x10000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_02.dtbo
+    custom0 = 0x20000000
+    custom1 = 0x20000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_03.dtbo
+    custom0 = 0x30000000
+    custom1 = 0x30000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_04.dtbo
+    custom0 = 0x40000000
+    custom1 = 0x40000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_05.dtbo
+    custom0 = 0x50000000
+    custom1 = 0x50000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_06.dtbo
+    custom0 = 0x60000000
+    custom1 = 0x60000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_07.dtbo
+    custom0 = 0x70000000
+    custom1 = 0x70000000
+
+arch/arm64/boot/dts/samsung/exynos9820-beyondx_kor_08.dtbo
+    custom0 = 0x80000000
+    custom1 = 0xff000000
