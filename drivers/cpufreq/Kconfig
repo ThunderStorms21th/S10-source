@@ -123,6 +123,7 @@ config CPU_FREQ_DEFAULT_GOV_BLU_SCHEDUTIL
 	bool "blu_schedutil"
 	select CPU_FREQ_GOV_BLU_SCHEDUTIL
 	select CPU_FREQ_GOV_TS_SCHEDUTIL
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	  Use the 'blu_schedutil' CPUFreq governor by default. If unsure,
 	  have a look at the help section of that governor. The fallback
@@ -133,6 +134,7 @@ config CPU_FREQ_DEFAULT_GOV_Runutil
 	depends on SMP
 	select CPU_FREQ_GOV_Runutil
 	select CPU_FREQ_GOV_TS_SCHEDUTIL
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	  Use the 'Runutil' CPUFreq governor by default. If unsure,
 	  have a look at the help section of that governor. The fallback
@@ -143,6 +145,7 @@ config CPU_FREQ_DEFAULT_GOV_PIXEL_SCHEDUTIL
 	depends on SMP
 	select CPU_FREQ_GOV_PIXEL_SCHEDUTIL
 	select CPU_FREQ_GOV_TS_SCHEDUTIL
+	select CPU_FREQ_GOV_PERFORMANCE
 	help
 	  Use the 'pixel_schedutil' CPUFreq governor by default. If unsure,
 	  have a look at the help section of that governor. The fallback
