@@ -48,7 +48,7 @@ unsigned int gpu_pmu_status_local_pwr_mask;
 
 /* GPU min / max freq range */
 unsigned int gpu_min_override = 100000;
-unsigned int gpu_max_override = 806000;
+unsigned int gpu_max_override = 754000;
 
 #ifdef CONFIG_MALI_RT_PM
 static struct exynos_pm_domain *gpu_get_pm_domain(char *g3d_genpd_name)
