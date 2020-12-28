@@ -5225,11 +5225,11 @@
 		gpu_pmu_status_reg_offset = <0x2104>;
 		gpu_pmu_status_local_pwr_mask = <0x1>;
 		gpu_max_clock = <0xab630>;
-		gpu_max_clock_limit = <0xab630>;
+		gpu_max_clock_limit = <0xb8150>;
 		gpu_min_clock = <0x26160>;
 		gpu_min_clock_limit = <0x186a0>;
 		gpu_dvfs_start_clock = <0x3f7a0>;
-		gpu_dvfs_bl_config_clock = <0x26160>;
+		gpu_dvfs_bl_config_clock = <0x186a0>;
 		gpu_default_voltage = <0xc3500>;
 		gpu_cold_minimum_vol = <0x0>;
 		gpu_voltage_offset_margin = <0x927c>;
@@ -9787,8 +9787,8 @@
 			device_type = "freqvar-tune";
 			shared-cpus = "0-3";
 			boost_table = <0xa0 0xe7b08 0x7b 0x13d620 0x64>;
-			up_rate_limit_table = <0x4>;
-			down_rate_limit_table = <0x4>;
+			// up_rate_limit_table = <0x4>;
+			// down_rate_limit_table = <0x4>;
 			st_table = <0x5>;
 		};
 
@@ -9796,8 +9796,8 @@
 			device_type = "freqvar-tune";
 			shared-cpus = "4-5";
 			boost_table = <0xa0 0xeadd0 0x7b 0x12a570 0x64>;
-			up_rate_limit_table = <0x4>;
-			down_rate_limit_table = <0x4>;
+			// up_rate_limit_table = <0x4>;
+			// down_rate_limit_table = <0x4>;
 			st_table = <0x5>;
 		};
 
@@ -9805,8 +9805,8 @@
 			device_type = "freqvar-tune";
 			shared-cpus = "6-7";
 			boost_table = <0xa0 0xe4840 0x7b 0x1506d0 0x64>;
-			up_rate_limit_table = <0x4>;
-			down_rate_limit_table = <0x4>;
+			// up_rate_limit_table = <0x4>;
+			// down_rate_limit_table = <0x4>;
 			st_table = <0x5>;
 		};
 	};
