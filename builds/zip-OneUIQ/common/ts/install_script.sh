@@ -1,6 +1,6 @@
 #!/sbin/sh
 #
-# ThundeRStormS - Flash script 1.1
+# ThundeRStormS - Flash script 1.2
 #
 # Credit also goes to @djb77
 # @lyapota, @Tkkg1994, @osm0sis
@@ -10,6 +10,8 @@
 
 # Functions
 BB=/data/tmp/ts/busybox
+dtb=$($BB find /dev/block/platform -iname dtb)
+dtbo=$($BB find /dev/block/platform -iname dtbo)
 
 ui_print() { echo -n -e "ui_print $1\n"; }
 
@@ -87,7 +89,7 @@ if [ $SYSTEM_ROOT == true ]; then
 fi
 
 set_progress 0.10
-show_progress 0.40 -2000
+show_progress 0.50 -2000
 
 ## VARIABLES
 SDK="$(file_getprop /system/build.prop ro.build.version.sdk)"
@@ -133,7 +135,7 @@ if [ $MODEL == $MODEL11 ]; then MODEL_DESC=$MODEL11_DESC; fi
 if [ $MODEL == $MODEL12 ]; then MODEL_DESC=$MODEL12_DESC; fi
 if [ $MODEL == $MODEL13 ]; then MODEL_DESC=$MODEL13_DESC; fi
 BASE="DTJA"
-VERSION="v1.4"
+VERSION="v1.5"
 
 ## FLASH KERNEL
 ui_print " "
@@ -147,7 +149,7 @@ dd of=/dev/block/platform/13d60000.ufs/by-name/boot if=/data/tmp/ts/ThundeRStorm
 ## RUN INITIAL SCRIPT IMPLEMENTATOR
 sh /data/tmp/ts/initial_settings.sh
 	
-set_progress 0.40
+set_progress 0.50
 
 #======================================
 # OPTIONS
@@ -183,5 +185,38 @@ if [ "$(file_getprop /tmp/aroma/menu.prop chk4)" == 1 ]; then
 	cp -rf /data/tmp/ts/ttweaks-profiles/. /sdcard/ThunderTweaks/profiles/
 fi
 
-set_progress 0.50
+set_progress 0.51
+show_progress 0.80 -1000
+
+## BACKUP DeviceTree Blobs
+if [ "$(file_getprop /tmp/aroma/menu.prop chk5)" == 1 ]; then
+    ui_print " "
+    ui_print "@ThundeRStormS - Backuping Your Device Tree Blobs..."
+    ui_print "-- Backuping Your exist dtb/dtbo..."
+    cd /data/tmp/ts/dtb
+    dd if=$dtb of=/sdcard/ThunderTweaks/dtb.img
+    dd if=$dtbo of=/sdcard/ThunderTweaks/dtbo.img
+fi
+
+set_progress 0.80
+
+## FLASH MODDED DeviceTree Blobs
+if [ "$(file_getprop /tmp/aroma/menu.prop chk6)" == 1 ]; then
+    ui_print " "
+    ui_print "@ThundeRStormS - Installing Modded Device Tree Blobs..."
+    ui_print "-- Extracting ThundeRStormS dtb/dtbo..."
+    cd /data/tmp/ts/dtb
+    dd if=/data/tmp/ts/dtb/$MODEL_DESC-dtb.img of=$dtb bs=4096
+    dd if=/data/tmp/ts/dtb/$MODEL_DESC-dtbo.img of=$dtbo bs=4096
+fi
+
+## FLASH BACKUPED DeviceTree Blobs
+if [ "$(file_getprop /tmp/aroma/menu.prop chk7)" == 1 ]; then
+    ui_print " "
+    ui_print "@ThundeRStormS - Installing Previouse Device Tree Blobs..."
+    ui_print "-- Extracting Your previouses dtb/dtbo..."
+    cd /data/tmp/ts/dtb
+    dd if=/sdcard/ThunderTweaks/dtb.img of=$dtb bs=4096
+    dd if=/sdcard/ThunderTweaks/dtbo.img of=$dtbo bs=4096
+fi
 

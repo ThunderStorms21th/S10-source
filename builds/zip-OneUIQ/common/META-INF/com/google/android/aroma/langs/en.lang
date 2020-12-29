@@ -88,6 +88,12 @@ menu.3=ThunderTweaks
 menu.3desc=Application for kernel management modified by XDA@nalas. Copy this app to Your Internal SDcard/ThunderTweaks folder. You can manually install it.
 menu.4=ThunderTweaks (TS) json Profiles
 menu.4desc=Simple way for the management predefined profiles copied to sdcard/ThunderTweaks/profiles. You have to Import files via ThunderTweaks app.
+menu.5=Backup exist Your Device Tree Blobs DTB/DTBO
+menu.5desc=This will backup exist Your dtb and dtbo partitions of Device Tree Blobs. Backup is in sdcard/ThunderTweaks/ folder.
+menu.6=Install Device Tree Blobs DTB/DTBO
+menu.6desc=This will install dtb and dtbo partitions of Device Tree Blobs modded by XDA@nalas.
+menu.7=Install backuped Your previouses Device Tree Blobs DTB/DTBO
+menu.7desc=This will install Your previouses dtb and dtbo partitions of Device Tree Blobs. Only if backup was done before.
 
 # Confirm
 confirm.1=CONFIRM
