@@ -167,7 +167,7 @@ if [ "$(file_getprop /tmp/aroma/menu.prop chk3)" == 1 ]; then
 	mkdir -p /sdcard/ThunderTweaks
 
 # DELETE OLDER APPS
-	rm -f /sdcard/ThunderTweaks/*.*
+##	rm -f /sdcard/ThunderTweaks/*.apk
 ##	rm -rf /sdcard/ThunderTweaks/*.*
 
 # COPY NEW APP
