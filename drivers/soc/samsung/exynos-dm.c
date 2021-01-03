@@ -21,10 +21,12 @@
 #include "acpm/acpm_ipc.h"
 
 #include <soc/samsung/exynos-dm.h>
+#include <soc/samsung/cal-if.h>
 
 static struct list_head *get_min_constraint_list(struct exynos_dm_data *dm_data);
 static struct list_head *get_max_constraint_list(struct exynos_dm_data *dm_data);
 static void get_governor_min_freq(struct exynos_dm_data *dm_data, u32 *gov_min_freq);
+static void get_governor_max_freq(struct exynos_dm_data *dm_data, u32 *gov_max_freq);
 static void get_min_max_freq(struct exynos_dm_data *dm_data, u32 *min_freq, u32 *max_freq);
 static void update_min_max_freq(struct exynos_dm_data *dm_data, u32 min_freq, u32 max_freq);
 static void get_policy_min_max_freq(struct exynos_dm_data *dm_data, u32 *min_freq, u32 *max_freq);
@@ -151,7 +153,7 @@ static ssize_t show_dm_policy(struct device *dev, struct device_attribute *attr,
 	struct exynos_dm_data *dm_data;
 	struct exynos_dm_attrs *dm_attrs;
 	ssize_t count = 0;
-	u32 gov_min_freq, min_freq, max_freq;
+	u32 gov_min_freq, gov_max_freq, min_freq, max_freq;
 	u32 policy_min_freq, policy_max_freq, cur_freq, target_freq;
 	u32 find;
 	int i;
@@ -169,6 +171,7 @@ static ssize_t show_dm_policy(struct device *dev, struct device_attribute *attr,
 				dm_data->dm_type_name);
 
 	get_governor_min_freq(dm_data, &gov_min_freq);
+	get_governor_max_freq(dm_data, &gov_max_freq);
 	get_min_max_freq(dm_data, &min_freq, &max_freq);
 	get_policy_min_max_freq(dm_data, &policy_min_freq, &policy_max_freq);
 	get_current_freq(dm_data, &cur_freq);
@@ -176,6 +179,8 @@ static ssize_t show_dm_policy(struct device *dev, struct device_attribute *attr,
 
 	count += snprintf(buf + count, PAGE_SIZE,
 			"governor_min_freq = %u\n", gov_min_freq);
+	count += snprintf(buf + count, PAGE_SIZE,
+			"governor_max_freq = %u\n", gov_max_freq);
 	count += snprintf(buf + count, PAGE_SIZE,
 			"policy_min_freq = %u, policy_max_freq = %u\n",
 			policy_min_freq, policy_max_freq);
@@ -255,6 +260,79 @@ static ssize_t show_dm_policy(struct device *dev, struct device_attribute *attr,
 				"max constraint freq = %u\n", find);
 	count += snprintf(buf + count, PAGE_SIZE,
 			"-------------------------------------------------\n");
+	return count;
+}
+
+static ssize_t show_voltage_table(struct device *dev, struct device_attribute *attr, char *buf)
+{
+	struct list_head *constraint_list;
+	struct exynos_dm_constraint *constraint;
+	struct exynos_dm_data *dm_data;
+	struct exynos_dm_attrs *dm_attrs;
+	struct platform_device *pdev = container_of(dev, struct platform_device, dev);
+	struct exynos_dm_device *dm = platform_get_drvdata(pdev);
+	ssize_t count = 0;
+	unsigned int cal_id, table_size;
+	unsigned int *volt_table;
+	unsigned long *rate_table;
+	int num_lvl, index;
+
+	dm_attrs = container_of(attr, struct exynos_dm_attrs, attr);
+	dm_data = container_of(dm_attrs, struct exynos_dm_data, dm_policy_attr);
+
+	if (!dm_data->available) {
+		count += snprintf(buf + count, PAGE_SIZE,
+				"This dm_type is not available\n");
+		return count;
+	}
+
+	cal_id = dm->dm_data->cal_id;
+
+	table_size = cal_dfs_get_lv_num(cal_id);
+
+	rate_table = kzalloc(sizeof(unsigned int) * table_size, GFP_KERNEL);
+	if (!rate_table) {
+		count += snprintf(buf + count, PAGE_SIZE,
+				"Out of memory\n");
+		return count;
+	}
+
+	volt_table = kzalloc(sizeof(unsigned int) * table_size, GFP_KERNEL);
+	if (!volt_table) {
+		count += snprintf(buf + count, PAGE_SIZE,
+				"Out of memory\n");
+		goto free_rate_table;
+	}
+
+	num_lvl = cal_dfs_get_rate_table(cal_id, rate_table);
+	if (num_lvl <= 0) {
+		count += snprintf(buf + count, PAGE_SIZE,
+				"No rate table entries (%d)\n", num_lvl);
+		goto free_tables;
+	}
+
+	num_lvl = cal_dfs_get_asv_table(cal_id, volt_table);
+	if (num_lvl <= 0) {
+		count += snprintf(buf + count, PAGE_SIZE,
+				"No volt table entries (%d)\n", num_lvl);
+		goto free_tables;
+	}
+
+	count += snprintf(buf + count, PAGE_SIZE, "dm_type: %s\n",
+				dm->dm_data->dm_type_name);
+
+	for (index = 0; index < table_size; index++) {
+		count += snprintf(buf + count, PAGE_SIZE,
+			"%lu MHz: %u uV\n", rate_table[index] / 1000, volt_table[index]);
+	}
+
+free_tables:
+	kfree(rate_table);
+	kfree(volt_table);
+	return count;
+
+free_rate_table:
+	kfree(rate_table);
 	return count;
 }
 
@@ -424,6 +502,7 @@ int exynos_dm_data_init(int dm_type, void *data,
 	}
 
 	exynos_dm->dm_data[dm_type].gov_min_freq = min_freq;
+	exynos_dm->dm_data[dm_type].gov_max_freq = max_freq;
 	exynos_dm->dm_data[dm_type].policy_min_freq = min_freq;
 	exynos_dm->dm_data[dm_type].policy_max_freq = max_freq;
 	exynos_dm->dm_data[dm_type].cur_freq = cur_freq;
@@ -779,7 +858,7 @@ static int __DM_CALL(int dm_type, unsigned long *target_freq)
 	struct exynos_dm_data *dm;
 	int i;
 	int ret;
-	unsigned int relation = EXYNOS_DM_RELATION_L;
+	unsigned int relation = EXYNOS_DM_RELATION_L;   // L C H
 	u32 old_min_freq;
 	struct timeval pre, before, after;
 	s32 time = 0, pre_time = 0;
@@ -893,6 +972,7 @@ static int dm_data_updater(int dm_type)
 	}
 
 	min_freq = max(min_freq, dm->gov_min_freq); //MIN freq should be checked with gov_min_freq
+	max_freq = min(max_freq, dm->gov_max_freq); //MAX freq should be checked with gov_max_freq ---> added
 	update_min_max_freq(dm, min_freq, max_freq);
 
 	return 0;
@@ -1105,6 +1185,11 @@ static void get_governor_min_freq(struct exynos_dm_data *dm_data, u32 *gov_min_f
 	*gov_min_freq = dm_data->gov_min_freq;
 }
 
+static void get_governor_max_freq(struct exynos_dm_data *dm_data, u32 *gov_max_freq)
+{
+	*gov_max_freq = dm_data->gov_max_freq;
+}
+
 static void get_min_max_freq(struct exynos_dm_data *dm_data, u32 *min_freq, u32 *max_freq)
 {
 	*min_freq = dm_data->min_freq;
@@ -1119,8 +1204,10 @@ static void update_min_max_freq(struct exynos_dm_data *dm_data, u32 min_freq, u3
 
 static void get_policy_min_max_freq(struct exynos_dm_data *dm_data, u32 *min_freq, u32 *max_freq)
 {
-	*min_freq = dm_data->policy_min_freq;
-	*max_freq = dm_data->policy_max_freq;
+	// *min_freq = dm_data->policy_min_freq;
+	// *max_freq = dm_data->policy_max_freq;
+	*min_freq = dm_data->min_freq;
+	*max_freq = dm_data->max_freq;
 }
 
 static void update_policy_min_max_freq(struct exynos_dm_data *dm_data, u32 min_freq, u32 max_freq)
