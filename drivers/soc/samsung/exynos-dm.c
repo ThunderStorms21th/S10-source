@@ -276,6 +276,7 @@ static ssize_t show_voltage_table(struct device *dev, struct device_attribute *a
 	unsigned int *volt_table;
 	unsigned long *rate_table;
 	int num_lvl, index;
+	int i;
 
 	dm_attrs = container_of(attr, struct exynos_dm_attrs, attr);
 	dm_data = container_of(dm_attrs, struct exynos_dm_data, dm_policy_attr);
