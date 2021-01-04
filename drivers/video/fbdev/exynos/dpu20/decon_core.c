@@ -70,6 +70,12 @@
 #include <linux/dp_logger.h>
 #endif
 
+#ifdef CONFIG_CPU_FREQ_SUSPEND
+extern void set_suspend_freqs(bool);
+#endif
+
+bool is_suspend = false;
+
 int decon_log_level = 0;    /* default is 6 */
 module_param(decon_log_level, int, 0644);
 int dpu_bts_log_level = 0;  /* default is 6 */
@@ -1264,6 +1270,19 @@ static int decon_blank(int blank_mode, struct fb_info *info)
 blank_exit:
 	decon_hiber_unblock(decon);
 	decon_info("%s -\n", __func__);
+
+	if (blank_mode == FB_BLANK_UNBLANK) {
+		is_suspend = false;
+#ifdef CONFIG_CPU_FREQ_SUSPEND
+		set_suspend_freqs(false);
+#endif
+	} else {
+		is_suspend = true;
+#ifdef CONFIG_CPU_FREQ_SUSPEND
+		set_suspend_freqs(true);
+#endif
+	}
+
 	return ret;
 }
 
