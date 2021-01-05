@@ -1382,17 +1382,6 @@ static int exynos_tmu_parse_ect(struct exynos_tmu_data *data)
 			pr_info("Parsed From ECT : [%d] Temperature : %d, frequency : %u\n",
 					i, temperature, freq);
 
-        /* Remove restriction of max cpufreq */
-        /* Little CPU*/
-		if (function->range_list[i].max_frequency == 1950000)
-			function->range_list[i].max_frequency = -1;
-        /* Mid CPU*/
-		if (function->range_list[i].max_frequency == 2400000)
-			function->range_list[i].max_frequency = -1;
-        /* Big CPU*/
-		if (function->range_list[i].max_frequency == 2730000)
-			function->range_list[i].max_frequency = -1;
-
 			if (function->range_list[i].flag != hotplug_flag) {
 				if (function->range_list[i].flag != hotplug_flag) {
 					hotplug_threshold_temp = temperature;
