@@ -4,7 +4,7 @@
     chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ts_schedutil
     chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    weite /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 247000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 247000
     chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1742000
     chmod 0644 /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
@@ -18,7 +18,7 @@
     chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
     write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor ts_schedutil
     chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    weite /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 507000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 507000
     chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 2314000
     chmod 0644 /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
@@ -32,7 +32,7 @@
     chmod 0644 /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     write /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor ts_schedutil
     chmod 0644 /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
-    weite /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq 520000
+    write /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq 520000
     chmod 0644 /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
     write /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq 2730000
     chmod 0644 /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us

@@ -135,7 +135,7 @@ if [ $MODEL == $MODEL11 ]; then MODEL_DESC=$MODEL11_DESC; fi
 if [ $MODEL == $MODEL12 ]; then MODEL_DESC=$MODEL12_DESC; fi
 if [ $MODEL == $MODEL13 ]; then MODEL_DESC=$MODEL13_DESC; fi
 BASE="DTJA"
-VERSION="v1.5"
+VERSION="v1.6"
 
 ## FLASH KERNEL
 ui_print " "
@@ -143,7 +143,14 @@ ui_print "@ThundeRStormS - Flashing the kernel"
 ui_print "-- Extracting ThundeRStormS kernel"
 cd /data/tmp/ts
 $BB tar -Jxf kernel.tar.xz ThundeRStormS-Kernel-$BASE-OneUI-Q-$MODEL_DESC-$VERSION.img
-# $BB tar -xvf kernel.tar.xz ThundeRStormS-Kernel-$BASE-OneUI-Q-$MODEL_DESC-$VERSION.img
+ui_print " "
+ui_print "-- Patching OS Date for new ThundeRStormS kernel"
+if ! "/data/tmp/ts/clone_header" /dev/block/platform/13d60000.ufs/by-name/boot ThundeRStormS-Kernel-$BASE-OneUI-Q-$MODEL_DESC-$VERSION.img; then
+ui_print " * Error cloning os_patch_level, images are"
+ui_print " * incompatible. Default date will be used."
+fi
+ui_print " "
+ui_print "-- Flashing new ThundeRStormS kernel"
 dd of=/dev/block/platform/13d60000.ufs/by-name/boot if=/data/tmp/ts/ThundeRStormS-Kernel-$BASE-OneUI-Q-$MODEL_DESC-$VERSION.img
 
 ## RUN INITIAL SCRIPT IMPLEMENTATOR

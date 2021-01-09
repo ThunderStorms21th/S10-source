@@ -25,10 +25,10 @@ rm -f $LOG
 
 	# SafetyNet
 	# SELinux (0 / 640 = Permissive, 1 / 644 = Enforcing)
-	echo "## -- SafetyNet permissions" >> $LOG;
-	chmod 644 /sys/fs/selinux/enforce;
-	chmod 440 /sys/fs/selinux/policy;
-	echo " " >> $LOG;
+	#echo "## -- SafetyNet permissions" >> $LOG;
+	#chmod 644 /sys/fs/selinux/enforce;
+	#chmod 440 /sys/fs/selinux/policy;
+	#echo " " >> $LOG;
 
 	# deepsleep fix
 	echo "## -- DeepSleep Fix" >> $LOG;
@@ -38,13 +38,13 @@ rm -f $LOG
 	echo "N" > /sys/kernel/debug/seclog/seclog_debug
 	echo "0" > /sys/kernel/debug/tracing/tracing_on
 	echo "0" > /sys/module/lowmemorykiller/parameters/debug_level
-    # echo "0" > /sys/module/alarm_dev/parameters/debug_mask
-    # echo "0" > /sys/module/binder/parameters/debug_mask
-    # echo "0" > /sys/module/binder_alloc/parameters/debug_mask
+    echo "0" > /sys/module/alarm_dev/parameters/debug_mask
+    echo "0" > /sys/module/binder/parameters/debug_mask
+    echo "0" > /sys/module/binder_alloc/parameters/debug_mask
     echo "0" > /sys/module/powersuspend/parameters/debug_mask
     echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask
     echo "0" > /sys/module/lowmemorykiller/parameters/debug_level
-    # echo "0" > /sys/module/kernel/parameters/initcall_debug
+    echo "0" > /sys/module/kernel/parameters/initcall_debug
 
     debug="/sys/module/*" 2>/dev/null
     for i in \$debug
@@ -95,21 +95,24 @@ rm -f $LOG
      
     # CPU HOTPLUG (0/N = Disabled, 1/Y = Enabled)
     echo "Y" > /sys/module/workqueue/parameters/power_efficient
- 
+
+    # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
+    echo "Y" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
+
     # CPU set at max/min freq
     # Little CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     echo "351000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     echo "1742000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "2000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "3000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/iowait_boost_enable
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/fb_legacy
 
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-    echo "507000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+    echo "2400000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "5000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
@@ -118,9 +121,9 @@ rm -f $LOG
     # BIG CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
-    echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
+    echo "2808000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "6000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
@@ -171,15 +174,15 @@ rm -f $LOG
 
     # GPU set at max/min freq
     echo "702000" > /sys/kernel/gpu/gpu_max_clock
-    echo "156000" > /sys/kernel/gpu/gpu_min_clock
+    echo "100000" > /sys/kernel/gpu/gpu_min_clock
     echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
     echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
     echo "325000" > /sys/devices/platform/18500000.mali/highspeed_clock
     echo "90" > /sys/devices/platform/18500000.mali/highspeed_load
     echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
 
-   # Misc settings : bbr, cubic or westwood
-   echo "bbr" > /proc/sys/net/ipv4/tcp_congestion_control
+   # Misc settings : bbr2, bbr, cubic or westwood
+   echo "bbr2" > /proc/sys/net/ipv4/tcp_congestion_control
    echo "N" > /sys/module/mmc_core/parameters/use_spi_crc
    echo "1" > /sys/module/sync/parameters/fsync_enabled
    echo "0" > /sys/kernel/sched/gentle_fair_sleepers
