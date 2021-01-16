@@ -5,7 +5,7 @@
 
 LOG=compile_build.log
 RDIR=$(pwd)
-export K_VERSION="v1.4"
+export K_VERSION="v1.6"
 export K_NAME="ThundeRStormS-Kernel"
 export K_BASE="DTJA"
 
@@ -94,8 +94,8 @@ RUN_PROGRAM()
     # BUILD_DTBO
     # BUILD_DTB
     cp -f boot-$MODEL.img builds/$K_NAME-$K_BASE-OneUI-Q-$MODEL-$K_VERSION.img
-    cp -f $MODEL-dtb.img builds/dtb-dtbo/$MODEL-dtb.img
-    cp -f $MODEL-dtbo.img builds/dtb-dtbo/$MODEL-dtbo.img
+    cp -f $MODEL-dtb.img builds/zip-OneUIQ/common/ts/dtb/$MODEL-dtb.img
+    cp -f $MODEL-dtbo.img builds/zip-OneUIQ/common/ts/dtb/$MODEL-dtbo.img
 }
 
 RUN_PROGRAM2()
@@ -104,8 +104,8 @@ RUN_PROGRAM2()
     # BUILD_DTBO
     # BUILD_DTB
     cp -f boot-$MODEL.img builds/$K_NAME-$K_BASE-OneUI-Q-$MODEL-$K_VERSION.img
-    cp -f $MODEL-dtb.img builds/dtb-dtbo/$MODEL-dtb.img
-    cp -f $MODEL-dtbo.img builds/dtb-dtbo/$MODEL-dtbo.img
+    cp -f $MODEL-dtb.img builds/zip-OneUIQ/common/ts/dtb/$MODEL-dtb.img
+    cp -f $MODEL-dtbo.img builds/zip-OneUIQ/common/ts/dtb/$MODEL-dtbo.img
 }
 
 BUILD_DTBO()
