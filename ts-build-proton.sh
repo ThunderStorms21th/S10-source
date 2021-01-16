@@ -7,7 +7,7 @@ LOG=compile_build.log
 RDIR=$(pwd)
 export K_VERSION="v1.6"
 export K_NAME="ThundeRStormS-Kernel"
-export K_BASE="DTJA"
+export K_BASE="ETLL"
 
 export BUILD_CROSS_COMPILE=/home/nalas/kernel/AiO-S10-TS/toolchain/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 export CROSS_COMPILE=$BUILD_CROSS_COMPILE
