@@ -268,7 +268,7 @@ static ssize_t show_volt_table(struct device *dev, struct device_attribute *attr
 		return -ENODEV;
 
 	max = gpu_dvfs_get_level(platform->gpu_max_clock_limit);
-	min = gpu_dvfs_get_level(platform->gpu_min_clock);
+	min = gpu_dvfs_get_level(platform->gpu_min_clock_limit);
 	pr_len = (size_t)((PAGE_SIZE - 2) / (min-max));
 
 	for (i = max; i <= min; i++) {
@@ -284,7 +284,7 @@ static ssize_t set_volt_table(struct device *dev, struct device_attribute *attr,
 {
 	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
 	max = gpu_dvfs_get_level(platform->gpu_max_clock_limit);
-	int min = gpu_dvfs_get_level(platform->gpu_min_clock);
+	int min = gpu_dvfs_get_level(platform->gpu_min_clock_limit);
 	int i, tokens, rest, target;
 	int t[min - max];
 	unsigned long flags;
