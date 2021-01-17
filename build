@@ -319,7 +319,7 @@ def parse_args():
     return configs
 
 def setup_env(configs, model):
-    set_env(ARCH='arm64', ANDROID_MAJOR_VERSION='q')
+    set_env(ARCH='arm64', ANDROID_MAJOR_VERSION='r')
     if configs['kernel']['fake_config']['enabled']:
         defconfig = 'arch/arm64/configs/' + models[model]['config']
         set_env(KCONFIG_BUILTINCONFIG=defconfig)
