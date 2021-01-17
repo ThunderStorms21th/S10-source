@@ -455,7 +455,7 @@ static irqreturn_t exynos_sysmmu_irq(int irq, void *dev_id)
 #ifdef CONFIG_BCMDHD_PCIE
 	if (drvdata->ch_num == 0) {
 		/* Kernel Panic will be triggered by dump handler */
-		dhd_smmu_fault_handler(info & 0xFFFF, addr);
+		// dhd_smmu_fault_handler(info & 0xFFFF, addr);
 		disable_irq_nosync(irq);
 	}
 #endif /* CONFIG_BCMDHD_PCIE */
