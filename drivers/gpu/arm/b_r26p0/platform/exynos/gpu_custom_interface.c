@@ -283,7 +283,7 @@ static ssize_t show_volt_table(struct device *dev, struct device_attribute *attr
 static ssize_t set_volt_table(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
 	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
-	max = gpu_dvfs_get_level(platform->gpu_max_clock_limit);
+	int max = gpu_dvfs_get_level(platform->gpu_max_clock_limit);
 	int min = gpu_dvfs_get_level(platform->gpu_min_clock_limit);
 	int i, tokens, rest, target;
 	int t[min - max];
@@ -2430,7 +2430,7 @@ static ssize_t set_kernel_sysfs_governor(struct kobject *kobj, struct kobj_attri
 
 static ssize_t show_kernel_sysfs_gpu_model(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
-	/* COPY from mali_kbase_core_linux.c : 2606 line, r26p0 *//
+	/* COPY from mali_kbase_core_linux.c : 2606 line, r26p0 */
 	static const struct gpu_product_id_name {
 		unsigned id;
 		char *name;
