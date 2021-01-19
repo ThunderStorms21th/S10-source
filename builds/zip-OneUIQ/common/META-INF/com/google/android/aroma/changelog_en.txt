@@ -1,21 +1,21 @@
 	
 <b>KERNEL INFORMATION:</b>
 
-	NAME	: <b><#selectbg_g>ThundeRStormS-Kernel-OneUI Q</#></b>	
+	NAME	: <b><#selectbg_g>ThundeRStormS-Kernel-OneUI R</#></b>	
 	VERSION	: <b><#selectbg_g>v1.6</#></b>
-	DATE	: <b><#selectbg_g>16/01/2020</#></b>
+	DATE	: <b><#selectbg_g>18/01/2020</#></b>
 	AUTHOR	: <b><#selectbg_g>ThundeRStormS Team</#></b>
 
-<#53a6f4><b>        Only For Galaxy S10/N10 | OneUI Q Roms |</b></#>
+<#53a6f4><b>        Only For Galaxy S10/N10 | OneUI R Roms |</b></#>
 
 
 <b>CHANGELOG:</b>
 
 --------------------------------------------------------------------------
-<u><b><#selectbg_g>ThunderStorms-Kernel-Q-v1.6 : 16.01.2020</#></b></u>
+<u><b><#selectbg_g>ThunderStorms-Kernel-R-v1.6 : 18.01.2020</#></b></u>
 <*>Samsung source : ETLL OneUI 3 </*>
 <*>Linux source : backstreamed to 3.14.113 </*>
-<*>Samsung os patch level: 2020-11 </*>
+<*>Samsung os patch level: 2020-12 </*>
 <*>Added Device Tree Blobs into one Aroma Installer </*>
 <*>Disabled Freqvar Tune - but unblocked time_rate by user </*>
 <*>Optimizations in Linux source </*>
@@ -45,7 +45,7 @@
 <*>Support Battery settings</*>
 <*>Support Init.d scripts: /vendor/etc/init.d </*>
 <*>ThunderTweaks v1.0.7.3 </*>
-<*>Magisk 21.3 Offcial build in kernel - thx to CruelKernel Team </*>
+<*>Magisk 21.4 Offcial build in kernel - thx to CruelKernel Team </*>
 <*>Compiled via Arter97, Cruel and Proton</*>
 <*>Optimized for battery life </*>
 <*>Rest like in realease 1.5 </*>

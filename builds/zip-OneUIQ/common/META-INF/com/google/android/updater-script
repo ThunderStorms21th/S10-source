@@ -4,7 +4,7 @@ ifelse(is_mounted("/vendor"), unmount("/vendor"));
 
 ui_print(" ");
 ui_print("*******************************************************************");
-ui_print("                     ThunderStorm Kernel OneUI-Q                   ");
+ui_print("                     ThunderStorm Kernel OneUI-R                   ");
 ui_print("                     For Samsung Galaxy S10 & N10                  ");
 ui_print("                Developed by ThundeRStormS Team                    ");
 ui_print("              G970F/N, G973F/N, G975F/N, G977B/N                   ");
@@ -29,19 +29,19 @@ set_perm_recursive(0, 0, 0777, 0777, "/data/tmp/ts");
 ui_print(" ");
 ui_print("@ThundeRStormS - System Patching...");
 package_extract_dir("/data/tmp/ts/vendor", "/system_root");
-# package_extract_dir("/data/tmp/ts/system1/init.rc", "/system_root");
-package_extract_dir("/data/tmp/ts/system1/init.custom.rc", "/system_root");
-# package_extract_dir("/data/tmp/ts/system1/init.spectrum.rc", "/system_root");
-package_extract_dir("/data/tmp/ts/system1/ts-kernel.sh", "/system_root/sbin");
-# package_extract_dir("/data/tmp/ts/system1/init.spectrum.sh", "/system_root/sbin");
-# package_extract_dir("/data/tmp/ts/system1/spa", "/system_root/sbin");
+# package_extract_dir("/data/tmp/ts/system1/init.rc", "/system_root/system/etc/init/hw");
+package_extract_dir("/data/tmp/ts/system1/init.custom.rc", "/system_rootsystem/etc/init/hw");
+# package_extract_dir("/data/tmp/ts/system1/init.spectrum.rc", "/system_rootsystem/etc/init/hw");
+package_extract_dir("/data/tmp/ts/system1/ts-kernel.sh", "/system_root/system/etc/init/hw");
+# package_extract_dir("/data/tmp/ts/system1/init.spectrum.sh", "/system_root/system/etc/init/hw");
+# package_extract_dir("/data/tmp/ts/system1/spa", "/system_root/system/etc/init/hw");
 
-set_perm_recursive(0, 0, 0755, 0755, "/system_root/sbin/ts-kernel.sh");
-# set_perm_recursive(0, 0, 0755, 0755, "/system_root/sbin/spa");
-# set_perm_recursive(0, 0, 0755, 0755, "/system_root/sbin/init.spectrum.sh");
-set_perm_recursive(0, 0, 0750, 0750, "/system_root/init.rc");
-set_perm_recursive(0, 0, 0750, 0750, "/system_root/init.custom.rc");
-# set_perm_recursive(0, 0, 0755, 0755, "/system_root/init.spectrum.rc");
+set_perm_recursive(0, 0, 0755, 0755, "/system_root/system/etc/init/hw/ts-kernel.sh");
+# set_perm_recursive(0, 0, 0755, 0755, "/system_root/system/etc/init/hw/spa");
+# set_perm_recursive(0, 0, 0755, 0755, "/system_root/system/etc/init/hw/init.spectrum.sh");
+set_perm_recursive(0, 0, 0750, 0750, "/system_root/system/etc/init/hw/init.rc");
+set_perm_recursive(0, 0, 0750, 0750, "/system_root/system/etc/init/hw/init.custom.rc");
+# set_perm_recursive(0, 0, 0755, 0755, "/system_root/system/etc/init/hw/init.spectrum.rc");
 
 # MODELS
 run_program("/sbin/sh", "/data/tmp/ts/device_model.sh");
@@ -52,55 +52,55 @@ run_program("/sbin/sh", "/data/tmp/ts/install_script.sh");
 
 # Flashing Kernel
 if is_substring("SM-G975F", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G975F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G975F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G975F");
 endif;
 if is_substring("SM-G975N", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G975N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G975N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G975N");
 endif;
 if is_substring("SM-G970F", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G970F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G970F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G970F");
 endif;
 if is_substring("SM-G970N", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G970N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G970N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G970N");
 endif;
 if is_substring("SM-G973F", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G973F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G973F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G973F");
 endif;
 if is_substring("SM-G973N", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G973N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G973N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G973N");
 endif;
 if is_substring("SM-G977B", file_getprop("data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G977B-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G977B-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G977B");
 endif;
 if is_substring("SM-G977N", file_getprop("data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-G977N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-G977N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-G977N");
 endif;
 if is_substring("SM-N970F", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-N970F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-N970F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-N970F");
 endif;
 if is_substring("SM-N971N", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-N971N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-N971N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-N971N");
 endif;
 if is_substring("SM-N975F", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-N975F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-N975F-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-N975F");
 endif;
 if is_substring("SM-N976N", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-N976N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-N976N-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-N976N");
 endif;
 if is_substring("SM-N976B", file_getprop("/data/tmp/ts/device_model", "androidboot.em.model")) then
-	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-Q-N976B-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
+	package_extract_file("/data/tmp/ts/ThundeRStormS-Kernel-ETLL-OneUI-R-N976B-v1.6.img", "/dev/block/platform/13d60000.ufs/by-name/boot");
 	ui_print("@Flashing Kernel SM-N976B");
 endif;
 
