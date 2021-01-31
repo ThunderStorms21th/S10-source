@@ -252,6 +252,9 @@ config EXYNOS_PPMPU_ILLEGAL_ACCESS_PANIC
 	  Kernel panic will occur in case that PPMPU illegal
 	  access is detected.
 
+config STATE_NOTIFIER
+    	bool "State Notifier"
+
 source "drivers/soc/samsung/secure_boot/Kconfig"
 source "drivers/soc/samsung/debug/Kconfig"
 source "drivers/soc/samsung/exynos-hdcp/Kconfig"
