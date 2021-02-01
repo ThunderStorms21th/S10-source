@@ -58,7 +58,7 @@
 #define PIXELCLK_1080P60HZ 148500000 /* FHD 60Hz */
 #define PIXELCLK_1080P30HZ 74250000 /* FHD 30Hz */
 
-int displayport_log_level = 6;
+int displayport_log_level = 0;
 static int reduced_resolution;
 struct displayport_debug_param g_displayport_debug_param;
 
