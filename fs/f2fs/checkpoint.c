@@ -1182,7 +1182,9 @@ retry_flush_dents:
 		if (err)
 			goto out;
 		blk_flush_plug(current);
+#ifdef CONFIG_F2FS_SEC_BLOCK_OPERATIONS_DEBUG
 		sec_dbg_add_time(dbg_entry, DENTS, s_jiffies);
+#endif
 		cond_resched();
 		goto retry_flush_quotas;
 	}
@@ -1207,7 +1209,9 @@ retry_flush_dents:
 		if (err)
 			goto out;
 		blk_flush_plug(current);
+#ifdef CONFIG_F2FS_SEC_BLOCK_OPERATIONS_DEBUG
 		sec_dbg_add_time(dbg_entry, IMETA, s_jiffies);
+#endif
 		cond_resched();
 		goto retry_flush_quotas;
 	}
@@ -1228,7 +1232,9 @@ retry_flush_nodes:
 			goto out;
 		}
 		blk_flush_plug(current);
+#ifdef CONFIG_F2FS_SEC_BLOCK_OPERATIONS_DEBUG
 		sec_dbg_add_time(dbg_entry, NODES, s_jiffies);
+#endif
 		cond_resched();
 		goto retry_flush_nodes;
 	}
