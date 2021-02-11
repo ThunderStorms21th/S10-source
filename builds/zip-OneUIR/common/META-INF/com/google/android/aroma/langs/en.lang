@@ -1,0 +1,116 @@
+﻿### LICENSE:
+#
+# Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+### LANGUAGE STRING RESOURCE FILE
+#
+#   Language  : English
+#   By        : amarullz
+#
+
+#
+#--- COMMON SYSTEM STRING RESOURCE
+#
+text_ok=OK
+text_next=Next >
+text_back=< Back
+text_yes=Yes
+text_no=No
+text_about=About 
+text_calibrating=Calibrating Tools
+text_quit=Quit Installation
+text_quit_msg=Are you sure you want to quit the installer?
+text_finish=Finish
+
+#
+#-- CUSTOM STRING RESOURCE
+#
+common.for=for
+
+langtest.title=Language Test
+langtest.multiline=This text is located in langs/en.lang\
+Use backslash before enter to add new line\
+\
+You can also do <b>Formatting</b> inside the language string resource.\
+\
+Thanks for choosing 
+
+#-- End of string without any backslash for multiline text
+
+
+themes.title=Select Theme
+themes.desc=Please select installer theme that you want to use in this installation test:
+
+# Welcome
+welcome.title=Welcome
+welcome.text1=You are about to Install
+welcome.text2=KERNEL INFORMATION
+welcome.text3=ONLY FOR
+welcome.text4=Installation of <b>ThundeRStormS kernel</b> for Galaxy S10/N10.
+welcome.version=VERSION
+welcome.codename=CODENAME
+welcome.updated=UPDATED
+welcome.date=DATE
+welcome.author=AUTHOR
+welcome.next=Press Next...
+
+terms.title=Terms and Conditions
+terms.desc=Please read carefully The Terms and Conditions Below.
+terms.desc=I'm not responsible for damage Your phone, You are doing this all on Your own risk.
+terms.check=I Agree with this Terms and Conditions...
+terms.confirm=Please check the agreement...
+
+# Changelog
+changelog.title=CHANGELOG
+changelog.desc=Installation of <b>ThundeRStormS Kernel</b> for Galaxy S10/N10.
+
+# Installation
+menu.title=ThundeRStormS Kernel Installation
+menu.desc=Along with the installation of the kernel choose the desired options, type of root, app, etc.\
+The marked options are recommended.
+menu.group1=Kernel Options
+menu.1=Install Kernel
+menu.1desc=Recommended - You have to do this.
+menu.group2=Other options
+menu.3=ThunderTweaks
+menu.3desc=Application for kernel management modified by XDA@nalas. Copy this app to Your Internal SDcard/ThunderTweaks folder. You can manually install it.
+# menu.4=ThunderTweaks (TS) json Profiles
+# menu.4desc=Simple way for the management predefined profiles copied to sdcard/ThunderTweaks/profiles. You have to Import files via ThunderTweaks app.
+menu.5=Backup exist Your Device Tree Blobs DTB/DTBO
+menu.5desc=This will backup exist Your dtb and dtbo partitions of Device Tree Blobs. Backup is in sdcard/ThunderTweaks/ folder.
+menu.6=Install Device Tree Blobs DTB/DTBO
+menu.6desc=This will install dtb and dtbo partitions of Device Tree Blobs modded by XDA@nalas.
+menu.7=Install backuped Your previouses Device Tree Blobs DTB/DTBO
+menu.7desc=This will install Your previouses dtb and dtbo partitions of Device Tree Blobs. Only if backup was done before.
+
+# Confirm
+confirm.1=CONFIRM
+confirm.2=PRESS <b>Back</b> IF YOU WANT TO MAKE SOME CHANGE
+confirm.3=PRESS <b>Next</b> TO CONTINUE AND START THE INSTALLATION
+
+# Installation
+inst.1=INSTALLATION
+inst.2=Please wait for installation to complete 
+inst.3=INSTALLATION COMPLETED
+inst.4=PRESS <b>Next</b> TO CONTINUE
+
+# Final
+final.1=INSTALLATION COMPLETED
+final.2=<b>ThundeRStormS KERNEL FOR S10/N10</b> HAS BEEN SUCCESFULLY INSTALLED IN YOUR PHONE
+final.3=REBOOT DEVICE
+final.4=PRESS FINISH, AND REBOOT YOUR DEVICE.\
+\
+THANKS
+
