@@ -9789,6 +9789,8 @@
 			boost_table = <0xa0 0xe7b08 0x7b 0x13d620 0x64>;
 			// up_rate_limit_table = <0x4>;
 			// down_rate_limit_table = <0x4>;
+			up_rate_limit_table = "UP_RATE_LIMIT_US";
+			down_rate_limit_table = "DOWN_RATE_LIMIT_US";
 			st_table = <0x5>;
 		};
 
@@ -9798,6 +9800,8 @@
 			boost_table = <0xa0 0xeadd0 0x7b 0x12a570 0x64>;
 			// up_rate_limit_table = <0x4>;
 			// down_rate_limit_table = <0x4>;
+			up_rate_limit_table = "UP_RATE_LIMIT_US";
+			down_rate_limit_table = "DOWN_RATE_LIMIT_US";
 			st_table = <0x5>;
 		};
 
@@ -9807,6 +9811,8 @@
 			boost_table = <0xa0 0xe4840 0x7b 0x1506d0 0x64>;
 			// up_rate_limit_table = <0x4>;
 			// down_rate_limit_table = <0x4>;
+			up_rate_limit_table = "UP_RATE_LIMIT_US";
+			down_rate_limit_table = "DOWN_RATE_LIMIT_US";
 			st_table = <0x5>;
 		};
 	};
