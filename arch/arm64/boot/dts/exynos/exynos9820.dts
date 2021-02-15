@@ -3904,19 +3904,6 @@
 		};
 	};
 
-	exynos-debug-test {
-		compatible = "samsung,exynos-debug-test";
-		enabled = [00];
-		ps_hold_control_offset = <0x30c>;
-		nr_cpu = <0x8>;
-		nr_little_cpu = <0x4>;
-		nr_mid_cpu = <0x2>;
-		nr_big_cpu = <0x2>;
-		little_cpu_start = <0x0>;
-		mid_cpu_start = <0x4>;
-		big_cpu_start = <0x6>;
-	};
-
 	pd-aud@15861900 {
 		compatible = "samsung,exynos-pd";
 		reg = <0x0 0x15861900 0x20>;
@@ -5226,10 +5213,10 @@
 		gpu_pmu_status_local_pwr_mask = <0x1>;
 		gpu_max_clock = <0xab630>;
 		gpu_max_clock_limit = <0xab630>;
-		gpu_min_clock = <0x186a0>;
-		gpu_min_clock_limit = <0x186a0>;
+		gpu_min_clock = <0x30d40>;
+		gpu_min_clock_limit = <0x30d40>;
 		gpu_dvfs_start_clock = <0x3f7a0>;
-		gpu_dvfs_bl_config_clock = <0x186a0>;
+		gpu_dvfs_bl_config_clock = <0x30d40>;
 		gpu_default_voltage = <0xb8a1a>;        // 0xc3500
 		gpu_cold_minimum_vol = <0x0>;
 		gpu_voltage_offset_margin = <0x927c>;
