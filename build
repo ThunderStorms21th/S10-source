@@ -70,7 +70,7 @@ models = {
         'config': 'exynos9820-beyond2lte_defconfig'
     },
     'G975N': {
-        'config': 'exynos9820-beyond2lte_defconfig'
+        'config': 'exynos9820-beyond2lteks_defconfig'
     },
     'G977B': {
         'config': 'exynos9820-beyondx_defconfig'
