@@ -42,6 +42,15 @@ struct cs47l92 {
 	struct madera_fll fll[2];
 };
 
+#ifdef CONFIG_MORO_SOUND
+// pointer to regmap
+static struct regmap *map;
+// Switches
+static int moro_sound, eq, reset = 0;
+static void set_eq(bool reset);
+static void reset_moro_sound(void);
+#endif
+
 static const struct wm_adsp_region cs47l92_dsp1_regions[] = {
 	{ .type = WMFW_ADSP2_PM, .base = 0x080000 },
 	{ .type = WMFW_ADSP2_ZM, .base = 0x0e0000 },

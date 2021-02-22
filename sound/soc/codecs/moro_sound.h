@@ -23,7 +23,8 @@
 // External function declarations
 /*****************************************/
 
-void moro_sound_hook_moon_pcm_probe(struct regmap *pmap);
+extern void moro_sound_hook_moon_pcm_probe(struct regmap *pmap);
+extern void moro_sound_hook_madera_pcm_probe(struct regmap *pmap);
 int _regmap_write_nohook(struct regmap *map, unsigned int reg, unsigned int val);
 
 /*****************************************/
