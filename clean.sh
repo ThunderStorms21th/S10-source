@@ -10,5 +10,6 @@ rm -f arch/arm64/boot/dts/exynos/*.dtb
 rm -f arch/arm64/boot/dts/exynos/*.dtbo
 rm -f arch/arm64/boot/dts/samsung/*.dtbo
 rm -f arch/arm64/boot/dts/samsung/*.dtbo.reverse.dts
+rm -f arch/arm64/boot/dts/exynos/*.dtb.reverse.dts
 rm -f arch/arm64/boot/dts/exynos/*.img
 rm -f arch/arm64/boot/dts/samsung/*.img
