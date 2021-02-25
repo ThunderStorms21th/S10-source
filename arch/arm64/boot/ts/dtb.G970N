@@ -1,2 +1,2 @@
-arch/arm64/boot/dts/exynos/exynos9820.dtb
+exynos9820.dtb
 	custom1 = 0xff000000
