@@ -35,7 +35,7 @@
 
 
 # Busybox 
-BB=/sbin/busybox;
+BB=/data/tmp/ts/busybox;
 
 
 run_script(){

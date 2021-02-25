@@ -2,8 +2,8 @@
 <b>KERNEL INFORMATION:</b>
 
 	NAME	: <b><#selectbg_g>ThundeRStormS-Kernel-OneUI R</#></b>	
-	VERSION	: <b><#selectbg_g>v1.8</#></b>
-	DATE	: <b><#selectbg_g>8/02/2020</#></b>
+	VERSION	: <b><#selectbg_g>v1.9</#></b>
+	DATE	: <b><#selectbg_g>25/02/2020</#></b>
 	AUTHOR	: <b><#selectbg_g>ThundeRStormS Team</#></b>
 
 <#53a6f4><b>        Only For Galaxy S10/N10 | OneUI R Roms |</b></#>
@@ -11,6 +11,25 @@
 
 <b>CHANGELOG:</b>
 
+--------------------------------------------------------------------------
+<u><b><#selectbg_g>ThunderStorms-Kernel-R-v1.9 : 25.02.2020</#></b></u>
+<*>Samsung source : EUA3/EUA4 OneUI 3 </*>
+<*>Linux source : backstreamed to 3.14.113 </*>
+<*>Samsung os patch level: 2021-01 </*>
+<*>Added back N (Korea) sersies of S10 and N10 devices</*>
+<*>Added some EMS (Samsung Simple Energy) optimalization</*>
+<*>Disabled more debuggers</*>
+<*>Support Battery settings</*>
+<*>Schedtune Boost - default is enabled</*>
+<*>Device Tree Blobs optimalization</*>
+<*>HZ tick set at 50HZ - 25Hz makes some camera delays</*>
+<*>Support Init.d scripts: /vendor/etc/init.d </*>
+<*>ThunderTweaks v1.0.8.0 </*>
+<*>Magisk 22.0 Offcial build in kernel - thx to CruelKernel Team </*>
+<*>Compiled via Arter97, Cruel and Proton</*>
+<*>Optimized for battery life </*>
+<*>Rest like in realease 1.8 </*>
+--------------------------------------------------------------------------
 --------------------------------------------------------------------------
 <u><b><#selectbg_g>ThunderStorms-Kernel-R-v1.8 : 8.02.2020</#></b></u>
 <*>Samsung source : EUA4 OneUI 3 </*>

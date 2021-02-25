@@ -74,6 +74,11 @@ fi
 
 # Initialice TSkernel folder
 mkdir -p -m 777 /data/.tskernel 2>/dev/null
+if [ ! -d /vendor/etc/init.d ]; then
+   	mkdir -p -m 755 /vendor/etc/init.d 2>/dev/null
+fi
+chown -R root.root /vendor/etc/init.d;
+chmod 755 /vendor/etc/init.d;
 
 #======================================
 # AROMA INIT
@@ -87,6 +92,11 @@ if [ $SYSTEM_ROOT == true ]; then
 	ui_print "-- Device is system-as-root"
 	ui_print "-- Remounting /system as /system_root"
 fi
+
+# Create init.d folder
+mkdir -p system_root/vendor/etc/init.d;
+chown -R root.root system_root/vendor/etc/init.d;
+chmod 755 system_root/vendor/etc/init.d;
 
 set_progress 0.10
 show_progress 0.50 -2000
@@ -111,8 +121,8 @@ MODEL7=G977N
 MODEL7_DESC="G977N"
 MODEL8=N970F
 MODEL8_DESC="N970F"
-MODEL9=N975N
-MODEL9_DESC="N975N"
+MODEL9=N975F
+MODEL9_DESC="N975F"
 MODEL10=N976N
 MODEL10_DESC="N976N"
 MODEL11=N971N
@@ -135,7 +145,7 @@ if [ $MODEL == $MODEL11 ]; then MODEL_DESC=$MODEL11_DESC; fi
 if [ $MODEL == $MODEL12 ]; then MODEL_DESC=$MODEL12_DESC; fi
 if [ $MODEL == $MODEL13 ]; then MODEL_DESC=$MODEL13_DESC; fi
 BASE="EUA4"
-VERSION="v1.8"
+VERSION="v1.9"
 ANDROID="OneUI-R"
 
 ## FLASH KERNEL
@@ -146,7 +156,7 @@ cd /data/tmp/ts
 $BB tar -Jxf kernel.tar.xz ThundeRStormS-Kernel-$BASE-$ANDROID-$MODEL_DESC-$VERSION.img
 ui_print " "
 ui_print "-- Patching OS Date for new ThundeRStormS kernel"
-if ! "/data/tmp/ts/clone_header" /dev/block/platform/13d60000.ufs/by-name/boot ThundeRStormS-Kernel-$BASE-$ANDROID-$MODEL_DESC-$VERSION.img; then
+if ! "/data/tmp/ts/clone_header" --skip-check /dev/block/platform/13d60000.ufs/by-name/boot ThundeRStormS-Kernel-$BASE-$ANDROID-$MODEL_DESC-$VERSION.img; then
 ui_print " * Error cloning os_patch_level, images are"
 ui_print " * incompatible. Default date will be used."
 fi
@@ -170,6 +180,17 @@ if [ "$(file_getprop /tmp/aroma/menu.prop chk3)" == 1 ]; then
 	sh /data/tmp/ts/ts_clean.sh com.moro.mtweaks -as
     sh /data/tmp/ts/ts_clean.sh com.thunder.thundertweaks -as
     sh /data/tmp/ts/ts_clean.sh com.hades.hKtweaks -as
+
+## DELETE OLDER APPS
+	rm -rf /data/.thundertweaks*
+	rm -rf /data/.mtweaks*
+	rm -rf /data/.hktweaks*
+	rm -rf /data/app/com.thunder.thundertweaks*
+	rm -rf /data/app/com.moro.mtweaks*
+	rm -rf /data/app/com.hades.hKtweaks*
+	rm -rf /data/app/*.*/com.thunder.thundertweaks*
+	rm -rf /data/app/*.*/com.moro.mtweaks*
+	rm -rf /data/app/*.*/com.hades.hKtweaks*
 
 	mkdir -p /data/media/0/ThunderTweaks
 	mkdir -p /sdcard/ThunderTweaks

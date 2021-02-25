@@ -25,8 +25,8 @@ service kernelinit /system/etc/init/hw/ts-kernel.sh
 on boot
 
    # I/O sched settings
-   write /sys/block/sda/queue/nr_requests 128
-   write /sys/block/mmcblk0/queue/nr_requests 128
+   write /sys/block/sda/queue/nr_requests 256
+   write /sys/block/mmcblk0/queue/nr_requests 256
    write /sys/block/sda/queue/iostats 0
    write /sys/block/mmcblk0/queue/iostats 0
    # VM
@@ -89,13 +89,13 @@ on boot
     setprop profiler.hung.dumpdobugreport false
     setprop libc.debug.malloc 0
 
-#Decrease time for screen off/on durrign call
+## Decrease time for screen off/on durrign call
     setprop ro.telephony.call_ring.delay 0
     setprop ring.delay 0
     setprop ro.lge.proximity.delay 15
     setprop mot.proximity.delay 15
     setprop ro.mot.buttonlight.timeout 0
 
-    stop logd
+#   stop logd
 
 

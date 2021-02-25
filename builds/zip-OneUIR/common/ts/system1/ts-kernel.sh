@@ -6,7 +6,7 @@
 TS_DIR="/data/.tskernel"
 LOG="$TS_DIR/tskernel.log"
 
-sleep 4
+sleep 5
 
 rm -f $LOG
 
@@ -25,10 +25,11 @@ rm -f $LOG
 
 	# SafetyNet
 	# SELinux (0 / 640 = Permissive, 1 / 644 = Enforcing)
-	#echo "## -- SafetyNet permissions" >> $LOG;
-	#chmod 644 /sys/fs/selinux/enforce;
-	#chmod 440 /sys/fs/selinux/policy;
-	#echo " " >> $LOG;
+	echo "## -- SafetyNet permissions" >> $LOG;
+	chmod 644 /sys/fs/selinux/enforce;
+	chmod 440 /sys/fs/selinux/policy;
+    # echo "0" > /sys/fs/selinux/enforce
+	echo " " >> $LOG;
 
 	# deepsleep fix
 	echo "## -- DeepSleep Fix" >> $LOG;
@@ -108,7 +109,7 @@ rm -f $LOG
     # Little CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     echo "351000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    echo "1742000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    echo "1950000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     echo "3000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/iowait_boost_enable
@@ -119,7 +120,7 @@ rm -f $LOG
     echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2400000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "3000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "5000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
 
@@ -128,7 +129,7 @@ rm -f $LOG
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
     echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
     echo "3000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "5000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
@@ -146,7 +147,7 @@ rm -f $LOG
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "64" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "640" > /proc/sys/kernel/random/write_wakeup_threshold
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
@@ -204,8 +205,29 @@ rm -f $LOG
    echo "0" > /sys/block/mmcblk0/queue/iostats
    echo "1" > /sys/block/sda/queue/rq_affinity
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
-   echo "128" > /sys/block/sda/queue/nr_requests
-   echo "128" > /sys/block/mmcblk0/queue/nr_requests
+   echo "256" > /sys/block/sda/queue/nr_requests
+   echo "256" > /sys/block/mmcblk0/queue/nr_requests
+
+   ## Kernel Stune
+   # GLOBAL
+   echo "16" > /dev/stune/schedtune.boost
+   echo "0" > /dev/stune/schedtune.prefer_idle
+   echo "1" > /dev/stune/schedtune.prefer_perf
+   echo "0" > /dev/stune/schedtune.util_est_en
+   echo "0" > /dev/stune/schedtune.ontime_en
+   # TOP-APP
+   echo "20" > /dev/stune/top-app/schedtune.boost
+   echo "1" > /dev/stune/top-app/schedtune.prefer_idle
+   echo "1" > /dev/stune/top-app/schedtune.prefer_perf
+   echo "1" > /dev/stune/top-app/schedtune.util_est_en
+   echo "1" > /dev/stune/top-app/schedtune.ontime_en
+
+   ## Kernel Scheduler
+   echo "1500000" > /proc/sys/kernel/sched_wakeup_granularity_ns
+   echo "10000000" > /proc/sys/kernel/sched_latency_ns
+   echo "650000" > /proc/sys/kernel/sched_min_granularity_ns
+   echo "800000" > /proc/sys/kernel/sched_migration_cost_ns
+   echo "1000000" > /proc/sys/kernel/sched_rt_period_us
 
    # Boeffla wakelocks
    chmod 0644 /sys/devices/virtual/misc/boeffla_wakelock_blocker/wakelock_blocker
