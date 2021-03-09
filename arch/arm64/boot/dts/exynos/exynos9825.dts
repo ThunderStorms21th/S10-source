@@ -5526,7 +5526,7 @@
 				capacity-mips-s = <0xd7>;
 				power-coefficient-s = <0x82>;
 				capacity-weight = <0x1>;
-				energy-weight = <0x1>;
+				energy-weight = <0x1>;  // <0x1>
 				linux,phandle = <0x4a>;
 				phandle = <0x4a>;
 			};
@@ -5537,7 +5537,7 @@
 				capacity-mips-s = <0x15a>;
 				power-coefficient-s = <0x103>;
 				capacity-weight = <0x2>;
-				energy-weight = <0x1>;
+				energy-weight = <0x2>;  // <0x1>
 				linux,phandle = <0x4c>;
 				phandle = <0x4c>;
 			};
@@ -5548,7 +5548,7 @@
 				capacity-mips-s = <0x16d>;
 				power-coefficient-s = <0x1fa>;
 				capacity-weight = <0x1>;
-				energy-weight = <0x3>;
+				energy-weight = <0x3>;  // <0x3>
 				linux,phandle = <0x4e>;
 				phandle = <0x4e>;
 			};
@@ -5633,7 +5633,7 @@
 
 				coregroup2 {
 					active-ratio-limit = <0x1e>;
-					active-ratio-boost = <0x0>;
+					active-ratio-boost = <0x10>; // <0x0>
 				};
 			};
 
