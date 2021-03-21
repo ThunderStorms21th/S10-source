@@ -2775,11 +2775,12 @@ static int sanity_check_raw_super(struct f2fs_sb_info *sbi,
 		f2fs_msg(sb, KERN_INFO,
 			"Wrong segment_count / block_count (%u > %u)",
 			segment_count, le32_to_cpu(raw_super->block_count));
-		return EFSCORRUPTED;
+		return -EFSCORRUPTED;
+    }
 
 	if (segment_count > (le64_to_cpu(raw_super->block_count) >> 9)) {
 		f2fs_msg(sb, KERN_INFO,
-			"Wrong segment_count / block_count (%u > %llu)",
+			"Wrong segment_count / block_count (%u > %u)",
 			segment_count, le64_to_cpu(raw_super->block_count));
 		return -EFSCORRUPTED;
 	}
