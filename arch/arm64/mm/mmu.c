@@ -983,7 +983,7 @@ int __init arch_ioremap_pmd_supported(void)
 int pud_set_huge(pud_t *pudp, phys_addr_t phys, pgprot_t prot)
 {
 	/* ioremap_page_range doesn't honour BBM */
-	if (pud_present(READ_ONCE(*pud)))
+	if (pud_present(READ_ONCE(*pudp)))
 		return 0;
 
 	pgprot_t sect_prot = __pgprot(PUD_TYPE_SECT |
@@ -1003,7 +1003,7 @@ int pud_set_huge(pud_t *pudp, phys_addr_t phys, pgprot_t prot)
 int pmd_set_huge(pmd_t *pmdp, phys_addr_t phys, pgprot_t prot)
 {
 	/* ioremap_page_range doesn't honour BBM */
-	if (pmd_present(READ_ONCE(*pmd)))
+	if (pmd_present(READ_ONCE(*pmdp)))
 		return 0;
 
 	pgprot_t sect_prot = __pgprot(PMD_TYPE_SECT |
