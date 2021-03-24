@@ -152,14 +152,13 @@ void dump_backtrace(struct pt_regs *regs, struct task_struct *tsk)
 #endif
 
 	printk("Call trace:\n");
-
+	do {
 #ifdef CONFIG_SEC_DEBUG_LIMIT_BACKTRACE
 		if (MAX_UNWINDING_LOOP < cnt) {
 			pr_info("%s: Forcely break dump_backtrace to avoid infinity backtrace\n", __func__);
 			break;
 		}
 #endif
-	do {
 		/* skip until specified stack frame */
 		if (!skip) {
 			dump_backtrace_entry(frame.pc);
@@ -218,9 +217,7 @@ static void dump_backtrace_auto_summary(struct pt_regs *regs, struct task_struct
 
 	pr_auto_once(2);
 	pr_auto(ASL2, "Call trace:\n");
-	while (1) {
-		unsigned long stack;
-		int ret;
+	do {
 
 #ifdef CONFIG_SEC_DEBUG_LIMIT_BACKTRACE
 		if (MAX_UNWINDING_LOOP < cnt) {
@@ -231,7 +228,8 @@ static void dump_backtrace_auto_summary(struct pt_regs *regs, struct task_struct
 
 		/* skip until specified stack frame */
 		if (!skip) {
-			dump_backtrace_entry_auto_summary(frame.pc);
+			dump_backtrace_entry(frame.pc);
+			dbg_snapshot_save_log(raw_smp_processor_id(), frame.pc);
 		} else if (frame.fp == regs->regs[29]) {
 			skip = 0;
 			/*
@@ -241,20 +239,10 @@ static void dump_backtrace_auto_summary(struct pt_regs *regs, struct task_struct
 			 * at which an exception has taken place, use regs->pc
 			 * instead.
 			 */
-			dump_backtrace_entry_auto_summary(regs->pc);
+			dump_backtrace_entry(regs->pc);
+			dbg_snapshot_save_log(raw_smp_processor_id(), regs->pc);
 		}
-		ret = unwind_frame(tsk, &frame);
-		if (ret < 0)
-			break;
-		if (in_entry_text(frame.pc)) {
-			stack = frame.fp - offsetof(struct pt_regs, stackframe);
-
-			if (on_accessible_stack(tsk, stack))
-				dump_mem("", "Exception stack", stack,
-					 stack + sizeof(struct pt_regs));
-		}
-		cnt++;
-	}
+	} while (!unwind_frame(tsk, &frame));
 
 	put_task_stack(tsk);
 }
