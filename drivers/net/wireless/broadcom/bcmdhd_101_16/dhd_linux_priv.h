@@ -493,7 +493,7 @@ extern uint fis_enab;
 #if ((LINUX_VERSION_CODE  >= KERNEL_VERSION(5, 4, 0)) || defined(WAKELOCK_BACKPORT))
 #define dhd_wake_lock_init(wakeup_source, dev, name) \
 do { \
-	wakeup_source = wakeup_source_register(dev, name); \
+	wakeup_source = wakeup_source_register(name); \
 } while (0);
 #else
 #define dhd_wake_lock_init(wakeup_source, dev, name) \
