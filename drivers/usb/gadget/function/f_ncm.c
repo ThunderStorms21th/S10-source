@@ -1217,6 +1217,7 @@ static int ncm_unwrap_ntb(struct gether *port,
 	const struct ndp_parser_opts *opts = ncm->parser_opts;
 	unsigned	crc_len = ncm->is_crc ? sizeof(uint32_t) : 0;
 	int		dgram_counter;
+	bool		ndp_after_header;
 
 	/* dwSignature */
 	if (get_unaligned_le32(tmp) != opts->nth_sign) {
@@ -1243,6 +1244,7 @@ static int ncm_unwrap_ntb(struct gether *port,
 	}
 
 	ndp_index = get_ncm(&tmp, opts->ndp_index);
+	ndp_after_header = false;
 
 	/* Run through all the NDP's in the NTB */
 	do {
@@ -1258,6 +1260,8 @@ static int ncm_unwrap_ntb(struct gether *port,
 			     ndp_index);
 			goto err;
 		}
+		if (ndp_index == opts->nth_size)
+			ndp_after_header = true;
 
 		/*
 		 * walk through NDP
@@ -1331,9 +1335,30 @@ static int ncm_unwrap_ntb(struct gether *port,
 		}
 
 			/* wDatagramIndex[1] */
+			if (ndp_after_header) {
+				if (index2 < opts->nth_size + opts->ndp_size) {
+					INFO(port->func.config->cdev,
+					     "Bad index: %#X\n", index2);
+					goto err;
+				}
+			} else {
+				if (index2 < opts->nth_size + opts->dpe_size) {
+					INFO(port->func.config->cdev,
+					     "Bad index: %#X\n", index2);
+					goto err;
+				}
+			}
 			if (index2 > block_len - opts->dpe_size) {
 				INFO(port->func.config->cdev,
 				     "Bad index: %#X\n", index2);
+				goto err;
+			}
+
+			/* wDatagramLength[1] */
+			if ((dg_len2 < 14 + crc_len) ||
+					(dg_len2 > frame_max)) {
+				INFO(port->func.config->cdev,
+				     "Bad dgram length: %#X\n", dg_len);
 				goto err;
 			}
 
@@ -1356,11 +1381,6 @@ static int ncm_unwrap_ntb(struct gether *port,
 		skb_queue_tail(list, skb2);
 
 		ndp_len -= 2 * (opts->dgram_item_len * 2);
-			dgram_counter++;
-			if (index2 == 0 || dg_len2 == 0)
-				break;
-		} while (ndp_len > 2 * (opts->dgram_item_len * 2));
-	} while (ndp_index);
 
 		dgram_counter++;
 		} while (ndp_len > 2 * (opts->dgram_item_len * 2)); /* zero entry */
