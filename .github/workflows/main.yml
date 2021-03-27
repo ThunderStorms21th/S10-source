@@ -24,11 +24,9 @@ jobs:
         rm -fr toolchain
         git add .
         mkdir toolchain
-        git submodule add --branch proton https://github.com/CruelKernel/samsung-exynos9820-toolchain toolchain/proton
-        sudo mkdir -p /home/nalas/kernel/AiO-S10-TS
-        sudo git clone --depth 1 -j $(nproc) --branch default --single-branch https://github.com/CruelKernel/samsung-exynos9820-toolchain /home/nalas/kernel/AiO-S10-TS/toolchain
+        git submodule add --branch cruel https://github.com/CruelKernel/samsung-exynos9820-toolchain toolchain/cruel
     - name: Kernel Build
-      run: echo 11 | ./ts-build-proton.sh
+      run: echo 11 | ./ts-build-cruel.sh
     - name: Upload Kernel Zip
       uses: actions/upload-artifact@v2
       with:
