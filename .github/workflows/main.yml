@@ -29,9 +29,9 @@ jobs:
         sudo git clone --depth 1 -j $(nproc) --branch default --single-branch https://github.com/CruelKernel/samsung-exynos9820-toolchain /home/nalas/kernel/AiO-S10-TS/toolchain
     - name: Kernel Build
       run: echo 11 | ./ts-build-proton.sh
-    - name: Upload Kernel
+    - name: Upload Kernel Zip
       uses: actions/upload-artifact@v2
       with:
         name: ThunderStormsKernel
-        path: ./*.zip
+        path: ./builds/*.zip
 
