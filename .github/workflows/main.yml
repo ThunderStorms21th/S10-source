@@ -6,12 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        model: [ "G973F" ]
-
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Install mkbootimg
       run: |
         wget -q https://android.googlesource.com/platform/system/tools/mkbootimg/+archive/refs/heads/master.tar.gz -O - | tar xzf - mkbootimg.py
@@ -22,36 +18,20 @@ jobs:
         wget -q https://android.googlesource.com/platform/external/avb/+archive/refs/heads/android10-dev.tar.gz -O - | tar xzf - avbtool
         chmod +x avbtool
         sudo mv avbtool /usr/local/bin/avbtool
-    - name: Clone Submodules
-      run: git submodule update --init --recursive
-    - name: Kernel Configure
+    - name: Install toolchain
       run: |
-        ./build config                   \
-                model=${{ matrix.model}} \
-                name="ThunderStormsKernel"        \
-                +magisk                  \
-                +nohardening             \
-                +ttl                     \
-                +wireguard               \
-                +cifs                    \
-                +sdfat                   \
-                +ntfs                    \
-                +morosound               \
-                +boeffla_wl_blocker      \
-                +ts_config               \
-        2>&1 | tee config.info
+        git submodule deinit --force --all
+        rm -fr toolchain
+        git add .
+        mkdir toolchain
+        git submodule add --branch proton https://github.com/CruelKernel/samsung-exynos9820-toolchain toolchain/proton
+        sudo mkdir -p /home/nalas/kernel/AiO-S10-TS
+        sudo git clone --depth 1 -j $(nproc) --branch default --single-branch https://github.com/CruelKernel/samsung-exynos9820-toolchain /home/nalas/kernel/AiO-S10-TS/toolchain
     - name: Kernel Build
-      run: ./build :build
-    - name: Create boot.img
-      run: ./build :mkimg
+      run: echo 11 | ./ts-build-proton.sh
     - name: Upload Kernel
       uses: actions/upload-artifact@v2
       with:
-        name: ThunderStormsKernel-${{ matrix.model }}
-        path: boot.img
-    - name: Upload Kernel Info
-      uses: actions/upload-artifact@v2
-      with:
-        name: ConfigurationInfo-${{ matrix.model }}
-        path: config.*
+        name: ThunderStormsKernel
+        path: ./*.zip
 
