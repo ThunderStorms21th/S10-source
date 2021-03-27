@@ -899,7 +899,7 @@ static int __nocfi kpti_install_ng_mappings(void *__unused)
 	int cpu = smp_processor_id();
 
 	if (kpti_applied)
-		return;
+		return kpti_applied;
 
 	remap_fn = (void *)__pa_symbol(idmap_kpti_install_ng_mappings);
 
@@ -910,7 +910,7 @@ static int __nocfi kpti_install_ng_mappings(void *__unused)
 	if (!cpu)
 		kpti_applied = true;
 
-	return;
+	return kpti_applied;
 }
 #else
 static void
