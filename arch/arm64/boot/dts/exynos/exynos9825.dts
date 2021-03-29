@@ -5522,7 +5522,7 @@
 
 			ananke-energy {
 				capacity-mips = <0x110>;
-				power-coefficient = <0xa0>;
+				power-coefficient = <0x90>; // <0xa0>
 				capacity-mips-s = <0xd7>;
 				power-coefficient-s = <0x82>;
 				capacity-weight = <0x1>;
@@ -5533,21 +5533,21 @@
 
 			prometheus-energy {
 				capacity-mips = <0x213>;
-				power-coefficient = <0x140>;
+				power-coefficient = <0x170>;    // <0x140>
 				capacity-mips-s = <0x15a>;
 				power-coefficient-s = <0x103>;
 				capacity-weight = <0x2>;
-				energy-weight = <0x2>;  // <0x1>
+				energy-weight = <0x1>;  // <0x1>
 				linux,phandle = <0x4c>;
 				phandle = <0x4c>;
 			};
 
 			cheetah-energy {
 				capacity-mips = <0x311>;
-				power-coefficient = <0x2f8>;
+				power-coefficient = <0x35c>;    // <0x2f8>
 				capacity-mips-s = <0x16d>;
 				power-coefficient-s = <0x1fa>;
-				capacity-weight = <0x1>;
+				capacity-weight = <0x1>;    // <0x1>
 				energy-weight = <0x3>;  // <0x3>
 				linux,phandle = <0x4e>;
 				phandle = <0x4e>;
@@ -5633,7 +5633,7 @@
 
 				coregroup2 {
 					active-ratio-limit = <0x1e>;
-					active-ratio-boost = <0x10>; // <0x0>
+					active-ratio-boost = <0x0>; // <0x0>
 				};
 			};
 
@@ -9836,7 +9836,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "4-5";
 			user-default-qos = <0xce4c8>;
-			user-boost = <0x3>;
+			user-boost = <0x2>; // <0x3>
 			ucc-index = <0x1>;
 			user-boost-game = <0x1>;
 
@@ -9857,7 +9857,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "6-7";
 			user-default-qos = <0xe4840>;
-			user-boost = <0x2>;
+			user-boost = <0x3>; // <0x2>
 			ucc-index = <0x2>;
 			user-boost-game = <0x2>;
 
@@ -10293,7 +10293,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x5f>; // 0x55
+		samsung,tmu_second_point_trim = <0x55>; // 0x55
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
