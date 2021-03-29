@@ -110,8 +110,8 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     echo "351000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     echo "1950000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    echo "3000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "3000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/fb_legacy
 
@@ -198,9 +198,9 @@ rm -f $LOG
 
    # I/O sched settings
    echo "cfq" > /sys/block/sda/queue/scheduler
-   echo "128" > /sys/block/sda/queue/read_ahead_kb
+   # echo "256" > /sys/block/sda/queue/read_ahead_kb
    echo "cfq" > /sys/block/mmcblk0/queue/scheduler
-   echo "128" > /sys/block/mmcblk0/queue/read_ahead_kb
+   # echo "256" > /sys/block/mmcblk0/queue/read_ahead_kb
    echo "0" > /sys/block/sda/queue/iostats
    echo "0" > /sys/block/mmcblk0/queue/iostats
    echo "1" > /sys/block/sda/queue/rq_affinity
@@ -210,17 +210,18 @@ rm -f $LOG
 
    ## Kernel Stune
    # GLOBAL
-   echo "16" > /dev/stune/schedtune.boost
+   echo "10" > /dev/stune/schedtune.boost
+   echo "0" > /dev/stune/schedtune.band
    echo "0" > /dev/stune/schedtune.prefer_idle
-   echo "1" > /dev/stune/schedtune.prefer_perf
+   echo "0" > /dev/stune/schedtune.prefer_perf  # 1
    echo "0" > /dev/stune/schedtune.util_est_en
    echo "0" > /dev/stune/schedtune.ontime_en
    # TOP-APP
-   echo "20" > /dev/stune/top-app/schedtune.boost
-   echo "1" > /dev/stune/top-app/schedtune.prefer_idle
-   echo "1" > /dev/stune/top-app/schedtune.prefer_perf
-   echo "1" > /dev/stune/top-app/schedtune.util_est_en
-   echo "1" > /dev/stune/top-app/schedtune.ontime_en
+   # echo "20" > /dev/stune/top-app/schedtune.boost
+   # echo "1" > /dev/stune/top-app/schedtune.prefer_idle
+   # echo "1" > /dev/stune/top-app/schedtune.prefer_perf
+   # echo "1" > /dev/stune/top-app/schedtune.util_est_en
+   # echo "1" > /dev/stune/top-app/schedtune.ontime_en
 
    ## Kernel Scheduler
    echo "1500000" > /proc/sys/kernel/sched_wakeup_granularity_ns
@@ -228,6 +229,9 @@ rm -f $LOG
    echo "650000" > /proc/sys/kernel/sched_min_granularity_ns
    echo "800000" > /proc/sys/kernel/sched_migration_cost_ns
    echo "1000000" > /proc/sys/kernel/sched_rt_period_us
+
+   # CPU EFF_mode
+   # echo "1" > /sys/kernel/ems/eff_mode
 
    # Boeffla wakelocks
    chmod 0644 /sys/devices/virtual/misc/boeffla_wakelock_blocker/wakelock_blocker
