@@ -34,31 +34,31 @@ MAIN()
 (
 	START_TIME=`date +%T`
     if [ $MODEL = "G970F" ]; then
-    ./build mkimg model=G970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G970N" ]; then
-    ./build mkimg model=G970N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G970N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G973F" ]; then
-    ./build mkimg model=G973F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G973F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G973N" ]; then
-    ./build mkimg model=G973N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G973N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G975F" ]; then
-    ./build mkimg model=G975F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G975F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G975N" ]; then
-    ./build mkimg model=G975N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G975N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G977B" ]; then
-    ./build mkimg model=G977B name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G977B name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "G977N" ]; then
-    ./build mkimg model=G977N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=G977N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "N970F" ]; then
-    ./build mkimg model=N970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=N970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "N971N" ]; then
-    ./build mkimg model=N971N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=N971N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "N975F" ]; then
-    ./build mkimg model=N975F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=N975F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "N976N" ]; then
-    ./build mkimg model=N976N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=N976N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     elif [ $MODEL = "N976B" ]; then
-    ./build mkimg model=N976B name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build mkimg model=N976B name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=clang-11 +dtb
     fi
 
 	END_TIME=`date +%T`
@@ -146,7 +146,7 @@ echo "*   ThunderStorms Kernel Build Script   *"
 echo "*****************************************"
 echo ""
 echo "    CUSTOMIZABLE STOCK SAMSUNG KERNEL"
-echo "               Samsung S20"
+echo "                CLANG 11"
 echo "            Build Kernel for"
 echo "-----------------------------------------"
 echo "|   S10 / N10 family for OneUI Q ROMs   |"
@@ -169,7 +169,7 @@ read -p "Select an option to compile the kernel: " prompt
 if [ $prompt = "1" ]; then
     MODEL=G970F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G970F Selected"
     RUN_PROGRAM
@@ -177,7 +177,7 @@ if [ $prompt = "1" ]; then
 elif [ $prompt = "2" ]; then
     MODEL=G970N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    #ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G973N Selected"
     RUN_PROGRAM
@@ -185,13 +185,13 @@ elif [ $prompt = "2" ]; then
 elif [ $prompt = "3" ]; then
     MODEL=G973F
     ZIP_DATE=`date +%Y%m%d`
-    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G973F Selected"
     RUN_PROGRAM
     MODEL=G973N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G973N Selected"
     RUN_PROGRAM
@@ -199,13 +199,13 @@ elif [ $prompt = "3" ]; then
 elif [ $prompt = "4" ]; then
     MODEL=G975F
     ZIP_DATE=`date +%Y%m%d`
-    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G975F Selected"
     RUN_PROGRAM
     MODEL=G975N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G975N Selected"
     RUN_PROGRAM
@@ -213,13 +213,13 @@ elif [ $prompt = "4" ]; then
 elif [ $prompt = "5" ]; then
     MODEL=G977B
     ZIP_DATE=`date +%Y%m%d`
-    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G977B Selected"
     RUN_PROGRAM
     MODEL=G977N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-G977N Selected"
     RUN_PROGRAM
@@ -227,7 +227,7 @@ elif [ $prompt = "5" ]; then
 elif [ $prompt = "6" ]; then
     MODEL=N970F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-N970F Selected"
     RUN_PROGRAM
@@ -235,7 +235,7 @@ elif [ $prompt = "6" ]; then
 elif [ $prompt = "7" ]; then
     MODEL=N971N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-N971N Selected"
     RUN_PROGRAM
@@ -243,7 +243,7 @@ elif [ $prompt = "7" ]; then
 elif [ $prompt = "8" ]; then
     MODEL=N975F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-N975F Selected"
     RUN_PROGRAM
@@ -251,7 +251,7 @@ elif [ $prompt = "8" ]; then
 elif [ $prompt = "9" ]; then
     MODEL=N976N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-N976N Selected"
     RUN_PROGRAM
@@ -259,14 +259,14 @@ elif [ $prompt = "9" ]; then
 elif [ $prompt = "10" ]; then
     MODEL=N976B
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "SM-N976B Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "11" ]; then
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-S10-N10-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-S10-N10-$ANDROID-$K_VERSION-CLANG11-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
     echo "All variants Selected"
     MODEL=G970F

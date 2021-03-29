@@ -5,9 +5,9 @@
 
 LOG=compile_build.log
 RDIR=$(pwd)
-export K_VERSION="v1.9"
+export K_VERSION="v2.0"
 export K_NAME="ThundeRStormS-Kernel"
-export K_BASE="EUA4"
+export K_BASE="FUBD"
 export ANDROID_VERSION=110000
 export PLATFORM_VERSION=11
 export ANDROID_MAJOR_VERSION=r
