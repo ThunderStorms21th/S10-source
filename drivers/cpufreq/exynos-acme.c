@@ -1115,6 +1115,8 @@ __ATTR(freqvar_idlelatency, S_IRUGO | S_IWUSR,
 /*********************************************************************
  *                  INITIALIZE EXYNOS CPUFREQ DRIVER                 *
  *********************************************************************/
+static int cpu_undervolt = 25000;
+
 static void print_domain_info(struct exynos_cpufreq_domain *domain)
 {
 	int i;
@@ -1152,11 +1154,32 @@ static void print_domain_info(struct exynos_cpufreq_domain *domain)
 	}
 }
 
-static __init void init_sysfs(void)
+static ssize_t store_cpu_table_undervolt(struct kobject *kobj, struct kobj_attribute *attr,
+					const char *buf, size_t count)
 {
-	if (sysfs_create_file(power_kobj, &freqvar_idlelatency.attr))
-		pr_err("failed to create freqvar_idlelatency node\n");
+	int input;
 
+	if (!sscanf(buf, "%8d", &input))
+		return -EINVAL;
+
+	cpu_undervolt = input;
+
+	return count;
+}
+
+static ssize_t show_cpu_table_undervolt(struct kobject *kobj,
+				struct kobj_attribute *attr, char *buf)
+{
+	return snprintf(buf, 10, "%d\n",cpu_undervolt);
+}
+
+static struct kobj_attribute cpu_table_undervolt =
+__ATTR(cpu_table_undervolt, 0644,
+		show_cpu_table_undervolt, store_cpu_table_undervolt);
+
+static __init void init_sysfs(void) {
+	if (sysfs_create_file(power_kobj, &cpu_table_undervolt.attr))
+		pr_err("failed to create cpu_table_undervolt node\n");
 }
 
 static __init int init_table(struct exynos_cpufreq_domain *domain)
@@ -1189,6 +1212,9 @@ static __init int init_table(struct exynos_cpufreq_domain *domain)
 
 	for (index = 0; index < domain->table_size; index++) {
 		domain->freq_table[index].driver_data = index;
+
+		/* Undervolt with uV value */
+		volt_table[index] -= cpu_undervolt;
 
 		if (table[index] > domain->max_freq)
 			domain->freq_table[index].frequency = CPUFREQ_ENTRY_INVALID;
