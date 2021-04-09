@@ -24,9 +24,9 @@ jobs:
         rm -fr toolchain
         git add .
         mkdir toolchain
-        git submodule add --branch cruel https://github.com/CruelKernel/samsung-exynos9820-toolchain toolchain/cruel
+        git submodule add --branch cruel https://github.com/CruelKernel/samsung-exynos9820-toolchain toolchain/arter97
     - name: Kernel Build
-      run: echo 11 | ./ts-build-cruel.sh
+      run: echo 11 | ./ts-build-arter97.sh
     - name: Upload Kernel Zip
       uses: actions/upload-artifact@v2
       with:
