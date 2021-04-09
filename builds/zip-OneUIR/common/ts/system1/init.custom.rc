@@ -166,7 +166,7 @@ on boot
    # VM
    write /proc/sys/vm/dirty_expire_centisecs 800
    write /proc/sys/vm/dirty_writeback_centisecs 600
-   write /proc/sys/vm/vfs_cache_pressure 90
+   write /proc/sys/vm/vfs_cache_pressure 95
    # MISC
    write > /sys/module/mmc_core/parameters/use_spi_crc N
    # Boeffla wakelocks
@@ -176,16 +176,16 @@ on boot
 ## Build.prop settings
     setprop hw3d.force 1
     setprop hw2d.force 1
-    # setprop debug.composition.type gpu
-    # setprop persist.sys.composition.type gpu
+    setprop debug.composition.type gpu
+    setprop persist.sys.composition.type gpu
     setprop debug.egl.profiler 1
     setprop debug.egl.hw 1
     setprop debug.sf.hw 1
     setprop ro.debuggable 0
     setprop hwui.render_dirty_regions false
-    setprop debug.gr.numframebuffers 3
-    setprop debug.egl.swapinterval -60
-    setprop debug.gr.swapinterval 0
+    # setprop debug.gr.numframebuffers 3
+    # setprop debug.egl.swapinterval -60
+    # setprop debug.gr.swapinterval 0
     setprop ro.config.hw_power_saving 1
     setprop persist.sys.ui.hw 1
     setprop ro.sf.compbypass.enable 0
@@ -195,8 +195,8 @@ on boot
     setprop debug.hwc.nodirtyregion 1
     setprop debug.hwc.winupdate 1
     setprop vidc.debug.level 0
-    setprop ro.product.gpu.driver 1
-    setprop persist.sys.scrollingcache 3
+    # setprop ro.product.gpu.driver 1
+    # setprop persist.sys.scrollingcache 3
     setprop ro.config.hw_quickpoweron true
     setprop ro.config.hw_power_saving 1
     setprop power.saving.mode 1
@@ -208,7 +208,7 @@ on boot
     setprop profiler.debugmonitor 0
     setprop profiler.launch 0
     setprop profiler.hung.dumpdobugreport 0
-    setprop logcat.live 0
+    # setprop logcat.live 0
     setprop profiler.force_disable_err_rpt 1
     setprop profiler.force_disable_ulog 1
     setprop profiler.force_disable_ulog true

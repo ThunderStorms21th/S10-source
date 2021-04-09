@@ -6,8 +6,14 @@
 LOG=compile_build.log
 RDIR=$(pwd)
 export K_VERSION="v2.0"
-export K_NAME="ThundeRStormS-Kernel"
+export K_NAME="ThundeRStormS-AOSP-Kernel"
 export K_BASE="FUBD"
+export ANDROID_VERSION=100000
+export PLATFORM_VERSION=10
+export ANDROID_MAJOR_VERSION=q
+export CURRENT_ANDROID_MAJOR_VERSION=q
+export BUILD_PLATFORM_VERSION=10
+ANDROID=AOSP-R
 
 # export BUILD_CROSS_COMPILE=/home/nalas/kernel/AiO-S10-TS/toolchain/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 # export CROSS_COMPILE=$BUILD_CROSS_COMPILE
@@ -27,32 +33,37 @@ MAIN()
 {
 (
 	START_TIME=`date +%T`
+
+    ## COPY CAMERA FILES FOR AOSP - GCAM modded app
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-aosp/*.* /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
+
+
     if [ $MODEL = "G970F" ]; then
-    ./build mkimg model=G970F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G970F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G970N" ]; then
-    ./build mkimg model=G970N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G970N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G973F" ]; then
-    ./build mkimg model=G973F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G973F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G973N" ]; then
-    ./build mkimg model=G973N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G973N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G975F" ]; then
-    ./build mkimg model=G975F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G975F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G975N" ]; then
-    ./build mkimg model=G975N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G975N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G977B" ]; then
-    ./build mkimg model=G977B name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G977B name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "G977N" ]; then
-    ./build mkimg model=G977N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=G977N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "N970F" ]; then
-    ./build mkimg model=N970F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=N970F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "N971N" ]; then
-    ./build mkimg model=N971N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=N971N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "N975F" ]; then
-    ./build mkimg model=N975F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" -magisk toolchain=arter97 +dtb
+    ./build-aosp mkimg model=N975F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "N976N" ]; then
-    ./build mkimg model=N976N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=N976N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     elif [ $MODEL = "N976B" ]; then
-    ./build mkimg model=N976B name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" +magisk=canary toolchain=arter97 +dtb
+    ./build-aosp mkimg model=N976B name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=arter97 +dtb
     fi
 
 	END_TIME=`date +%T`
@@ -62,6 +73,7 @@ MAIN()
 	echo "Your flasheable release can be found in the builds folder with name :"
 	echo "$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION-`date +%Y-%m-%d`.img"
 	echo ""
+
 ) 2>&1 | tee -a ./$LOG
 }
 
@@ -304,3 +316,6 @@ elif [ $prompt = "11" ]; then
     RUN_PROGRAM2
     BUILD_FLASHABLES
 fi
+
+    ## COPY BACK CAMERA FILES FOR OneUI 3.x
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-oneui3/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2

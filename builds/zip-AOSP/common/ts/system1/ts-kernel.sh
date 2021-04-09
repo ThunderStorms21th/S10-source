@@ -25,18 +25,27 @@ rm -f $LOG
 
 	# SafetyNet
 	# SELinux (0 / 640 = Permissive, 1 / 644 = Enforcing)
-	echo "## -- SafetyNet permissions" >> $LOG;
-	chmod 644 /sys/fs/selinux/enforce;
-	chmod 440 /sys/fs/selinux/policy;
-	echo " " >> $LOG;
+	# echo "## -- SafetyNet permissions" >> $LOG;
+	# chmod 644 /sys/fs/selinux/enforce;
+	# chmod 440 /sys/fs/selinux/policy;
+    # echo "0" > /sys/fs/selinux/enforce
+	# echo " " >> $LOG;
 
 	# deepsleep fix
 	echo "## -- DeepSleep Fix" >> $LOG;
 
+    # dmesg -n 1 -C
 	echo "N" > /sys/kernel/debug/debug_enabled
 	echo "N" > /sys/kernel/debug/seclog/seclog_debug
 	echo "0" > /sys/kernel/debug/tracing/tracing_on
 	echo "0" > /sys/module/lowmemorykiller/parameters/debug_level
+    echo "0" > /sys/module/alarm_dev/parameters/debug_mask
+    echo "0" > /sys/module/binder/parameters/debug_mask
+    echo "0" > /sys/module/binder_alloc/parameters/debug_mask
+    echo "0" > /sys/module/powersuspend/parameters/debug_mask
+    echo "0" > /sys/module/xt_qtaguid/parameters/debug_mask
+    echo "0" > /sys/module/lowmemorykiller/parameters/debug_level
+    echo "0" > /sys/module/kernel/parameters/initcall_debug
 
     debug="/sys/module/*" 2>/dev/null
     for i in \$debug
@@ -57,64 +66,72 @@ rm -f $LOG
 	echo " " >> $LOG;
 
 	## ThunderStormS kill Google and Media servers script
-	sleep 2
-
 	# Google play services wakelock fix
-	echo "## -- GooglePlay wakelock fix $( date +"%d-%m-%Y %H:%M:%S" )" >> $LOG;
-	
+	# echo "## -- GooglePlay wakelock fix $( date +"%d-%m-%Y %H:%M:%S" )" >> $LOG;
 
 	# FIX GOOGLE PLAY SERVICE
-	su -c "pm enable com.google.android.gms/.ads.AdRequestBrokerService"
-	su -c "pm enable com.google.android.gms/.ads.identifier.service.AdvertisingIdService"
-	su -c "pm enable com.google.android.gms/.ads.social.GcmSchedulerWakeupService"
-	su -c "pm enable com.google.android.gms/.analytics.AnalyticsService"
-	su -c "pm enable com.google.android.gms/.analytics.service.PlayLogMonitorIntervalService"
-	su -c "pm enable com.google.android.gms/.backup.BackupTransportService"
-	su -c "pm enable com.google.android.gms/.update.SystemUpdateActivity"
-	su -c "pm enable com.google.android.gms/.update.SystemUpdateService"
-	su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$ActiveReceiver"
-	su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$Receiver"
-	su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$SecretCodeReceiver"
-	su -c "pm enable com.google.android.gms/.thunderbird.settings.ThunderbirdSettingInjectorService"
-	su -c "pm enable com.google.android.gsf/.update.SystemUpdateActivity"
-	su -c "pm enable com.google.android.gsf/.update.SystemUpdatePanoActivity"
-	su -c "pm enable com.google.android.gsf/.update.SystemUpdateService"
-	su -c "pm enable com.google.android.gsf/.update.SystemUpdateService\$Receiver"
-	su -c "pm enable com.google.android.gsf/.update.SystemUpdateService\$SecretCodeReceiver"
-	echo " " >> $LOG;
+	# su -c "pm enable com.google.android.gms/.ads.AdRequestBrokerService"
+	# su -c "pm enable com.google.android.gms/.ads.identifier.service.AdvertisingIdService"
+	# su -c "pm enable com.google.android.gms/.ads.social.GcmSchedulerWakeupService"
+	# su -c "pm enable com.google.android.gms/.analytics.AnalyticsService"
+	# su -c "pm enable com.google.android.gms/.analytics.service.PlayLogMonitorIntervalService"
+	# su -c "pm enable com.google.android.gms/.backup.BackupTransportService"
+	# su -c "pm enable com.google.android.gms/.update.SystemUpdateActivity"
+	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService"
+	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$ActiveReceiver"
+	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$Receiver"
+	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$SecretCodeReceiver"
+	# su -c "pm enable com.google.android.gms/.thunderbird.settings.ThunderbirdSettingInjectorService"
+	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateActivity"
+	# su -c "pm enable com.google.android.gsf/.update.SystemUpdatePanoActivity"
+	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateService"
+	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateService\$Receiver"
+	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateService\$SecretCodeReceiver"
+	# echo " " >> $LOG;
 
     # Initial ThundeRStormS settings
+
+	echo "## -- Initial settings by ThundeRStormS" >> $LOG;
 
     # Kernel Panic off (0 = Disabled, 1 = Enabled)
     echo "0" > /proc/sys/kernel/panic
      
     # CPU HOTPLUG (0/N = Disabled, 1/Y = Enabled)
-    echo "N" > /sys/module/workqueue/parameters/power_efficient
- 
+    echo "Y" > /sys/module/workqueue/parameters/power_efficient
+
+    # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
+    echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
+
+   # FINGERPRINT BOOST (0 = Disabled, 1 = Enabled)
+    echo "0" > /sys/kernel/fp_boost/enabled
+
     # CPU set at max/min freq
     # Little CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    echo "351000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    echo "1742000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "442000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    echo "1950000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/iowait_boost_enable
+    echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/fb_legacy
 
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-    echo "507000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+    echo "2400000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
+    echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
 
     # BIG CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
     echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "5000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
+    echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
     # Wakelock settigs
     echo "N" > /sys/module/wakeup/parameters/enable_sensorhub_wl
@@ -126,19 +143,19 @@ rm -f $LOG
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "4" > /sys/module/sec_battery/parameters/wl_polling
+    echo "5" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "256" > /proc/sys/kernel/random/write_wakeup_threshold
-    echo "128" > /proc/sys/kernel/random/read_wakeup_threshold
+    echo "896" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
-    echo "90" > /proc/sys/vm/vfs_cache_pressure
-    echo "100" > /proc/sys/vm/swappiness
-    echo "800" > /proc/sys/vm/dirty_writeback_centisecs
-    echo "1000" > /proc/sys/vm/dirty_expire_centisecs
-    echo "70" > /proc/sys/vm/overcommit_ratio
+    echo "95" > /proc/sys/vm/vfs_cache_pressure
+    echo "0" > /proc/sys/vm/swappiness
+    echo "600" > /proc/sys/vm/dirty_writeback_centisecs
+    echo "800" > /proc/sys/vm/dirty_expire_centisecs
+    echo "50" > /proc/sys/vm/overcommit_ratio
 
     # Battery
     echo "1700" > /sys/devices/platform/battery/wc_input
@@ -163,14 +180,14 @@ rm -f $LOG
 
     # GPU set at max/min freq
     echo "702000" > /sys/kernel/gpu/gpu_max_clock
-    echo "156000" > /sys/kernel/gpu/gpu_min_clock
+    echo "100000" > /sys/kernel/gpu/gpu_min_clock
     echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
     echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
     echo "433000" > /sys/devices/platform/18500000.mali/highspeed_clock
-    echo "80" > /sys/devices/platform/18500000.mali/highspeed_load
-    echo "0" > /sys/devices/platform/18500000.mali/highspeed_delay
+    echo "90" > /sys/devices/platform/18500000.mali/highspeed_load
+    echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
 
-   # Misc settings : bbr, cubic or westwood
+   # Misc settings : bbr2, bbr, cubic or westwood
    echo "westwood" > /proc/sys/net/ipv4/tcp_congestion_control
    echo "N" > /sys/module/mmc_core/parameters/use_spi_crc
    echo "1" > /sys/module/sync/parameters/fsync_enabled
@@ -181,9 +198,9 @@ rm -f $LOG
 
    # I/O sched settings
    echo "cfq" > /sys/block/sda/queue/scheduler
-   echo "64" > /sys/block/sda/queue/read_ahead_kb
+   # echo "256" > /sys/block/sda/queue/read_ahead_kb
    echo "cfq" > /sys/block/mmcblk0/queue/scheduler
-   echo "64" > /sys/block/mmcblk0/queue/read_ahead_kb
+   # echo "256" > /sys/block/mmcblk0/queue/read_ahead_kb
    echo "0" > /sys/block/sda/queue/iostats
    echo "0" > /sys/block/mmcblk0/queue/iostats
    echo "1" > /sys/block/sda/queue/rq_affinity
@@ -191,6 +208,93 @@ rm -f $LOG
    echo "128" > /sys/block/sda/queue/nr_requests
    echo "128" > /sys/block/mmcblk0/queue/nr_requests
 
+   ## Kernel Stune
+   # GLOBAL
+   echo "12" > /dev/stune/schedtune.boost
+   echo "0" > /dev/stune/schedtune.band
+   echo "0" > /dev/stune/schedtune.prefer_idle
+   echo "1" > /dev/stune/schedtune.prefer_perf  # 1
+   echo "0" > /dev/stune/schedtune.util_est_en
+   echo "0" > /dev/stune/schedtune.ontime_en
+   # TOP-APP
+   # echo "20" > /dev/stune/top-app/schedtune.boost
+   # echo "1" > /dev/stune/top-app/schedtune.prefer_idle
+   # echo "1" > /dev/stune/top-app/schedtune.prefer_perf
+   # echo "1" > /dev/stune/top-app/schedtune.util_est_en
+   # echo "1" > /dev/stune/top-app/schedtune.ontime_en
+
+   ## Kernel Scheduler
+   echo "1500000" > /proc/sys/kernel/sched_wakeup_granularity_ns
+   echo "10000000" > /proc/sys/kernel/sched_latency_ns
+   echo "650000" > /proc/sys/kernel/sched_min_granularity_ns
+   echo "800000" > /proc/sys/kernel/sched_migration_cost_ns
+   echo "1000000" > /proc/sys/kernel/sched_rt_period_us
+
+   # CPU EFF_mode
+   # echo "1" > /sys/kernel/ems/eff_mode
+
+   # CPU Energy Aware
+   echo "0" > /proc/sys/kernel/sched_energy_aware
+   echo "0" > /proc/sys/kernel/sched_tunable_scaling
+
+   # Thermal Governors
+   # BIG Cluster
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone0/policy
+   # MID Cluster
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone1/policy
+   # LITTLE Cluster
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone2/policy
+   # GPU
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone3/policy
+   # ISP
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone4/policy
+   # AC
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone5/policy
+   # BATTERY
+   echo "step_wise" > /sys/devices/virtual/thermal/thermal_zone6/policy
+
+   # Boeffla wakelocks
+   chmod 0644 /sys/devices/virtual/misc/boeffla_wakelock_blocker/wakelock_blocker
+   echo 'wlan_pm_wake;wlan_rx_wake;wlan_wake;wlan_ctrl_wake;wlan_txfl_wake;BT_bt_wake;BT_host_wake;nfc_wake_lock;rmnet0;nfc_wake_lock;bluetooth_timer;event0;GPSD;umts_ipc0;NETLINK;ssp_comm_wake_lock;epoll_system_server_file:[timerfd4_system_server];epoll_system_server_file:[timerfd7_system_server];epoll_InputReader_file:event1;epoll_system_server_file:[timerfd5_system_server];epoll_InputReader_file:event10;epoll_InputReader_file:event0;epoll_InputReader_epollfd;epoll_system_server_epollfd' > /sys/devices/virtual/misc/boeffla_wakelock_blocker/wakelock_blocker
+	echo " " >> $LOG;
+
+	# echo "## -- Sched features Fix" >> $LOG;
+
+    ## Enhanched SlickSleep
+    echo "NO_NORMALIZED_SLEEPER" > /sys/kernel/debug/sched_features
+    echo "NO_GENTLE_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features
+    echo "NO_NORMALIZED_SLEEPER" > /sys/kernel/debug/sched_features
+    echo "NO_NEW_FAIR_SLEEPERS" > /sys/kernel/debug/sched_features
+    echo "NO_START_DEBIT" > /sys/kernel/debug/sched_features
+    echo "NO_HRTICK" > /sys/kernel/debug/sched_features
+    echo "NO_CACHE_HOT_BUDDY" > /sys/kernel/debug/sched_features
+    echo "NO_LB_BIAS" > /sys/kernel/debug/sched_features
+    echo "NO_OWNER_SPIN" > /sys/kernel/debug/sched_features
+    echo "NO_DOUBLE_TICK" > /sys/kernel/debug/sched_features
+    echo "NO_AFFINE_WAKEUPS" > /sys/kernel/debug/sched_features
+    echo "NO_NEXT_BUDDY" > /sys/kernel/debug/sched_features
+    echo "NO_WAKEUP_OVERLAP" > /sys/kernel/debug/sched_features
+	
+	## Kernel no debugs
+    echo "NO_AFFINE_WAKEUPS" >> /sys/kernel/debug/sched_features
+    echo "NO_ARCH_POWER" >> /sys/kernel/debug/sched_features
+    echo "NO_CACHE_HOT_BUDDY" >> /sys/kernel/debug/sched_features
+    echo "NO_DOUBLE_TICK" >> /sys/kernel/debug/sched_features
+    echo "NO_FORCE_SD_OVERLAP" >> /sys/kernel/debug/sched_features
+    echo "NO_GENTLE_FAIR_SLEEPERS" >> /sys/kernel/debug/sched_features
+    echo "NO_HRTICK" >> /sys/kernel/debug/sched_features
+    echo "NO_LAST_BUDDY" >> /sys/kernel/debug/sched_features
+    echo "NO_LB_BIAS" >> /sys/kernel/debug/sched_features
+    echo "NO_LB_MIN" >> /sys/kernel/debug/sched_features
+    echo "NO_NEW_FAIR_SLEEPERS" >> /sys/kernel/debug/sched_features
+    echo "NO_NEXT_BUDDY" >> /sys/kernel/debug/sched_features
+    echo "NO_NONTASK_POWER" >> /sys/kernel/debug/sched_features
+    echo "NO_NORMALIZED_SLEEPERS" >> /sys/kernel/debug/sched_features
+    echo "NO_OWNER_SPIN" >> /sys/kernel/debug/sched_features
+    echo "NO_RT_RUNTIME_SHARE" >> /sys/kernel/debug/sched_features
+    echo "NO_START_DEBIT" >> /sys/kernel/debug/sched_features
+    echo "NO_TTWU_QUEUE" >> /sys/kernel/debug/sched_features
+	echo " " >> $LOG;
 
 	# Init.d support
 	echo "## -- Start Init.d support" >> $LOG;
