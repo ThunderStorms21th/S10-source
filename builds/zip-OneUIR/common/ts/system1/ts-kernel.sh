@@ -108,7 +108,7 @@ rm -f $LOG
     # CPU set at max/min freq
     # Little CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    echo "442000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+    echo "351000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     echo "1950000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
@@ -143,7 +143,7 @@ rm -f $LOG
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "5" > /sys/module/sec_battery/parameters/wl_polling
+    echo "4" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
@@ -184,8 +184,8 @@ rm -f $LOG
     echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
     echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
     echo "433000" > /sys/devices/platform/18500000.mali/highspeed_clock
-    echo "90" > /sys/devices/platform/18500000.mali/highspeed_load
-    echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
+    echo "85" > /sys/devices/platform/18500000.mali/highspeed_load
+    echo "0" > /sys/devices/platform/18500000.mali/highspeed_delay
 
    # Misc settings : bbr2, bbr, cubic or westwood
    echo "westwood" > /proc/sys/net/ipv4/tcp_congestion_control
@@ -197,9 +197,9 @@ rm -f $LOG
    # echo "1" > /sys/kernel/power_suspend/power_suspend_state
 
    # I/O sched settings
-   echo "cfq" > /sys/block/sda/queue/scheduler
+   echo "noop" > /sys/block/sda/queue/scheduler
    # echo "256" > /sys/block/sda/queue/read_ahead_kb
-   echo "cfq" > /sys/block/mmcblk0/queue/scheduler
+   echo "noop" > /sys/block/mmcblk0/queue/scheduler
    # echo "256" > /sys/block/mmcblk0/queue/read_ahead_kb
    echo "0" > /sys/block/sda/queue/iostats
    echo "0" > /sys/block/mmcblk0/queue/iostats
@@ -210,10 +210,10 @@ rm -f $LOG
 
    ## Kernel Stune
    # GLOBAL
-   echo "12" > /dev/stune/schedtune.boost
+   echo "8" > /dev/stune/schedtune.boost
    echo "0" > /dev/stune/schedtune.band
    echo "0" > /dev/stune/schedtune.prefer_idle
-   echo "1" > /dev/stune/schedtune.prefer_perf  # 1
+   echo "0" > /dev/stune/schedtune.prefer_perf  # 1
    echo "0" > /dev/stune/schedtune.util_est_en
    echo "0" > /dev/stune/schedtune.ontime_en
    # TOP-APP

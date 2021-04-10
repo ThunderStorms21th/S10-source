@@ -159,8 +159,8 @@ on boot
    # CPU EFF_mode
    # write /sys/kernel/ems/eff_mode 1
    # I/O sched settings
-   write /sys/block/sda/queue/nr_requests 256
-   write /sys/block/mmcblk0/queue/nr_requests 256
+   write /sys/block/sda/queue/nr_requests 128
+   write /sys/block/mmcblk0/queue/nr_requests 128
    write /sys/block/sda/queue/iostats 0
    write /sys/block/mmcblk0/queue/iostats 0
    # VM
@@ -195,7 +195,7 @@ on boot
     setprop debug.hwc.nodirtyregion 1
     setprop debug.hwc.winupdate 1
     setprop vidc.debug.level 0
-    # setprop ro.product.gpu.driver 1
+    setprop ro.product.gpu.driver 1
     # setprop persist.sys.scrollingcache 3
     setprop ro.config.hw_quickpoweron true
     setprop ro.config.hw_power_saving 1
