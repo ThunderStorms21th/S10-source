@@ -5,9 +5,9 @@
 
 LOG=compile_build.log
 RDIR=$(pwd)
-export K_VERSION="v2.0"
+export K_VERSION="v2.1"
 export K_NAME="ThundeRStormS-AOSP-Kernel"
-export K_BASE="FUBD"
+export K_BASE="FUCD"
 export ANDROID_VERSION=100000
 export PLATFORM_VERSION=10
 export ANDROID_MAJOR_VERSION=q
@@ -35,7 +35,7 @@ MAIN()
 	START_TIME=`date +%T`
 
     ## COPY CAMERA FILES FOR AOSP - GCAM modded app
-	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-aosp/*.* /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-aosp/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
 
 
     if [ $MODEL = "G970F" ]; then
@@ -175,7 +175,7 @@ read -p "Select an option to compile the kernel: " prompt
 if [ $prompt = "1" ]; then
     MODEL=G970F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G970F Selected"
     RUN_PROGRAM
@@ -183,7 +183,7 @@ if [ $prompt = "1" ]; then
 elif [ $prompt = "2" ]; then
     MODEL=G970N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G973N Selected"
     RUN_PROGRAM
@@ -191,13 +191,13 @@ elif [ $prompt = "2" ]; then
 elif [ $prompt = "3" ]; then
     MODEL=G973F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G973F Selected"
     RUN_PROGRAM
     MODEL=G973N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G973N Selected"
     RUN_PROGRAM
@@ -205,13 +205,13 @@ elif [ $prompt = "3" ]; then
 elif [ $prompt = "4" ]; then
     MODEL=G975F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G975F Selected"
     RUN_PROGRAM
     MODEL=G975N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G975N Selected"
     RUN_PROGRAM
@@ -219,13 +219,13 @@ elif [ $prompt = "4" ]; then
 elif [ $prompt = "5" ]; then
     MODEL=G977B
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G977B Selected"
     RUN_PROGRAM
     MODEL=G977N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G977N Selected"
     RUN_PROGRAM
@@ -233,7 +233,7 @@ elif [ $prompt = "5" ]; then
 elif [ $prompt = "6" ]; then
     MODEL=N970F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N970F Selected"
     RUN_PROGRAM
@@ -241,7 +241,7 @@ elif [ $prompt = "6" ]; then
 elif [ $prompt = "7" ]; then
     MODEL=N971N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N971N Selected"
     RUN_PROGRAM
@@ -249,7 +249,7 @@ elif [ $prompt = "7" ]; then
 elif [ $prompt = "8" ]; then
     MODEL=N975F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N975F Selected"
     RUN_PROGRAM
@@ -257,7 +257,7 @@ elif [ $prompt = "8" ]; then
 elif [ $prompt = "9" ]; then
     MODEL=N976N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N976N Selected"
     RUN_PROGRAM
@@ -265,14 +265,14 @@ elif [ $prompt = "9" ]; then
 elif [ $prompt = "10" ]; then
     MODEL=N976B
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N976B Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "11" ]; then
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-S10-N10-AOSP-$K_VERSION-ARTER97-$ZIP_DATE.zip
+    ZIP_NAME=$K_NAME-S10-N10-$K_VERSION-ARTER97-$ZIP_DATE.zip
     export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "All variants Selected"
     MODEL=G970F
