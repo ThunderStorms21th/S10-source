@@ -97,7 +97,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # CPU HOTPLUG (0/N = Disabled, 1/Y = Enabled)
-    echo "Y" > /sys/module/workqueue/parameters/power_efficient
+    echo "N" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -234,8 +234,8 @@ rm -f $LOG
    # echo "1" > /sys/kernel/ems/eff_mode
 
    # CPU Energy Aware
-   echo "0" > /proc/sys/kernel/sched_energy_aware
-   echo "0" > /proc/sys/kernel/sched_tunable_scaling
+   # echo "0" > /proc/sys/kernel/sched_energy_aware
+   # echo "0" > /proc/sys/kernel/sched_tunable_scaling
 
    # Thermal Governors
    # BIG Cluster

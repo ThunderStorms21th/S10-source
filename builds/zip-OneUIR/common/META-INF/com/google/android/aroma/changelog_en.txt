@@ -3,7 +3,7 @@
 
 	NAME	: <b><#selectbg_g>ThundeRStormS-Kernel-OneUI R</#></b>	
 	VERSION	: <b><#selectbg_g>v2.1</#></b>
-	DATE	: <b><#selectbg_g>10/04/2021</#></b>
+	DATE	: <b><#selectbg_g>12/04/2021</#></b>
 	AUTHOR	: <b><#selectbg_g>ThundeRStormS Team</#></b>
 
 <#53a6f4><b>        Only For Galaxy S10/N10 | OneUI R Roms |</b></#>
@@ -12,7 +12,7 @@
 <b>CHANGELOG:</b>
 
 --------------------------------------------------------------------------
-<u><b><#selectbg_g>ThunderStorms-Kernel-R-v2.1 : 10.04.2021</#></b></u>
+<u><b><#selectbg_g>ThunderStorms-Kernel-R-v2.1 : 12.04.2021</#></b></u>
 <*>Samsung source : FUCD OneUI 3.1 </*>
 <*>Linux source : upstreamed to 4.14.212 </*>
 <*>Samsung os patch level: 2021-01 </*>
@@ -20,7 +20,7 @@
 <*>Added some Thermall and SCHED improvements</*>
 <*>Schedtune Boost - default is enabled</*>
 <*>Device Tree Blobs optimalization</*>
-<*>HZ tick set at 50HZ </*>
+<*>HZ tick set at 100HZ </*>
 <*>Support Init.d scripts: /vendor/etc/init.d </*>
 <*>ThunderTweaks v1.0.8.0 </*>
 <*>Magisk 22.1 Offcial build in kernel - thx to CruelKernel Team </*>
