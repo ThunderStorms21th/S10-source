@@ -38,6 +38,8 @@
 #define GPU_MAX_VOLT		1000000
 #define GPU_MIN_VOLT		500000
 #define GPU_VOLT_STEP		6250
+static int gpu_min_clock_limit = GPU_DVFS_MIN_UNLOCK;
+static int gpu_max_clock_limit = GPU_DVFS_MAX_UNLOCK;
 #else
 #error "Please define gpu voltage ranges for current SoC."
 #endif
