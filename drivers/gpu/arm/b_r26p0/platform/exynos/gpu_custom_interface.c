@@ -38,8 +38,6 @@
 #define GPU_MAX_VOLT		1000000
 #define GPU_MIN_VOLT		500000
 #define GPU_VOLT_STEP		6250
-static int gpu_min_clock_limit = GPU_DVFS_MIN_UNLOCK;
-static int gpu_max_clock_limit = GPU_DVFS_MAX_UNLOCK;
 #else
 #error "Please define gpu voltage ranges for current SoC."
 #endif
@@ -229,7 +227,7 @@ static int gpu_get_asv_table(struct exynos_context *platform, char *buf, size_t 
 
 	cnt += snprintf(buf+cnt, buf_size-cnt, "GPU, vol, min, max, down_stay, mif, cpu0, cpu1\n");
 
-	for (i = gpu_dvfs_get_level(platform->gpu_max_clock_limit); i <= gpu_dvfs_get_level(platform->gpu_min_clock); i++) {
+	for (i = gpu_dvfs_get_level(platform->gpu_max_clock); i <= gpu_dvfs_get_level(platform->gpu_min_clock); i++) {
 		cnt += snprintf(buf+cnt, buf_size-cnt, "%d, %7d, %2d, %3d, %d, %7d, %7d, %7d\n",
 		platform->table[i].clock, platform->table[i].voltage, platform->table[i].min_threshold,
 		platform->table[i].max_threshold, platform->table[i].down_staycount, platform->table[i].mem_freq,
@@ -269,8 +267,8 @@ static ssize_t show_volt_table(struct device *dev, struct device_attribute *attr
 	if (!platform)
 		return -ENODEV;
 
-	max = gpu_dvfs_get_level(platform->gpu_max_clock_limit);
-	min = gpu_dvfs_get_level(platform->gpu_min_clock_limit);
+	max = gpu_dvfs_get_level(platform->gpu_max_clock);
+	min = gpu_dvfs_get_level(platform->gpu_min_clock);
 	pr_len = (size_t)((PAGE_SIZE - 2) / (min-max));
 
 	for (i = max; i <= min; i++) {
@@ -285,8 +283,8 @@ static ssize_t show_volt_table(struct device *dev, struct device_attribute *attr
 static ssize_t set_volt_table(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
 	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
-	int max = gpu_dvfs_get_level(platform->gpu_max_clock_limit);
-	int min = gpu_dvfs_get_level(platform->gpu_min_clock_limit);
+	int max = gpu_dvfs_get_level(platform->gpu_max_clock);
+	int min = gpu_dvfs_get_level(platform->gpu_min_clock);
 	int i, tokens, rest, target;
 	int t[min - max];
 	unsigned long flags;
@@ -338,7 +336,7 @@ static int gpu_get_dvfs_table(struct exynos_context *platform, char *buf, size_t
 	if (buf == NULL)
 		return 0;
 
-	for (i = gpu_dvfs_get_level(platform->gpu_max_clock_limit); i <= gpu_dvfs_get_level(platform->gpu_min_clock); i++)
+	for (i = gpu_dvfs_get_level(platform->gpu_max_clock); i <= gpu_dvfs_get_level(platform->gpu_min_clock); i++)
 		cnt += snprintf(buf+cnt, buf_size-cnt, " %d", platform->table[i].clock);
 
 	cnt += snprintf(buf+cnt, buf_size-cnt, "\n");
@@ -384,7 +382,7 @@ static ssize_t show_time_in_state(struct device *dev, struct device_attribute *a
 
 	gpu_dvfs_update_time_in_state(gpu_control_is_power_on(pkbdev) * platform->cur_clock);
 
-	for (i = gpu_dvfs_get_level(platform->gpu_min_clock); i >= gpu_dvfs_get_level(platform->gpu_max_clock_limit); i--) {
+	for (i = gpu_dvfs_get_level(platform->gpu_min_clock); i >= gpu_dvfs_get_level(platform->gpu_max_clock); i--) {
 		ret += snprintf(buf+ret, PAGE_SIZE-ret, "%d %llu\n",
 				platform->table[i].clock,
 				platform->table[i].time);
@@ -1099,8 +1097,8 @@ static ssize_t set_min_lock_dvfs(struct device *dev, struct device_attribute *at
 			return -ENOENT;
 		}
 
-		if (clock > platform->gpu_max_clock)
-			clock = platform->gpu_max_clock;
+		if (clock > platform->gpu_max_clock_limit)
+			clock = platform->gpu_max_clock_limit;
 
 		if (clock == platform->gpu_min_clock)
 			gpu_dvfs_clock_lock(GPU_DVFS_MIN_UNLOCK, SYSFS_LOCK, 0);
@@ -1122,7 +1120,7 @@ static ssize_t show_down_staycount(struct device *dev, struct device_attribute *
 		return -ENODEV;
 
 	spin_lock_irqsave(&platform->gpu_dvfs_spinlock, flags);
-	for (i = gpu_dvfs_get_level(platform->gpu_max_clock_limit); i <= gpu_dvfs_get_level(platform->gpu_min_clock); i++)
+	for (i = gpu_dvfs_get_level(platform->gpu_max_clock); i <= gpu_dvfs_get_level(platform->gpu_min_clock); i++)
 		ret += snprintf(buf+ret, PAGE_SIZE-ret, "Clock %d - %d\n",
 			platform->table[i].clock, platform->table[i].down_staycount);
 	spin_unlock_irqrestore(&platform->gpu_dvfs_spinlock, flags);
@@ -1250,8 +1248,8 @@ static ssize_t set_highspeed_clock(struct device *dev, struct device_attribute *
 		return -ENOENT;
 	}
 
-	if (highspeed_clock > platform->gpu_max_clock)
-		highspeed_clock = platform->gpu_max_clock;
+	if (highspeed_clock > platform->gpu_max_clock_limit)
+		highspeed_clock = platform->gpu_max_clock_limit;
 
 	spin_lock_irqsave(&platform->gpu_dvfs_spinlock, flags);
 	platform->interactive.highspeed_clock = highspeed_clock;
@@ -2168,72 +2166,6 @@ static ssize_t set_kernel_sysfs_min_lock_dvfs(struct kobject *kobj, struct kobj_
 	return count;
 }
 
-static ssize_t show_kernel_sysfs_user_max_clock(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
-{
-	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
-
-	sprintf(buf, "%s[gpu_max_clock]   \t[%d]\n\n", buf, platform->gpu_max_clock);
-	return strlen(buf);
-}
-
-static ssize_t set_kernel_sysfs_user_max_clock(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
-{
-	int clock = 0;
-	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
-
-	if (!platform)
-		return -ENODEV;
-
-	if (sscanf(buf, "%d", &clock)) {
-
-		if (clock == 100000 || clock == 156000 || clock == 200000 || clock == 260000 || clock == 325000
-                || clock == 377000 || clock == 433000 || clock == 572000 || clock == 650000 || clock == 702000
-                || clock == 754000) {
-
-			platform->gpu_max_clock = clock;
-		} else {
-			pr_warning("[GPU:] Invaild input\n");
-			return -EINVAL;
-		}
-
-	}
-
-	return count;
-}
-
-static ssize_t show_kernel_sysfs_user_min_clock(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
-{
-	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
-
-	sprintf(buf, "%s[gpu_min_clock]   \t[%d]\n\n", buf, platform->gpu_min_clock);
-	return strlen(buf);
-}
-
-static ssize_t set_kernel_sysfs_user_min_clock(struct kobject *kobj, struct kobj_attribute *attr, const char *buf, size_t count)
-{
-	int clock = 0;
-	struct exynos_context *platform = (struct exynos_context *)pkbdev->platform_context;
-
-	if (!platform)
-		return -ENODEV;
-
-	if (sscanf(buf, "%d", &clock)) {
-
-		if (clock == 100000 || clock == 156000 || clock == 200000 || clock == 260000 || clock == 325000
-                || clock == 377000 || clock == 433000 || clock == 572000 || clock == 650000 || clock == 702000
-                || clock == 754000) {
-
-			platform->gpu_min_clock = clock;
-		} else {
-			pr_warning("[GPU:] Invaild input\n");
-			return -EINVAL;
-		}
-
-	}
-
-	return count;
-}
-
 static ssize_t show_kernel_sysfs_gpu_volt(struct kobject *kobj, struct kobj_attribute *attr, char *buf)
 {
 	ssize_t ret = 0;
@@ -2583,12 +2515,6 @@ static struct kobj_attribute gpu_max_lock_attribute =
 
 static struct kobj_attribute gpu_min_lock_attribute =
 	__ATTR(gpu_min_clock, S_IRUGO|S_IWUSR, show_kernel_sysfs_min_lock_dvfs, set_kernel_sysfs_min_lock_dvfs);
-
-static struct kobj_attribute user_max_clock_attribute =
-	__ATTR(user_max_clock, S_IRUGO|S_IWUSR, show_kernel_sysfs_user_max_clock, set_kernel_sysfs_user_max_clock);
-
-static struct kobj_attribute user_min_clock_attribute =
-	__ATTR(user_min_clock, S_IRUGO|S_IWUSR, show_kernel_sysfs_user_min_clock, set_kernel_sysfs_user_min_clock);
 #endif /* #ifdef CONFIG_MALI_DVFS */
 
 static struct kobj_attribute gpu_busy_attribute =
@@ -2634,8 +2560,6 @@ static struct attribute *attrs[] = {
 	&gpu_busy_attribute.attr,
 	&gpu_clock_attribute.attr,
 	&gpu_freq_table_attribute.attr,
-	&user_max_clock_attribute.attr,
-	&user_min_clock_attribute.attr,
 #ifdef CONFIG_MALI_DVFS
 	&gpu_governor_attribute.attr,
 	&gpu_available_governor_attribute.attr,
