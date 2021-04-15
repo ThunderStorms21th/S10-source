@@ -34,6 +34,9 @@ DTBH_SUBTYPE_CODE=0x20000000
 MAIN()
 {
 (
+    ## COPY BACK CAMERA FILES FOR OneUI 3.x
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-oneui3/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
+
 	START_TIME=`date +%T`
     if [ $MODEL = "G970F" ]; then
     ./build mkimg model=G970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" +dtb
@@ -148,7 +151,7 @@ echo "*   ThunderStorms Kernel Build Script   *"
 echo "*****************************************"
 echo ""
 echo "    CUSTOMIZABLE STOCK SAMSUNG KERNEL"
-echo "              CLANG 6.0.1"
+echo "               GCC 6.0.1"
 echo "            Build Kernel for"
 echo "-----------------------------------------"
 echo "|   S10 / N10 family for OneUI Q ROMs   |"

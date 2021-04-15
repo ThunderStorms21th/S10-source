@@ -32,6 +32,9 @@ DTB_PADDING=0
 MAIN()
 {
 (
+    ## COPY BACK CAMERA FILES FOR OneUI 3.x
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-oneui3/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
+
 	START_TIME=`date +%T`
     if [ $MODEL = "G970F" ]; then
     ./build mkimg model=G970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=proton +dtb
