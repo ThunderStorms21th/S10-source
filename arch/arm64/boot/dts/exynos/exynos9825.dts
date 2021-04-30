@@ -5217,12 +5217,12 @@
 		gpu_min_clock_limit = <0x26160>;
 		gpu_dvfs_start_clock = <0x3f7a0>;
 		gpu_dvfs_bl_config_clock = <0x30d40>;
-		gpu_default_voltage = <0xb8a1a>;        // 0xc3500
+		gpu_default_voltage = <0xb8a1a>;
 		gpu_cold_minimum_vol = <0x0>;
 		gpu_voltage_offset_margin = <0x927c>;
 		gpu_tmu_control = <0x1>;
 		gpu_temp_throttling_level_num = <0x6>;
-		gpu_temp_throttling = <0x8ba60 0x69b68 0x5c0a8 0x4f588 0x3f7a0 0x30d40>;    // <0x9eb10 0x8ba60 0x6f158 0x4f588 0x3f7a0 0x26160>
+		gpu_temp_throttling = <0x8ba60 0x69b68 0x5c0a8 0x4f588 0x3f7a0 0x30d40>;
 		gpu_power_coeff = <0x271>;
 		gpu_dvfs_time_interval = <0x5>;
 		gpu_default_wakeup_lock = <0x1>;
@@ -5522,33 +5522,33 @@
 
 			ananke-energy {
 				capacity-mips = <0x110>;
-				power-coefficient = <0x90>; // <0xa0>
+				power-coefficient = <0xaf>;
 				capacity-mips-s = <0xd7>;
 				power-coefficient-s = <0x82>;
 				capacity-weight = <0x1>;
-				energy-weight = <0x1>;  // <0x1>
+				energy-weight = <0x1>;
 				linux,phandle = <0x4a>;
 				phandle = <0x4a>;
 			};
 
 			prometheus-energy {
 				capacity-mips = <0x213>;
-				power-coefficient = <0x170>;    // <0x140>
+				power-coefficient = <0x140>;
 				capacity-mips-s = <0x15a>;
 				power-coefficient-s = <0x103>;
-				capacity-weight = <0x2>;
-				energy-weight = <0x1>;  // <0x1>
+				capacity-weight = <0x1>;
+				energy-weight = <0x1>;
 				linux,phandle = <0x4c>;
 				phandle = <0x4c>;
 			};
 
 			cheetah-energy {
 				capacity-mips = <0x311>;
-				power-coefficient = <0x35c>;    // <0x2f8>
+				power-coefficient = <0x2f8>;
 				capacity-mips-s = <0x16d>;
 				power-coefficient-s = <0x1fa>;
-				capacity-weight = <0x1>;    // <0x1>
-				energy-weight = <0x3>;  // <0x3>
+				capacity-weight = <0x1>;
+				energy-weight = <0x3>;
 				linux,phandle = <0x4e>;
 				phandle = <0x4e>;
 			};
@@ -5633,7 +5633,7 @@
 
 				coregroup2 {
 					active-ratio-limit = <0x1e>;
-					active-ratio-boost = <0x0>; // <0x0>
+					active-ratio-boost = <0x0>;
 				};
 			};
 
@@ -9678,7 +9678,7 @@
 			emc_mode_0 {
 				mode_name = "QUAD";
 				cpus = "0-7";
-				max_freq = <0x23b4a0>;  // 0x1fbd00
+				max_freq = <0x23b4a0>;
 				boost_cpus = "6-7";
 				change_latency = <0xf>;
 				enabled = <0x1>;
@@ -9688,7 +9688,7 @@
 				mode_name = "DUAL";
 				cpus = "0-3,6-7";
 				boost_cpus = "6-7";
-				max_freq = <0x269ad0>;  // 0x23b4a0
+				max_freq = <0x269ad0>;
 				change_latency = <0x1e>;
 				ldsum_thr = <0x4b0>;
 				enabled = <0x1>;
@@ -9699,7 +9699,7 @@
 				cpus = "0-3,6-7";
 				boost_cpus = [36 00];
 				cal-id = <0xb040004>;
-				max_freq = <0x29a810>;  // 0x29a810
+				max_freq = <0x29a810>;
 				change_latency = <0x1e>;
 				enabled = <0x1>;
 			};
@@ -9711,27 +9711,27 @@
 				domain_name = "LIT";
 				cpus = "0-3";
 				role = <0x0>;
-				cpu_heavy_thr = <0xff>;     // 0xff
+				cpu_heavy_thr = <0xff>;
 				cpu_idle_thr = <0xff>;
-				busy_ratio = <0x41>;        // 0x41
+				busy_ratio = <0x41>;
 			};
 
 			emc_domain_1 {
 				domain_name = "MID";
 				cpus = "4-5";
 				role = <0x1>;
-				cpu_heavy_thr = <0x190>;    // 0x1f4, 12c
+				cpu_heavy_thr = <0x1ff>;
 				cpu_idle_thr = <0xc8>;
-				busy_ratio = <0x10>;        // 0x0
+				busy_ratio = <0x0>;
 			};
 
 			emc_domain_2 {
 				domain_name = "BIG";
 				cpus = "6-7";
 				role = <0x3>;
-				cpu_heavy_thr = <0x12c>;    // 0x28a, 163
+				cpu_heavy_thr = <0x180>;
 				cpu_idle_thr = <0xfa>;
-				busy_ratio = <0x05>;        // 0x0
+				busy_ratio = <0x0>;
 			};
 		};
 	};
@@ -9741,7 +9741,7 @@
 		domain@0 {
 			device_type = "schedutil-domain";
 			shared-cpus = "0-3";
-			enabled = <0x0>;        // 0x0
+			enabled = <0x0>;
 			qos_min_class = <0x3>;
 			linux,phandle = <0x2c5>;
 			phandle = <0x2c5>;
@@ -9773,9 +9773,7 @@
 		domain@0 {
 			device_type = "freqvar-tune";
 			shared-cpus = "0-3";
-			boost_table = <0xa0 0x11a788 0x7b 0x13d620 0x64>;    // 0xa0 0xe7b08 0x7b 0x13d620 0x64
-			// up_rate_limit_table = <0x4>;
-			// down_rate_limit_table = <0x4>;
+			boost_table = <0xa0 0x11a788 0x7b 0x13d620 0x64>;
 			up_rate_limit_table = "UP_RATE_LIMIT_US";
 			down_rate_limit_table = "DOWN_RATE_LIMIT_US";
 			st_table = <0x5>;
@@ -9784,9 +9782,7 @@
 		domain@1 {
 			device_type = "freqvar-tune";
 			shared-cpus = "4-5";
-			boost_table = <0xa0 0x104410 0x7b 0x12a570 0x64>;   // 0xa0 0xeadd0 0x7b 0x12a570 0x64
-			// up_rate_limit_table = <0x4>;
-			// down_rate_limit_table = <0x4>;
+			boost_table = <0xa0 0x104410 0x7b 0x12a570 0x64>;
 			up_rate_limit_table = "UP_RATE_LIMIT_US";
 			down_rate_limit_table = "DOWN_RATE_LIMIT_US";
 			st_table = <0x5>;
@@ -9795,9 +9791,7 @@
 		domain@2 {
 			device_type = "freqvar-tune";
 			shared-cpus = "6-7";
-			boost_table = <0xa0 0x1174c0 0x7b 0x1506d0 0x64>;   // 0xa0 0xe4840 0x7b 0x1506d0 0x64
-			// up_rate_limit_table = <0x4>;
-			// down_rate_limit_table = <0x4>;
+			boost_table = <0xa0 0x1174c0 0x7b 0x1506d0 0x64>;
 			up_rate_limit_table = "UP_RATE_LIMIT_US";
 			down_rate_limit_table = "DOWN_RATE_LIMIT_US";
 			st_table = <0x5>;
@@ -9836,7 +9830,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "4-5";
 			user-default-qos = <0xce4c8>;
-			user-boost = <0x2>; // <0x3>
+			user-boost = <0x3>;
 			ucc-index = <0x1>;
 			user-boost-game = <0x1>;
 
@@ -9857,7 +9851,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "6-7";
 			user-default-qos = <0xe4840>;
-			user-boost = <0x3>; // <0x2>
+			user-boost = <0x3>;
 			ucc-index = <0x2>;
 			user-boost-game = <0x2>;
 
@@ -10191,8 +10185,8 @@
 		tmu_name = "BIG";
 		id = <0x0>;
 		sensors = <0x7c0>;
-		sensing_mode = "max";   // balance, max, min
-		hotplug_enable = <0x0>; // 0x1
+		sensing_mode = "max";
+		hotplug_enable = <0x0>;
 		hotplug_in_threshold = <0x5b>;
 		hotplug_out_threshold = <0x60>;
 		#thermal-sensor-cells = <0x0>;
@@ -10201,7 +10195,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x5f>; // 0x55
+		samsung,tmu_second_point_trim = <0x4a>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10224,7 +10218,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x5f>; // 0x55
+		samsung,tmu_second_point_trim = <0x4a>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10247,7 +10241,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x5f>; // 0x55
+		samsung,tmu_second_point_trim = <0x4a>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10263,14 +10257,14 @@
 		tmu_name = "G3D";
 		id = <0x3>;
 		sensors = <0x21e>;
-		sensing_mode = "max";   // max, balance, min
+		sensing_mode = "max";
 		#thermal-sensor-cells = <0x0>;
 		samsung,tmu_gain = <0x0>;
 		samsung,tmu_reference_voltage = <0x0>;
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x5f>; // 0x55
+		samsung,tmu_second_point_trim = <0x4a>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10293,7 +10287,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x55>; // 0x55
+		samsung,tmu_second_point_trim = <0x4a>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10314,7 +10308,7 @@
 			polling-delay = <0x3e8>;
 			thermal-sensors = <0x10c>;
 			governor = "power_allocator";
-			sustainable-power = <0x0>;
+			sustainable-power = <0x1>;
 			k_po = <0x0>;
 			k_pu = <0x0>;
 			k_i = <0x0>;
@@ -10334,7 +10328,7 @@
 				};
 
 				big-switch-on {
-					temperature = <0xc350>;
+					temperature = <0xc3a0>;
 					hysteresis = <0x7d0>;
 					type = "active";
 					linux,phandle = <0x2d2>;
@@ -10342,7 +10336,7 @@
 				};
 
 				big-control-temp {
-					temperature = <0xfde8>;
+					temperature = <0xea60>;
 					hysteresis = <0x1388>;
 					type = "passive";
 					linux,phandle = <0x10d>;
@@ -10350,7 +10344,7 @@
 				};
 
 				big-alert0 {
-					temperature = <0x11940>;
+					temperature = <0x111a0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d3>;
@@ -10358,7 +10352,7 @@
 				};
 
 				big-alert1 {
-					temperature = <0x14050>;
+					temperature = <0x138a0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d4>;
@@ -10366,7 +10360,7 @@
 				};
 
 				big-alert2 {
-					temperature = <0x16760>;
+					temperature = <0x15fa0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d5>;
@@ -10374,7 +10368,7 @@
 				};
 
 				big-alert3 {
-					temperature = <0x17ae8>;
+					temperature = <0x17358>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d6>;
@@ -10425,7 +10419,7 @@
 				};
 
 				mid-switch-on {
-					temperature = <0xcf08>;
+					temperature = <0xd6f8>;
 					hysteresis = <0x7d0>;
 					type = "active";
 					linux,phandle = <0x2da>;
@@ -10441,7 +10435,7 @@
 				};
 
 				mid-alert0 {
-					temperature = <0x14c08>;
+					temperature = <0x17358>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2db>;
@@ -10449,7 +10443,7 @@
 				};
 
 				mid-alert1 {
-					temperature = <0x15f90>;
+					temperature = <0x186f0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2dc>;
@@ -10457,7 +10451,7 @@
 				};
 
 				mid-alert2 {
-					temperature = <0x17318>;
+					temperature = <0x19a78>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2dd>;
@@ -10465,7 +10459,7 @@
 				};
 
 				mid-alert3 {
-					temperature = <0x186a0>;
+					temperature = <0x1adf0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2de>;
