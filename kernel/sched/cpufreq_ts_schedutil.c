@@ -274,11 +274,12 @@ static int sugov_select_scaling_cpu(void)
 	/* Idle core of the boot cluster is selected to scaling cpu */
 	for_each_cpu(cpu, &mask) {
 		rt = sched_get_rt_rq_util(cpu);
-#ifdef CONFIG_SCHED_EMS
-		util = ml_boosted_cpu_util(cpu) + rt;
-#else
+
+// #ifdef CONFIG_SCHED_EMS
+//		util = ml_boosted_cpu_util(cpu) + rt;
+// #else
 		util = boosted_cpu_util(cpu, rt);
-#endif
+// #endif
 		if (util < min) {
 			min = util;
 			candidate = cpu;
