@@ -373,7 +373,8 @@ static unsigned int get_next_freq(struct sugov_policy *sg_policy,
 	RV_DECLARE(rv);
 #endif
 
-	freq = (freq + (freq >> 2)) * util / max;
+	// freq = (freq + (freq >> 2)) * util / max;
+	freq = freq * util / max;
 
 #ifdef CONFIG_SCHED_KAIR_GLUE
 	legacy_freq = freq;
@@ -447,6 +448,7 @@ static void sugov_get_util(unsigned long *util, unsigned long *max, int cpu)
 	*util = boosted_cpu_util(cpu, rt);
 #endif
 	*util = freqvar_boost_vector(cpu, *util);
+	*util = *util + (*util >> 2);
 	*util = min(*util, max_cap);
 	*max = max_cap;
 
