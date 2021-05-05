@@ -582,6 +582,7 @@ static void sugov_update_shared(struct update_util_data *hook, u64 time,
 	struct sugov_policy *sg_policy = sg_cpu->sg_policy;
 	unsigned long util, max;
 	unsigned int next_f;
+	unsigned int cached_freq = sg_policy->cached_raw_freq;
 
 	sugov_get_util(&util, &max, sg_cpu->cpu);
 
@@ -605,6 +606,9 @@ static void sugov_update_shared(struct update_util_data *hook, u64 time,
 			next_f = sg_policy->policy->cpuinfo.max_freq;
 		else
 			next_f = sugov_next_freq_shared(sg_cpu, time);
+
+		/* Restore cached freq as next_freq has changed */
+		sg_policy->cached_raw_freq = cached_freq;
 
 		sugov_update_commit(sg_policy, time, next_f);
 	}
