@@ -40,7 +40,7 @@ DECLARE_KAIRISTICS(cpufreq, 32, 25, 24, 25);
 
 unsigned long boosted_cpu_util(int cpu, unsigned long other_util);
 /* KTHREAD PRIOR - default 50 */
-#define SUGOV_KTHREAD_PRIORITY	60
+// #define SUGOV_KTHREAD_PRIORITY	60
 #define UP_RATE_LIMIT_US 5000
 #define DOWN_RATE_LIMIT_US 4000
 
