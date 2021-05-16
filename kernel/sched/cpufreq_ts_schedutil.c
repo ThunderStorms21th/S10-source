@@ -7,11 +7,6 @@
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
- *
- * Modded by @XDA nalas - added some Linux 4.9.xx stuff :
- * - bit_shift
- * - taget_load
- * - separately UP_RATE_LIMIT_US and DOWN_RATE_LIMIT_US 
  */
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
@@ -45,26 +40,14 @@ DECLARE_KAIRISTICS(cpufreq, 32, 25, 24, 25);
 
 unsigned long boosted_cpu_util(int cpu, unsigned long other_util);
 /* KTHREAD PRIOR - default 50 */
-#define SUGOV_KTHREAD_PRIORITY	25
-#define UP_RATE_LIMIT_US 5000
+#define SUGOV_KTHREAD_PRIORITY 75
+#define UP_RATE_LIMIT_US 4000
 #define DOWN_RATE_LIMIT_US 4000
-
-#define BIT_SHIFT_1 6
-#define BIT_SHIFT_1_2 4
-#define BIT_SHIFT_2 4
-#define TARGET_LOAD_1 50
-#define TARGET_LOAD_2 90
-#define TARGET_LOAD 90
 
 struct sugov_tunables {
 	struct gov_attr_set attr_set;
 	unsigned int up_rate_limit_us;
 	unsigned int down_rate_limit_us;
-	unsigned int target_load1;
-	unsigned int target_load2;
-	unsigned int bit_shift1;
-	unsigned int bit_shift1_2;
-	unsigned int bit_shift2;
 	bool iowait_boost_enable;
 #ifdef CONFIG_SCHED_KAIR_GLUE
 	bool fb_legacy;
@@ -289,11 +272,11 @@ static int sugov_select_scaling_cpu(void)
 	for_each_cpu(cpu, &mask) {
 		rt = sched_get_rt_rq_util(cpu);
 
-// #ifdef CONFIG_SCHED_EMS
-//		util = ml_boosted_cpu_util(cpu) + rt;
-// #else
+#ifdef CONFIG_SCHED_EMS
+		util = ml_boosted_cpu_util(cpu) + rt;
+#else
 		util = boosted_cpu_util(cpu, rt);
-// #endif
+#endif
 		if (util < min) {
 			min = util;
 			candidate = cpu;
@@ -369,7 +352,6 @@ static unsigned int get_next_freq(struct sugov_policy *sg_policy,
 				  unsigned long util, unsigned long max)
 {
 	struct cpufreq_policy *policy = sg_policy->policy;
-	struct sugov_tunables *tunables = sg_policy->tunables;
 	unsigned int freq = arch_scale_freq_invariant() ?
 				policy->max : policy->cur;
 #ifdef CONFIG_SCHED_KAIR_GLUE
@@ -390,16 +372,6 @@ static unsigned int get_next_freq(struct sugov_policy *sg_policy,
 
 	// freq = (freq + (freq >> 2)) * util / max;
 	freq = freq * util / max;
-
-	unsigned long load = freq * util / max;
-
-	if(load < tunables->target_load1){
-		freq = (freq + (freq >> tunables->bit_shift1)) * util / max;
-	} else if (load >= tunables->target_load1 && load < tunables->target_load2){
-		freq = (freq + (freq >> tunables->bit_shift1_2)) * util / max;
-	} else {
-		freq = (freq - (freq >> tunables->bit_shift2)) * util / max;
-	}
 
 #ifdef CONFIG_SCHED_KAIR_GLUE
 	legacy_freq = freq;
@@ -463,6 +435,7 @@ skip_betting:
 static void sugov_get_util(unsigned long *util, unsigned long *max, int cpu)
 {
 	unsigned long max_cap, rt;
+    int t = 2;  // default is 2
 
 	max_cap = arch_scale_cpu_capacity(NULL, cpu);
 
@@ -474,7 +447,7 @@ static void sugov_get_util(unsigned long *util, unsigned long *max, int cpu)
 	*util = boosted_cpu_util(cpu, rt);
 #endif
 	*util = freqvar_boost_vector(cpu, *util);
-	*util = *util + (*util >> 2);
+	*util = *util + (*util >> t);
 	*util = min(*util, max_cap);
 	*max = max_cap;
 
@@ -651,7 +624,7 @@ static void sugov_work(struct kthread_work *work)
 	down_write(&sg_policy->policy->rwsem);
 	mutex_lock(&sg_policy->work_lock);
 	__cpufreq_driver_target(sg_policy->policy, sg_policy->next_freq,
-				CPUFREQ_RELATION_L);
+				CPUFREQ_RELATION_C);    // default L, C and H
 	mutex_unlock(&sg_policy->work_lock);
 	up_write(&sg_policy->policy->rwsem);
 
@@ -738,141 +711,6 @@ static inline struct sugov_tunables *to_sugov_tunables(struct gov_attr_set *attr
 }
 
 static DEFINE_MUTEX(min_rate_lock);
-
-static ssize_t bit_shift1_show(struct gov_attr_set *attr_set, char *buf)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-
-	return sprintf(buf, "%u\n", tunables->bit_shift1);
-}
-
-static ssize_t bit_shift1_2_show(struct gov_attr_set *attr_set, char *buf)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-
-	return sprintf(buf, "%u\n", tunables->bit_shift1_2);
-}
-
-static ssize_t bit_shift2_show(struct gov_attr_set *attr_set, char *buf)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-
-	return sprintf(buf, "%u\n", tunables->bit_shift2);
-}
-
-static ssize_t target_load1_show(struct gov_attr_set *attr_set, char *buf)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-
-	return sprintf(buf, "%u\n", tunables->target_load1);
-}
-
-static ssize_t target_load2_show(struct gov_attr_set *attr_set, char *buf)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-
-	return sprintf(buf, "%u\n", tunables->target_load2);
-}
-
-static ssize_t bit_shift1_store(struct gov_attr_set *attr_set,
-					const char *buf, size_t count)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-	int value;
-
-	if (kstrtouint(buf, 10, &value))
-		return -EINVAL;
-
-	value = min(max(0,value), 10);
-	
-	
-	if (value == tunables->bit_shift1)
-		return count;
-		
-	tunables->bit_shift1 = value;
-	
-	return count;
-}
-
-static ssize_t bit_shift1_2_store(struct gov_attr_set *attr_set,
-					const char *buf, size_t count)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-	int value;
-
-	if (kstrtouint(buf, 10, &value))
-		return -EINVAL;
-
-	value = min(max(0,value), 10);
-	
-	
-	if (value == tunables->bit_shift1_2)
-		return count;
-		
-	tunables->bit_shift1_2 = value;
-	
-	return count;
-}
-
-static ssize_t bit_shift2_store(struct gov_attr_set *attr_set,
-					const char *buf, size_t count)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-	int value;
-
-	if (kstrtouint(buf, 10, &value))
-		return -EINVAL;
-
-	value = min(max(0,value), 10);
-	
-	
-	if (value == tunables->bit_shift2)
-		return count;
-		
-	tunables->bit_shift2 = value;
-	
-	return count;
-}
-
-static ssize_t target_load1_store(struct gov_attr_set *attr_set,
-					const char *buf, size_t count)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-	int value;
-
-	if (kstrtouint(buf, 10, &value))
-		return -EINVAL;
-
-	value = min(max(0,value), 100);
-	
-	
-	if (value == tunables->target_load1)
-		return count;
-		
-	tunables->target_load1 = value;
-	
-	return count;
-}
-
-static ssize_t target_load2_store(struct gov_attr_set *attr_set,
-					const char *buf, size_t count)
-{
-	struct sugov_tunables *tunables = to_sugov_tunables(attr_set);
-	int value;
-
-	if (kstrtouint(buf, 10, &value))
-		return -EINVAL;
-
-	value = min(max(0,value), 100);
-	
-	
-	if (value == tunables->target_load2)
-		return count;
-		
-	tunables->target_load2 = value;
-	
-	return count;
-}
 
 static void update_min_rate_limit_ns(struct sugov_policy *sg_policy)
 {
@@ -981,11 +819,6 @@ static ssize_t fb_legacy_store(struct gov_attr_set *attr_set, const char *buf,
 
 static struct governor_attr up_rate_limit_us = __ATTR_RW(up_rate_limit_us);
 static struct governor_attr down_rate_limit_us = __ATTR_RW(down_rate_limit_us);
-static struct governor_attr bit_shift1 = __ATTR_RW(bit_shift1);
-static struct governor_attr bit_shift1_2 = __ATTR_RW(bit_shift1_2);
-static struct governor_attr bit_shift2 = __ATTR_RW(bit_shift2);
-static struct governor_attr target_load1 = __ATTR_RW(target_load1);
-static struct governor_attr target_load2 = __ATTR_RW(target_load2);
 static struct governor_attr iowait_boost_enable = __ATTR_RW(iowait_boost_enable);
 #ifdef CONFIG_SCHED_KAIR_GLUE
 static struct governor_attr fb_legacy = __ATTR_RW(fb_legacy);
@@ -994,11 +827,6 @@ static struct governor_attr fb_legacy = __ATTR_RW(fb_legacy);
 static struct attribute *sugov_attributes[] = {
 	&up_rate_limit_us.attr,
 	&down_rate_limit_us.attr,
-	&bit_shift1.attr,
-	&bit_shift1_2.attr,
-	&bit_shift2.attr,
-	&target_load1.attr,
-	&target_load2.attr,
 	&iowait_boost_enable.attr,
 #ifdef CONFIG_SCHED_KAIR_GLUE
 	&fb_legacy.attr,
@@ -1036,7 +864,7 @@ static void sugov_policy_free(struct sugov_policy *sg_policy)
 static int sugov_kthread_create(struct sugov_policy *sg_policy)
 {
 	struct task_struct *thread;
-	struct sched_param param = { .sched_priority = MAX_USER_RT_PRIO / 2 };
+	struct sched_param param = { .sched_priority = MAX_USER_RT_PRIO - 1 };
 	struct cpufreq_policy *policy = sg_policy->policy;
 	int ret;
 
@@ -1117,11 +945,6 @@ static void sugov_tunables_save(struct cpufreq_policy *policy,
 	}
  	cached->up_rate_limit_us = tunables->up_rate_limit_us;
 	cached->down_rate_limit_us = tunables->down_rate_limit_us;
-	cached->bit_shift1 = tunables->bit_shift1;
-	cached->bit_shift1_2 = tunables->bit_shift1_2;
-	cached->bit_shift2 = tunables->bit_shift2;
-	cached->target_load1 = tunables->target_load1;
-	cached->target_load2 = tunables->target_load2;
 }
 
 static void sugov_tunables_free(struct sugov_tunables *tunables)
@@ -1141,11 +964,6 @@ static void sugov_tunables_restore(struct cpufreq_policy *policy)
 		return;
  	tunables->up_rate_limit_us = cached->up_rate_limit_us;
 	tunables->down_rate_limit_us = cached->down_rate_limit_us;
-	tunables->bit_shift1 = cached->bit_shift1;
-	tunables->bit_shift1_2 = cached->bit_shift1_2;
-	tunables->bit_shift2 = cached->bit_shift2;
-	tunables->target_load1 = cached->target_load1;
-	tunables->target_load2 = cached->target_load2;
 	sg_policy->up_rate_delay_ns =
 		tunables->up_rate_limit_us * NSEC_PER_USEC;
 	sg_policy->down_rate_delay_ns =
@@ -1204,11 +1022,6 @@ tunables_init:
 
 	tunables->up_rate_limit_us = UP_RATE_LIMIT_US;
 	tunables->down_rate_limit_us = DOWN_RATE_LIMIT_US;
-	tunables->bit_shift1 = BIT_SHIFT_1;
-	tunables->bit_shift1_2 = BIT_SHIFT_1_2;
-	tunables->bit_shift2 = BIT_SHIFT_2;
-	tunables->target_load1 = TARGET_LOAD_1;
-	tunables->target_load2 = TARGET_LOAD_2;
 	tunables->iowait_boost_enable = policy->iowait_boost_enable;
 #ifdef CONFIG_SCHED_KAIR_GLUE
 	tunables->fb_legacy = true;
@@ -1590,7 +1403,7 @@ static int sugov_pm_qos_callback(struct notifier_block *nb,
 		return NOTIFY_BAD;
 	}
 
-	cpufreq_driver_target(policy, next_freq, CPUFREQ_RELATION_L);
+	cpufreq_driver_target(policy, next_freq, CPUFREQ_RELATION_C);   // default - L, C, H
 
 	cpufreq_cpu_put(policy);
 
