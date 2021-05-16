@@ -34,7 +34,7 @@ rm -f $LOG
 	# deepsleep fix
 	echo "## -- DeepSleep Fix" >> $LOG;
 
-    # dmesg -n 1 -C
+    dmesg -n 1 -C
 	echo "N" > /sys/kernel/debug/debug_enabled
 	echo "N" > /sys/kernel/debug/seclog/seclog_debug
 	echo "0" > /sys/kernel/debug/tracing/tracing_on
@@ -97,7 +97,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # CPU HOTPLUG (0/N = Disabled, 1/Y = Enabled)
-    echo "N" > /sys/module/workqueue/parameters/power_efficient
+    echo "Y" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -118,7 +118,7 @@ rm -f $LOG
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
     echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    echo "2400000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
@@ -143,18 +143,18 @@ rm -f $LOG
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "4" > /sys/module/sec_battery/parameters/wl_polling
+    echo "5" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "896" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "512" > /proc/sys/kernel/random/write_wakeup_threshold
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
-    echo "95" > /proc/sys/vm/vfs_cache_pressure
+    echo "80" > /proc/sys/vm/vfs_cache_pressure
     echo "0" > /proc/sys/vm/swappiness
-    echo "600" > /proc/sys/vm/dirty_writeback_centisecs
-    echo "800" > /proc/sys/vm/dirty_expire_centisecs
+    echo "800" > /proc/sys/vm/dirty_writeback_centisecs
+    echo "1200" > /proc/sys/vm/dirty_expire_centisecs
     echo "50" > /proc/sys/vm/overcommit_ratio
 
     # Battery
@@ -183,9 +183,9 @@ rm -f $LOG
     echo "100000" > /sys/kernel/gpu/gpu_min_clock
     echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
     echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
-    echo "433000" > /sys/devices/platform/18500000.mali/highspeed_clock
-    echo "85" > /sys/devices/platform/18500000.mali/highspeed_load
-    echo "0" > /sys/devices/platform/18500000.mali/highspeed_delay
+    echo "325000" > /sys/devices/platform/18500000.mali/highspeed_clock
+    echo "90" > /sys/devices/platform/18500000.mali/highspeed_load
+    echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
 
    # Misc settings : bbr2, bbr, cubic or westwood
    echo "westwood" > /proc/sys/net/ipv4/tcp_congestion_control
@@ -197,9 +197,9 @@ rm -f $LOG
    # echo "1" > /sys/kernel/power_suspend/power_suspend_state
 
    # I/O sched settings
-   echo "noop" > /sys/block/sda/queue/scheduler
+   echo "cfq" > /sys/block/sda/queue/scheduler
    # echo "256" > /sys/block/sda/queue/read_ahead_kb
-   echo "noop" > /sys/block/mmcblk0/queue/scheduler
+   echo "cfq" > /sys/block/mmcblk0/queue/scheduler
    # echo "256" > /sys/block/mmcblk0/queue/read_ahead_kb
    echo "0" > /sys/block/sda/queue/iostats
    echo "0" > /sys/block/mmcblk0/queue/iostats
@@ -210,7 +210,7 @@ rm -f $LOG
 
    ## Kernel Stune
    # GLOBAL
-   echo "8" > /dev/stune/schedtune.boost
+   echo "5" > /dev/stune/schedtune.boost
    echo "0" > /dev/stune/schedtune.band
    echo "0" > /dev/stune/schedtune.prefer_idle
    echo "0" > /dev/stune/schedtune.prefer_perf  # 1
