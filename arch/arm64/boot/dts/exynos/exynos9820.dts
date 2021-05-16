@@ -5217,7 +5217,7 @@
 		gpu_min_clock_limit = <0x186a0>;
 		gpu_dvfs_start_clock = <0x3f7a0>;
 		gpu_dvfs_bl_config_clock = <0x30d40>;
-		gpu_default_voltage = <0xc3500>;
+		gpu_default_voltage = <0xbd358>;
 		gpu_cold_minimum_vol = <0x0>;
 		gpu_voltage_offset_margin = <0x927c>;
 		gpu_tmu_control = <0x1>;
@@ -5536,8 +5536,8 @@
 				power-coefficient = <0x140>;
 				capacity-mips-s = <0x15a>;
 				power-coefficient-s = <0x103>;
-				capacity-weight = <0x2>;
-				energy-weight = <0x1>;
+				capacity-weight = <0x2>;    // 0x1
+				energy-weight = <0x2>;      // 0x1
 				linux,phandle = <0x4c>;
 				phandle = <0x4c>;
 			};
@@ -9678,7 +9678,7 @@
 			emc_mode_0 {
 				mode_name = "QUAD";
 				cpus = "0-7";
-				max_freq = <0x23b4a0>;
+				max_freq = <0x1fbd00>;
 				boost_cpus = "6-7";
 				change_latency = <0xf>;
 				enabled = <0x1>;
@@ -9688,7 +9688,7 @@
 				mode_name = "DUAL";
 				cpus = "0-3,6-7";
 				boost_cpus = "6-7";
-				max_freq = <0x269ad0>;
+				max_freq = <0x23b4a0>;
 				change_latency = <0x1e>;
 				ldsum_thr = <0x4b0>;
 				enabled = <0x1>;
@@ -9720,7 +9720,7 @@
 				domain_name = "MID";
 				cpus = "4-5";
 				role = <0x1>;
-				cpu_heavy_thr = <0x1ff>;
+				cpu_heavy_thr = <0x1f4>;
 				cpu_idle_thr = <0xc8>;
 				busy_ratio = <0x0>;
 			};
@@ -9729,7 +9729,7 @@
 				domain_name = "BIG";
 				cpus = "6-7";
 				role = <0x3>;
-				cpu_heavy_thr = <0x180>;
+				cpu_heavy_thr = <0x163>;
 				cpu_idle_thr = <0xfa>;
 				busy_ratio = <0x0>;
 			};
@@ -9851,7 +9851,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "6-7";
 			user-default-qos = <0xe4840>;
-			user-boost = <0x3>;
+			user-boost = <0x2>;
 			ucc-index = <0x2>;
 			user-boost-game = <0x2>;
 
@@ -10195,7 +10195,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x4d>;
+		samsung,tmu_second_point_trim = <0x50>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10218,7 +10218,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x4d>;
+		samsung,tmu_second_point_trim = <0x50>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10241,7 +10241,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x4d>;
+		samsung,tmu_second_point_trim = <0x50>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10264,7 +10264,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x4d>;
+		samsung,tmu_second_point_trim = <0x50>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10287,7 +10287,7 @@
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
 		samsung,tmu_first_point_trim = <0x19>;
-		samsung,tmu_second_point_trim = <0x4d>;
+		samsung,tmu_second_point_trim = <0x50>;
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
 		samsung,tmu_cal_type = <0x0>;
@@ -10328,7 +10328,7 @@
 				};
 
 				big-switch-on {
-					temperature = <0xc3a0>;
+					temperature = <0xc360>;
 					hysteresis = <0x7d0>;
 					type = "active";
 					linux,phandle = <0x2d2>;
@@ -10344,7 +10344,7 @@
 				};
 
 				big-alert0 {
-					temperature = <0x111a0>;
+					temperature = <0x11180>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d3>;
@@ -10352,7 +10352,7 @@
 				};
 
 				big-alert1 {
-					temperature = <0x138a0>;
+					temperature = <0x13890>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d4>;
@@ -10360,7 +10360,7 @@
 				};
 
 				big-alert2 {
-					temperature = <0x15fa0>;
+					temperature = <0x15f95>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d5>;
@@ -10368,7 +10368,7 @@
 				};
 
 				big-alert3 {
-					temperature = <0x17358>;
+					temperature = <0x17338>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2d6>;
@@ -10419,7 +10419,7 @@
 				};
 
 				mid-switch-on {
-					temperature = <0xd6f8>;
+					temperature = <0xd6e8>;
 					hysteresis = <0x7d0>;
 					type = "active";
 					linux,phandle = <0x2da>;
@@ -10435,7 +10435,7 @@
 				};
 
 				mid-alert0 {
-					temperature = <0x17358>;
+					temperature = <0x17338>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2db>;
@@ -10443,7 +10443,7 @@
 				};
 
 				mid-alert1 {
-					temperature = <0x186f0>;
+					temperature = <0x186c0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2dc>;
@@ -10451,7 +10451,7 @@
 				};
 
 				mid-alert2 {
-					temperature = <0x19a78>;
+					temperature = <0x19a58>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2dd>;
@@ -10459,7 +10459,7 @@
 				};
 
 				mid-alert3 {
-					temperature = <0x1adf0>;
+					temperature = <0x1add0>;
 					hysteresis = <0x1388>;
 					type = "active";
 					linux,phandle = <0x2de>;
