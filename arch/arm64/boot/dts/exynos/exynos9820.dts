@@ -5536,7 +5536,7 @@
 				power-coefficient = <0x140>;
 				capacity-mips-s = <0x15a>;
 				power-coefficient-s = <0x103>;
-				capacity-weight = <0x2>;    // 0x1
+				capacity-weight = <0x1>;    // 0x1
 				energy-weight = <0x2>;      // 0x1
 				linux,phandle = <0x4c>;
 				phandle = <0x4c>;
@@ -9821,7 +9821,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "0-3";
 			user-default-qos = <0xc4c70>;
-			user-boost = <0x0>;
+			user-boost = <0x0>; // 0x0
 			ucc-index = <0x0>;
 			user-boost-game = <0x0>;
 		};
@@ -9830,7 +9830,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "4-5";
 			user-default-qos = <0xce4c8>;
-			user-boost = <0x3>;
+			user-boost = <0x2>; // 0x3
 			ucc-index = <0x1>;
 			user-boost-game = <0x1>;
 
@@ -9851,7 +9851,7 @@
 			device_type = "cpufreq-userctrl";
 			shared-cpus = "6-7";
 			user-default-qos = <0xe4840>;
-			user-boost = <0x2>;
+			user-boost = <0x2>; // 0x2
 			ucc-index = <0x2>;
 			user-boost-game = <0x2>;
 
@@ -10186,7 +10186,7 @@
 		id = <0x0>;
 		sensors = <0x7c0>;
 		sensing_mode = "max";   // min, mid, max
-		hotplug_enable = <0x1>; // 0x1
+		hotplug_enable = <0x0>; // 0x1
 		hotplug_in_threshold = <0x5b>;
 		hotplug_out_threshold = <0x60>;
 		#thermal-sensor-cells = <0x0>;
