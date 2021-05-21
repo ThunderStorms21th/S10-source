@@ -82,14 +82,6 @@ on init
     chown radio system /sys/kernel/ems/ontime/coregroup1/coverage_ratio
     chown radio system /sys/kernel/ems/lbt/overutil_ratio_level0
     chown radio system /sys/kernel/ems/lbt/overutil_ratio_level1
-    chown radio system /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_boost
-    chown radio system /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_up_rate_limit
-    chown radio system /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_down_rate_limit
-    chown radio system /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_upscale_ratio
-    chown radio system /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_boost
-    chown radio system /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_up_rate_limit
-    chown radio system /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_down_rate_limit
-    chown radio system /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_upscale_ratio
 
     chmod 664 /dev/cpuset/top-app/cpus
     chmod 664 /dev/cpuset/foreground/cpus
@@ -124,17 +116,6 @@ on init
     chmod 0664 /sys/kernel/ems/ontime/coregroup1/coverage_ratio
     chmod 0664 /sys/kernel/ems/lbt/overutil_ratio_level0
     chmod 0664 /sys/kernel/ems/lbt/overutil_ratio_level1
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_boost
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_up_rate_limit
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_down_rate_limit
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy0/schedutil/freqvar_upscale_ratio
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_boost
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_up_rate_limit
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_down_rate_limit
-    chmod 0664 /sys/devices/system/cpu/cpufreq/policy4/schedutil/freqvar_upscale_ratio
-
-    chown radio system /sys/kernel/ems/eff_mode
-    chmod 0644 /sys/kernel/ems/eff_mode
 
 
 on boot
@@ -145,7 +126,7 @@ on boot
    write /dev/cpuset/foreground/cpus 0-5
    write /dev/cpuset/background/cpus 1-3
    # Restricted was 1-2
-   write /dev/cpuset/restricted/cpus 1-3
+   # write /dev/cpuset/restricted/cpus 1-3
    write /dev/cpuset/system-background/cpus 0-3
    write /sys/bus/workqueue/devices/writeback/cpumask 1
    # CPU EFF_mode (default is 0)
@@ -158,7 +139,7 @@ on boot
    # VM
    write /proc/sys/vm/dirty_expire_centisecs 1200
    write /proc/sys/vm/dirty_writeback_centisecs 800
-   write /proc/sys/vm/vfs_cache_pressure 80
+   write /proc/sys/vm/vfs_cache_pressure 85
    # MISC
    write > /sys/module/mmc_core/parameters/use_spi_crc N
    # Boeffla wakelocks
@@ -176,7 +157,7 @@ on boot
     setprop ro.debuggable 0
     setprop hwui.render_dirty_regions false
     # setprop debug.gr.numframebuffers 3
-    # setprop debug.egl.swapinterval -60
+    setprop debug.egl.swapinterval -60
     setprop debug.gr.swapinterval 0
     setprop ro.config.hw_power_saving 1
     setprop persist.sys.ui.hw 1
@@ -223,7 +204,7 @@ on boot
     setprop ro.mot.buttonlight.timeout 0
 
 ## VM
-    write /proc/sys/vm/page-cluster 0
+    write /proc/sys/vm/page-cluster 1
 
 #   stop logd
 

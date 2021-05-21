@@ -97,7 +97,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # CPU HOTPLUG (0/N = Disabled, 1/Y = Enabled)
-    echo "Y" > /sys/module/workqueue/parameters/power_efficient
+    echo "N" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -143,7 +143,7 @@ rm -f $LOG
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "5" > /sys/module/sec_battery/parameters/wl_polling
+    echo "3" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
@@ -151,11 +151,11 @@ rm -f $LOG
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
-    echo "80" > /proc/sys/vm/vfs_cache_pressure
+    echo "85" > /proc/sys/vm/vfs_cache_pressure
     echo "0" > /proc/sys/vm/swappiness
     echo "800" > /proc/sys/vm/dirty_writeback_centisecs
     echo "1200" > /proc/sys/vm/dirty_expire_centisecs
-    echo "50" > /proc/sys/vm/overcommit_ratio
+    echo "60" > /proc/sys/vm/overcommit_ratio
 
     # Battery
     echo "1700" > /sys/devices/platform/battery/wc_input
@@ -184,7 +184,7 @@ rm -f $LOG
     echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
     echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
     echo "325000" > /sys/devices/platform/18500000.mali/highspeed_clock
-    echo "90" > /sys/devices/platform/18500000.mali/highspeed_load
+    echo "95" > /sys/devices/platform/18500000.mali/highspeed_load
     echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
 
    # Misc settings : bbr2, bbr, cubic or westwood
@@ -205,15 +205,15 @@ rm -f $LOG
    echo "0" > /sys/block/mmcblk0/queue/iostats
    echo "1" > /sys/block/sda/queue/rq_affinity
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
-   echo "128" > /sys/block/sda/queue/nr_requests
-   echo "128" > /sys/block/mmcblk0/queue/nr_requests
+   echo "256" > /sys/block/sda/queue/nr_requests
+   echo "256" > /sys/block/mmcblk0/queue/nr_requests
 
    ## Kernel Stune
    # GLOBAL
    echo "5" > /dev/stune/schedtune.boost
    echo "0" > /dev/stune/schedtune.band
    echo "0" > /dev/stune/schedtune.prefer_idle
-   echo "0" > /dev/stune/schedtune.prefer_perf  # 1
+   echo "1" > /dev/stune/schedtune.prefer_perf  # 1
    echo "0" > /dev/stune/schedtune.util_est_en
    echo "0" > /dev/stune/schedtune.ontime_en
    # TOP-APP
@@ -224,10 +224,10 @@ rm -f $LOG
    # echo "1" > /dev/stune/top-app/schedtune.ontime_en
 
    ## Kernel Scheduler
-   echo "1500000" > /proc/sys/kernel/sched_wakeup_granularity_ns
+   echo "2000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
    echo "10000000" > /proc/sys/kernel/sched_latency_ns
-   echo "650000" > /proc/sys/kernel/sched_min_granularity_ns
-   echo "800000" > /proc/sys/kernel/sched_migration_cost_ns
+   echo "550000" > /proc/sys/kernel/sched_min_granularity_ns
+   echo "1000000" > /proc/sys/kernel/sched_migration_cost_ns
    echo "1000000" > /proc/sys/kernel/sched_rt_period_us
 
    # CPU EFF_mode
