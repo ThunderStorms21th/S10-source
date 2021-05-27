@@ -5217,9 +5217,9 @@
 		gpu_min_clock_limit = <0x26160>;
 		gpu_dvfs_start_clock = <0x3f7a0>;
 		gpu_dvfs_bl_config_clock = <0x30d40>;
-		gpu_default_voltage = <0xbd358>;
+		gpu_default_voltage = <0xba284>;
 		gpu_cold_minimum_vol = <0x0>;
-		gpu_voltage_offset_margin = <0x927c>;
+		gpu_voltage_offset_margin = <0x186a>;   // 0x927c
 		gpu_tmu_control = <0x1>;
 		gpu_temp_throttling_level_num = <0x6>;
 		gpu_temp_throttling = <0x9eb10 0x8ba60 0x69b68 0x5c0a8 0x4f588 0x3f7a0>;    // <0x8ba60 0x69b68 0x5c0a8 0x4f588 0x3f7a0 0x30d40>
@@ -5237,7 +5237,7 @@
 		gpu_pmqos_mif_max_clock = <0x1ff3b0>;
 		gpu_pmqos_mif_max_clock_base = <0x9eb10>;
 		gpu_cl_dvfs_start_base = <0x5c0a8>;
-		gpu_debug_level = <0x3>;
+		gpu_debug_level = <0x1>;    // 0x3
 		gpu_trace_level = <0x8>;
 		gpu_mo_min_clock = <0x5c0a8>;
 		gpu_boost_gpu_min_lock = <0x0>;
