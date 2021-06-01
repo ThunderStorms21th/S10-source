@@ -44,9 +44,8 @@ static int headphone_gain_l, headphone_gain_r, earpiece_gain, eq_gains[5],
 	mic_down_gain, mic_up_gain, mic_hp_gain;
 
 // Mixers
-static int out1l_mix_source, out1r_mix_source, out3l_mix_source, out3r_mix_source,
+static int out2l_mix_source, out2r_mix_source, out3l_mix_source, out3r_mix_source,
 	eq1_mix_source, eq2_mix_source;
-
 
 /*****************************************/
 // Internal function declarations
@@ -75,7 +74,7 @@ static bool bool_check(int bool);
 static unsigned int get_value(int reg, int mask, int shift)
 {
 	unsigned int val;
-
+    
 	moon_read(reg, &val);
 	val &= mask;
 	val >>= shift;
@@ -101,15 +100,15 @@ static void set_eq(bool reset)
 		eq1_mix_source = 32;	// EQ1 -> AIF1 RX1 left
 		eq2_mix_source = 33;	// EQ2 -> AIF1 RX2 right
 
-		out1l_mix_source = 80;	// OUT1L -> EQ1 left
-		out1r_mix_source = 81;	// OUT1R -> EQ2 right
+		out2l_mix_source = 80;	// OUT1L -> EQ1 left
+		out2r_mix_source = 81;	// OUT1R -> EQ2 right
 	} else {
 		// Set mixers to default
 		eq1_mix_source = EQ1_MIX_DEFAULT;
 		eq2_mix_source = EQ2_MIX_DEFAULT;
 
-		out1l_mix_source = OUT1L_MIX_DEFAULT;
-		out1r_mix_source = OUT1R_MIX_DEFAULT;
+		out2l_mix_source = OUT2L_MIX_DEFAULT;
+		out2r_mix_source = OUT2R_MIX_DEFAULT;
 	}
 	
 	set_value(EQ1_ENA, eq);
@@ -118,8 +117,8 @@ static void set_eq(bool reset)
 	set_value(EQ1_MIX, eq1_mix_source);
 	set_value(EQ2_MIX, eq2_mix_source);
 
-	set_value(OUT1L_MIX, out1l_mix_source);
-	set_value(OUT1R_MIX, out1r_mix_source);
+	set_value(OUT1L_MIX, out2l_mix_source);
+	set_value(OUT1R_MIX, out2r_mix_source);
 
 	// If reset = true, then set the eq band gains to default values
 	set_eq_gains(!eq);
@@ -213,48 +212,60 @@ unsigned int moro_sound_write_hook(unsigned int reg, unsigned int val)
 		return val;
 
 	// based on the register, do the appropriate processing
-	switch (reg) {
-	case MADERA_DAC_DIGITAL_VOLUME_2L: // headphone l
-		val &= ~MADERA_OUT1L_VOL_MASK;
-		val |= (headphone_gain_l << MADERA_OUT1L_VOL_SHIFT);
-		return val;
-	case MADERA_DAC_DIGITAL_VOLUME_2R: // headphone r
-		val &= ~MADERA_OUT1R_VOL_MASK;
-		val |= (headphone_gain_r << MADERA_OUT1R_VOL_SHIFT);
-		return val;
-	case MADERA_DAC_DIGITAL_VOLUME_3L: // earpiece
-		val &= ~MADERA_OUT3L_VOL_MASK;
-		val |= (earpiece_gain << MADERA_OUT3L_VOL_SHIFT);
-		return val;
-	}
-
-	if (eq) {
-		switch (reg) {
-		case MADERA_OUT1LMIX_INPUT_1_SOURCE: // headphone l source
-			val &= ~MADERA_MIXER_SOURCE_MASK;
-			val |= (out1l_mix_source << MADERA_MIXER_SOURCE_SHIFT);
-			return val;
-		case MADERA_OUT1RMIX_INPUT_1_SOURCE: // headphone r source
-			val &= ~MADERA_MIXER_SOURCE_MASK;
-			val |= (out1r_mix_source << MADERA_MIXER_SOURCE_SHIFT);
-			return val;
+	switch (reg)
+	{
+		// headphone l
+		case MADERA_DAC_DIGITAL_VOLUME_2L:
+		{
+			val &= ~MADERA_OUT2L_VOL_MASK;
+			val |= (headphone_gain_l << MADERA_OUT2L_VOL_SHIFT);
+			break;
 		}
-	}
-	
-	if (mic) {
-		switch (reg) {
-		case MADERA_ADC_DIGITAL_VOLUME_1R:  // mic down
-			val &= ~MADERA_IN1R_DIG_VOL_MASK;
-			val |= (mic_down_gain << MADERA_IN1R_DIG_VOL_SHIFT);
-			return val;
-		case MADERA_ADC_DIGITAL_VOLUME_3L:  // mic up
-			val &= ~MADERA_IN3L_DIG_VOL_MASK;
-			val |= (mic_up_gain << MADERA_IN3L_DIG_VOL_SHIFT);
-			return val;
-		case MADERA_ADC_DIGITAL_VOLUME_2L:  // mic hp
-			val &= ~MADERA_IN2L_DIG_VOL_MASK;
-			val |= (mic_hp_gain << MADERA_IN2L_DIG_VOL_SHIFT);
-			return val;
+		// headphone r
+		case MADERA_DAC_DIGITAL_VOLUME_2R:
+		{
+			val &= ~MADERA_OUT2R_VOL_MASK;
+			val |= (headphone_gain_r << MADERA_OUT2R_VOL_SHIFT);
+			break;
+		}
+		if (eq){
+			// hpout2 l
+			case MADERA_OUT2LMIX_INPUT_1_SOURCE:
+			{
+				val &= ~MADERA_MIXER_SOURCE_MASK;
+				val |= (out2l_mix_source << MADERA_MIXER_SOURCE_SHIFT);
+				break;
+			}
+			// hpout2 r
+			case MADERA_OUT2RMIX_INPUT_1_SOURCE:
+			{
+				val &= ~MADERA_MIXER_SOURCE_MASK;
+				val |= (out2r_mix_source << MADERA_MIXER_SOURCE_SHIFT);
+				break;
+			}
+		}
+		if (mic){
+			// mic down
+			case MADERA_ADC_DIGITAL_VOLUME_3L:
+			{
+				val &= ~MADERA_IN3L_DIG_VOL_MASK;
+				val |= (mic_down_gain << MADERA_IN3L_DIG_VOL_SHIFT);
+				break;
+			}
+			// mic up
+			case MADERA_ADC_DIGITAL_VOLUME_4L:
+			{
+				val &= ~MADERA_IN4L_DIG_VOL_MASK;
+				val |= (mic_up_gain << MADERA_IN4L_DIG_VOL_SHIFT);
+				break;
+			}
+			// mic hp
+			case MADERA_ADC_DIGITAL_VOLUME_1L:
+			{
+				val &= ~MADERA_IN1L_DIG_VOL_MASK;
+				val |= (mic_hp_gain << MADERA_IN1L_DIG_VOL_SHIFT);
+				break;
+			}
 		}
 	}
 
@@ -276,8 +287,8 @@ static void reset_moro_sound(void)
 
 	earpiece_gain = EARPIECE_DEFAULT;
 
-	out1l_mix_source = OUT1L_MIX_DEFAULT;
-	out1r_mix_source = OUT1R_MIX_DEFAULT;
+	out2l_mix_source = OUT2L_MIX_DEFAULT;
+	out2r_mix_source = OUT2R_MIX_DEFAULT;
 
 	eq1_mix_source = EQ1_MIX_DEFAULT;
 	eq2_mix_source = EQ2_MIX_DEFAULT;
@@ -299,22 +310,21 @@ static void reset_audio_hub(void)
 {
 	// reset all audio hub registers back to defaults
 
-	set_value(OUT1L_VOLUME, HEADPHONE_DEFAULT);
-	set_value(OUT1R_VOLUME, HEADPHONE_DEFAULT);
-	set_value(OUT1_MONO, HEADPHONE_MONO_DEFAULT);
+	set_value(OUT2L_VOLUME, HEADPHONE_DEFAULT);
+	set_value(OUT2R_VOLUME, HEADPHONE_DEFAULT);
+	set_value(OUT2_MONO, HEADPHONE_MONO_DEFAULT);
 	
 	set_value(OUT3L_VOLUME, EARPIECE_DEFAULT);
 
-	set_value(OUT1L_MIX, OUT1L_MIX_DEFAULT);
-	set_value(OUT1R_MIX, OUT1R_MIX_DEFAULT);
+	set_value(OUT2L_MIX, OUT2L_MIX_DEFAULT);
+	set_value(OUT2R_MIX, OUT2R_MIX_DEFAULT);
 
 	set_value(EQ1_MIX, EQ1_MIX_DEFAULT);
 	set_value(EQ2_MIX, EQ2_MIX_DEFAULT);
-	
-	set_value(MIC1R_VOLUME, MIC_DOWN_GAIN_DEFAULT);
-	set_value(MIC3L_VOLUME, MIC_UP_GAIN_DEFAULT);
-	set_value(MIC2L_VOLUME, MIC_HP_GAIN_DEFAULT);
 
+	set_value(MIC3L_VOLUME, MIC_DOWN_GAIN_DEFAULT);
+	set_value(MIC4L_VOLUME, MIC_UP_GAIN_DEFAULT);
+	set_value(MIC1L_VOLUME, MIC_HP_GAIN_DEFAULT);
 	set_eq(1);
 }
 
@@ -322,21 +332,21 @@ static void update_audio_hub(void)
 {
 	// reset all audio hub registers back to defaults
 
-	set_value(OUT1L_VOLUME, headphone_gain_l);
-	set_value(OUT1R_VOLUME, headphone_gain_r);
-	set_value(OUT1_MONO, headphone_mono);
+	set_value(OUT2L_VOLUME, headphone_gain_l);
+	set_value(OUT2R_VOLUME, headphone_gain_r);
+	set_value(OUT2_MONO, headphone_mono);
 
 	set_value(OUT3L_VOLUME, earpiece_gain);
 
-	set_value(OUT1L_MIX, out1l_mix_source);
-	set_value(OUT1R_MIX, out1r_mix_source);
+	set_value(OUT2L_MIX, out2l_mix_source);
+	set_value(OUT2R_MIX, out2r_mix_source);
 
 	set_value(EQ1_MIX, eq1_mix_source);
 	set_value(EQ2_MIX, eq1_mix_source);
-	
-	set_value(MIC1R_VOLUME, mic_down_gain);
-	set_value(MIC3L_VOLUME, mic_up_gain);
-	set_value(MIC2L_VOLUME, mic_hp_gain);
+
+	set_value(MIC3L_VOLUME, mic_down_gain);
+	set_value(MIC4L_VOLUME, mic_up_gain);
+	set_value(MIC1L_VOLUME, mic_hp_gain);
 
 	set_eq(0);
 }
@@ -439,8 +449,8 @@ static ssize_t headphone_gain_store(struct device *dev, struct device_attribute 
 	headphone_gain_r = val_r;
 
 	// set new values
-	set_value(OUT1L_VOLUME, headphone_gain_l);
-	set_value(OUT1R_VOLUME, headphone_gain_r);
+	set_value(OUT2L_VOLUME, headphone_gain_l);
+	set_value(OUT2R_VOLUME, headphone_gain_r);
 
 	return count;
 }
@@ -563,13 +573,13 @@ static ssize_t mic_store(struct device *dev, struct device_attribute *attr,
 
 			// set new values
 			if(mic) {
-				set_value(MIC1R_VOLUME, mic_down_gain);
-				set_value(MIC3L_VOLUME, mic_up_gain);
-				set_value(MIC2L_VOLUME, mic_hp_gain);
+				set_value(MIC3L_VOLUME, mic_down_gain);
+				set_value(MIC4L_VOLUME, mic_up_gain);
+				set_value(MIC1L_VOLUME, mic_hp_gain);
 			} else {
-				set_value(MIC1R_VOLUME, MIC_DOWN_GAIN_DEFAULT);
-				set_value(MIC3L_VOLUME, MIC_UP_GAIN_DEFAULT);
-				set_value(MIC2L_VOLUME, MIC_HP_GAIN_DEFAULT);
+				set_value(MIC3L_VOLUME, MIC_DOWN_GAIN_DEFAULT);
+				set_value(MIC4L_VOLUME, MIC_UP_GAIN_DEFAULT);
+				set_value(MIC1L_VOLUME, MIC_HP_GAIN_DEFAULT);
 			}
 		}
 	}
@@ -600,7 +610,7 @@ static ssize_t mic_down_gain_store(struct device *dev, struct device_attribute *
 
 	mic_down_gain = val;
 
-	set_value(MIC1R_VOLUME, mic_down_gain);
+	set_value(MIC3L_VOLUME, mic_down_gain);
 
 	return count;
 }
@@ -628,7 +638,7 @@ static ssize_t mic_up_gain_store(struct device *dev, struct device_attribute *at
 
 	mic_up_gain = val;
 
-	set_value(MIC3L_VOLUME, mic_up_gain);
+	set_value(MIC4L_VOLUME, mic_up_gain);
 
 	return count;
 }
@@ -656,7 +666,7 @@ static ssize_t mic_hp_gain_store(struct device *dev, struct device_attribute *at
 
 	mic_hp_gain = val;
 
-	set_value(MIC2L_VOLUME, mic_hp_gain);
+	set_value(MIC1L_VOLUME, mic_hp_gain);
 
 	return count;
 }
@@ -938,7 +948,7 @@ static ssize_t reset_store(struct device *dev, struct device_attribute *attr,
 
 static ssize_t reg_dump_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
-	unsigned int out3l_mix2, out3r_mix2, eq_b1, eq_b2, eq_b3, eq_b4, eq_b5, mic1r, mic3l, mic2l;
+	unsigned int out3l_mix2, out3r_mix2, eq_b1, eq_b2, eq_b3, eq_b4, eq_b5, mic3r, mic3l, mic4l, mic1l;
 
 	moon_read(MADERA_OUT3LMIX_INPUT_2_SOURCE, &out3l_mix2);
 
@@ -954,14 +964,13 @@ static ssize_t reg_dump_show(struct device *dev, struct device_attribute *attr, 
 		eq_b4 = ((eq_b4 & MADERA_EQ1_B4_GAIN_MASK) >> MADERA_EQ1_B4_GAIN_SHIFT) - EQ_GAIN_OFFSET;
 	moon_read(MADERA_EQ1_2, &eq_b5);
 		eq_b5 = ((eq_b5 & MADERA_EQ1_B5_GAIN_MASK) >> MADERA_EQ1_B5_GAIN_SHIFT) - EQ_GAIN_OFFSET;
-	
-	moon_read(MADERA_INPUT_ENABLES, &mic1r);
-		mic1r = (mic1r & MADERA_IN1R_ENA_MASK) >> MADERA_IN1R_ENA_SHIFT;
+
 	moon_read(MADERA_INPUT_ENABLES, &mic3l);
 		mic3l = (mic3l & MADERA_IN3L_ENA_MASK) >> MADERA_IN3L_ENA_SHIFT;
-	moon_read(MADERA_INPUT_ENABLES, &mic2l);
-		mic2l = (mic2l & MADERA_IN2L_ENA_MASK) >> MADERA_IN2L_ENA_SHIFT;
-
+	moon_read(MADERA_INPUT_ENABLES, &mic4l);
+		mic4l = (mic4l & MADERA_IN4L_ENA_MASK) >> MADERA_IN4L_ENA_SHIFT;
+	moon_read(MADERA_INPUT_ENABLES, &mic1l);
+		mic1l = (mic1l & MADERA_IN1L_ENA_MASK) >> MADERA_IN1L_ENA_SHIFT;
 
 	// return register dump information
 	return sprintf(buf, "\
@@ -985,9 +994,9 @@ MIC Down: %d Vol: %d\n\
 MIC Up: %d Vol: %d\n\
 MIC Hp: %d Vol: %d\n\
 ",
-get_value(OUT1L_VOLUME), headphone_gain_l,
-get_value(OUT1R_VOLUME), headphone_gain_r,
-get_value(OUT1_MONO),
+get_value(OUT2L_VOLUME), headphone_gain_l,
+get_value(OUT2R_VOLUME), headphone_gain_r,
+get_value(OUT2_MONO),
 first,
 get_value(OUT3L_VOLUME),
 get_value(OUT1L_MIX), get_value(OUT1R_MIX),
@@ -1001,12 +1010,12 @@ eq_b2,
 eq_b3,
 eq_b4,
 eq_b5,
-mic1r,
-get_value(MIC1R_VOLUME),
 mic3l,
 get_value(MIC3L_VOLUME),
-mic2l,
-get_value(MIC2L_VOLUME));
+mic4l,
+get_value(MIC4L_VOLUME),
+mic1l,
+get_value(MIC1L_VOLUME));
 }
 
 
@@ -1028,15 +1037,12 @@ static DEVICE_ATTR(moro_sound, 0664, moro_sound_show, moro_sound_store);
 static DEVICE_ATTR(headphone_gain, 0664, headphone_gain_show, headphone_gain_store);
 static DEVICE_ATTR(headphone_limits, 0444, headphone_limits_show, NULL);
 static DEVICE_ATTR(headphone_mono, 0664, headphone_mono_show, headphone_mono_store);
-static DEVICE_ATTR(headphone_limits, 0664, headphone_limits_show, NULL);
 static DEVICE_ATTR(earpiece_gain, 0664, earpiece_gain_show, earpiece_gain_store);
 static DEVICE_ATTR(earpiece_limits, 0444, earpiece_limits_show, NULL);
 static DEVICE_ATTR(mic, 0664, mic_show, mic_store);
 static DEVICE_ATTR(mic_down_gain, 0664, mic_down_gain_show, mic_down_gain_store);
 static DEVICE_ATTR(mic_up_gain, 0664, mic_up_gain_show, mic_up_gain_store);
 static DEVICE_ATTR(mic_hp_gain, 0664, mic_hp_gain_show, mic_hp_gain_store);
-static DEVICE_ATTR(speaker_gain, 0664, speaker_gain_show, speaker_gain_store);
-static DEVICE_ATTR(speaker_limits, 0444, speaker_limits_show, NULL);
 static DEVICE_ATTR(eq, 0664, eq_show, eq_store);
 static DEVICE_ATTR(eq_gains, 0664, eq_gains_show, eq_gains_store);
 static DEVICE_ATTR(eq_b1_gain, 0664, eq_b1_gain_show, eq_b1_gain_store);
