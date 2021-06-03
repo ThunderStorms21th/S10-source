@@ -153,7 +153,6 @@ ssize_t ktd2692_store(struct device *dev,
 		pinctrl = devm_pinctrl_get_select(global_dev, "idle");
 		if (IS_ERR(pinctrl))
 			pr_err("%s: flash %s pins are not configured\n", __func__, "idle");
-
 	} else {
 		pinctrl = devm_pinctrl_get_select(global_dev, "host");
 		if (IS_ERR(pinctrl))
