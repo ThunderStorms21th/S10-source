@@ -132,14 +132,14 @@ void sec_debug_get_kevent_info(struct ess_info_offset *p, int type)
 		p->size = sizeof(struct __cpuidle_log);
 		p->per_core = 1;
 		break;
-
+#ifdef CONFIG_EXYNOS_THERMAL
 	case DSS_KEVENT_THRM:
 		p->base = kevent_base_pa + (unsigned long)(dss_log->thermal) - kevent_base_va;
 		p->nr = DSS_LOG_MAX_NUM;
 		p->size = sizeof(struct __thermal_log);
 		p->per_core = 0;
 		break;
-
+#endif
 	case DSS_KEVENT_ACPM:
 		p->base = kevent_base_pa + (unsigned long)(dss_log->acpm) - kevent_base_va;
 		p->nr = DSS_LOG_MAX_NUM;
