@@ -180,13 +180,13 @@ static int cpufreq_thermal_notifier(struct notifier_block *nb,
 		 * But, if clipped_freq is greater than policy->max, we don't
 		 * need to do anything.
 		 */
-//		clipped_freq = cpufreq_cdev->clipped_freq;
-/*
+		clipped_freq = cpufreq_cdev->clipped_freq;
+
 		if (policy->max > clipped_freq) {
 			cpufreq_verify_within_limits(policy, 0, clipped_freq);
 			dbg_snapshot_thermal(NULL, 0, cpufreq_cdev->cdev->type, clipped_freq);
 		}
-		break; */
+		break;
 	}
 	mutex_unlock(&cooling_list_lock);
 
@@ -622,7 +622,7 @@ static int cpufreq_set_cur_state(struct thermal_cooling_device *cdev,
 
 	clip_freq = cpufreq_cdev->freq_table[state].frequency;
 	cpufreq_cdev->cpufreq_state = state;
-	// cpufreq_cdev->clipped_freq = clip_freq;
+	cpufreq_cdev->clipped_freq = clip_freq;
 
 	cpufreq_update_policy(cpufreq_cdev->policy->cpu);
 
