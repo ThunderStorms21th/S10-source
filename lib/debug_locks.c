@@ -21,7 +21,7 @@
  * that would just muddy the log. So we report the first one and
  * shut up after that.
  */
-int debug_locks = 0;    // default 1
+int debug_locks = 1;    // default 1
 EXPORT_SYMBOL_GPL(debug_locks);
 
 /*
