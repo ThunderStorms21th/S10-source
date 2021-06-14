@@ -2263,12 +2263,6 @@ static int dwc3_gadget_vbus_session(struct usb_gadget *g, int is_active)
 	acc_dev_status = 0;
 
 	return 0;
-
-	/* On 2.30a and above this bit enables U3/L2-L1 Suspend Events */
-	if (dwc->revision >= DWC3_REVISION_230A)
-		reg |= DWC3_DEVTEN_EOPFEN;
-
-	dwc3_writel(dwc->regs, DWC3_DEVTEN, reg);
 }
 
 static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
