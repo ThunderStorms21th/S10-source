@@ -122,27 +122,27 @@ rm -f $LOG
     # Little CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     echo "442000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    echo "1742000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    echo "1950000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "1000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/fb_legacy
 
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-    echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    echo "2210000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    echo "507000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+    echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
 
     # BIG CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
-    echo "2530000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
+    echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "5000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
@@ -153,8 +153,8 @@ rm -f $LOG
     echo "Y" > /sys/module/wakeup/parameters/enable_bluedroid_timer_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
     echo "2" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
@@ -224,7 +224,7 @@ rm -f $LOG
 
    ## Kernel Stune											DEFAULT VALUES
    # GLOBAL
-   echo "8" > /dev/stune/schedtune.boost					# 0
+   echo "6" > /dev/stune/schedtune.boost					# 0
    echo "0" > /dev/stune/schedtune.band					    # 0
    echo "0" > /dev/stune/schedtune.prefer_idle				# 0
    echo "0" > /dev/stune/schedtune.prefer_perf				# 0
@@ -248,7 +248,7 @@ rm -f $LOG
    echo "0" > /dev/stune/rt/schedtune.ontime_en				# 0
  
    # FOREGROUND-APP
-   echo "4" > /dev/stune/foreground/schedtune.boost			# 0
+   echo "3" > /dev/stune/foreground/schedtune.boost			# 0
    echo "0" > /dev/stune/foreground/schedtune.band			# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_idle	# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_perf	# 0
@@ -294,7 +294,7 @@ rm -f $LOG
    echo "0" > /sys/kernel/ems/eff_mode						# 0
 
    # CPU Energy Aware
-   echo "0" > /proc/sys/kernel/sched_energy_aware			# 0
+   echo "1" > /proc/sys/kernel/sched_energy_aware			# 0
    echo "0" > /proc/sys/kernel/sched_tunable_scaling		# 0
 
    # Thermal Governors
@@ -334,27 +334,27 @@ rm -f $LOG
     # Little CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     echo "442000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    echo "1742000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    echo "1950000" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "1000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu0/cpufreq/ts_schedutil/fb_legacy
 
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-    echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
-    echo "2210000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+    echo "507000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+    echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
 
     # BIG CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
-    echo "2530000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
+    echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "5000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
@@ -365,8 +365,8 @@ rm -f $LOG
     echo "Y" > /sys/module/wakeup/parameters/enable_bluedroid_timer_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
     echo "2" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
@@ -377,7 +377,7 @@ rm -f $LOG
 
     # VM
     echo "80" > /proc/sys/vm/vfs_cache_pressure
-    echo "0" > /proc/sys/vm/swappiness
+    echo "60" > /proc/sys/vm/swappiness
     echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
     echo "500" > /proc/sys/vm/dirty_expire_centisecs
     echo "50" > /proc/sys/vm/overcommit_ratio
@@ -396,14 +396,14 @@ rm -f $LOG
     # for another SM-G97x - ZRAM is OFF because RAM is 8GB (no needed)
     swapoff /dev/block/zram0 > /dev/null 2>&1
     echo "1" > /sys/block/zram0/reset
-    # echo "1073741824" > /sys/block/zram0/disksize  # 1,0 GB
+    echo "1073741824" > /sys/block/zram0/disksize  # 1,0 GB
     # echo "1610612736" > /sys/block/zram0/disksize  # 1,5 GB
     # echo "2147483648" > /sys/block/zram0/disksize  # 2,0 GB
     # echo "2684354560" > /sys/block/zram0/disksize  # 2,5 GB
     # echo "3221225472" > /sys/block/zram0/disksize  # 3,0 GB
     chmod 644 /dev/block/zram0
-    # mkswap /dev/block/zram0 > /dev/null 2>&1
-    # swapon /dev/block/zram0 > /dev/null 2>&1
+    mkswap /dev/block/zram0 > /dev/null 2>&1
+    swapon /dev/block/zram0 > /dev/null 2>&1
 
     # GPU set at max/min freq
     echo "702000" > /sys/kernel/gpu/gpu_max_clock
@@ -440,7 +440,7 @@ rm -f $LOG
 
    ## Kernel Stune											DEFAULT VALUES
    # GLOBAL
-   echo "8" > /dev/stune/schedtune.boost					# 0
+   echo "6" > /dev/stune/schedtune.boost					# 0
    echo "0" > /dev/stune/schedtune.band					    # 0
    echo "0" > /dev/stune/schedtune.prefer_idle				# 0
    echo "0" > /dev/stune/schedtune.prefer_perf				# 0
@@ -464,7 +464,7 @@ rm -f $LOG
    echo "0" > /dev/stune/rt/schedtune.ontime_en				# 0
  
    # FOREGROUND-APP
-   echo "4" > /dev/stune/foreground/schedtune.boost			# 0
+   echo "3" > /dev/stune/foreground/schedtune.boost			# 0
    echo "0" > /dev/stune/foreground/schedtune.band			# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_idle	# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_perf	# 0
@@ -510,7 +510,7 @@ rm -f $LOG
    echo "0" > /sys/kernel/ems/eff_mode						# 0
 
    # CPU Energy Aware
-   echo "0" > /proc/sys/kernel/sched_energy_aware			# 0
+   echo "1" > /proc/sys/kernel/sched_energy_aware			# 0
    echo "0" > /proc/sys/kernel/sched_tunable_scaling		# 0
 
    # Thermal Governors
