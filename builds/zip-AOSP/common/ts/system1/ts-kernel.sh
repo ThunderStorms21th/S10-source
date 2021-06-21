@@ -130,7 +130,7 @@ rm -f $LOG
 
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-    echo "507000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+    echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
@@ -342,7 +342,7 @@ rm -f $LOG
 
     # Midle CPU
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-    echo "507000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+    echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
     echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
