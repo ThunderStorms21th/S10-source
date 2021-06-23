@@ -56,8 +56,8 @@ struct interactive_tunables {
 	/* Hi speed to bump to from lo speed when load burst (default max) */
 	unsigned int hispeed_freq;
 
-	/* Go to hi speed when CPU load at or above this value. */
-#define DEFAULT_GO_HISPEED_LOAD 99
+	/* Go to hi speed when CPU load at or above this value.  Default 99 */
+#define DEFAULT_GO_HISPEED_LOAD 95
 	unsigned long go_hispeed_load;
 
 	/* Target load. Lower values result in higher CPU speeds. */
@@ -67,9 +67,9 @@ struct interactive_tunables {
 
 	/*
 	 * The minimum amount of time to spend at a frequency before we can ramp
-	 * down.
+	 * down. Default :  80 * USEC_PER_MSEC .
 	 */
-#define DEFAULT_MIN_SAMPLE_TIME (80 * USEC_PER_MSEC)
+#define DEFAULT_MIN_SAMPLE_TIME (50 * USEC_PER_MSEC)
 	unsigned long min_sample_time;
 
 	/* The sample rate of the timer used to increase frequency */
@@ -94,8 +94,9 @@ struct interactive_tunables {
 	/*
 	 * Max additional time to wait in idle, beyond sampling_rate, at speeds
 	 * above minimum before wakeup to reduce speed, or -1 if unnecessary.
+	 * Default : 4 * DEFAULT_SAMPLING_RATE .
 	 */
-#define DEFAULT_TIMER_SLACK (4 * DEFAULT_SAMPLING_RATE)
+#define DEFAULT_TIMER_SLACK (2 * DEFAULT_SAMPLING_RATE)
 	unsigned long timer_slack_delay;
 	unsigned long timer_slack;
 	bool io_is_busy;
@@ -149,7 +150,8 @@ static spinlock_t speedchange_cpumask_lock;
 static unsigned int default_target_loads[] = {DEFAULT_TARGET_LOAD};
 
 #define DEFAULT_SAMPLING_RATE (20 * USEC_PER_MSEC)
-#define DEFAULT_ABOVE_HISPEED_DELAY DEFAULT_SAMPLING_RATE
+/* Default HISPEED DELAY : DEFAULT_SAMPLING_RATE . */
+#define DEFAULT_ABOVE_HISPEED_DELAY (2 * DEFAULT_SAMPLING_RATE)
 static unsigned int default_above_hispeed_delay[] = {
 	DEFAULT_ABOVE_HISPEED_DELAY
 };
@@ -1189,7 +1191,18 @@ int cpufreq_interactive_init(struct cpufreq_policy *policy)
 		goto free_int_policy;
 	}
 
-	tunables->hispeed_freq = policy->max;
+	    /* Set HISPEED FREQ depends on cluster LITTLE.big.MID  - XDA@nalas */
+		if (policy->cpu == 0) {
+            tunables->hispeed_freq = 1456000;
+	    	}
+		if (policy->cpu == 4) {
+            tunables->hispeed_freq = 1794000;
+	    	}
+		if (policy->cpu == 6) {
+            tunables->hispeed_freq = 2080000;
+	    	}
+
+	// tunables->hispeed_freq = policy->max;
 	tunables->above_hispeed_delay = default_above_hispeed_delay;
 	tunables->nabove_hispeed_delay =
 		ARRAY_SIZE(default_above_hispeed_delay);
