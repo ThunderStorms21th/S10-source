@@ -5605,17 +5605,23 @@
 
 				coregroup0 {
 					coverage-ratio = <0x1e>;
-					active-ratio = <0x19>;
+					coverage-ratio-boost = <1e>;
+					active-ratio = <4b>;
+					active-ratio-boost = <19>;
 				};
 
 				coregroup1 {
 					coverage-ratio = <0x1e>;
-					active-ratio = <0x3>;
+					coverage-ratio-boost = <14>;
+					active-ratio = <55>;
+					active-ratio-boost = <19>;
 				};
 
 				coregroup2 {
 					coverage-ratio = <0x1e>;
-					active-ratio = <0x5>;
+					coverage-ratio-boost = <0f>;
+					active-ratio = <64>;
+					active-ratio-boost = <19>;
 				};
 			};
 
