@@ -5605,23 +5605,23 @@
 
 				coregroup0 {
 					coverage-ratio = <0x1e>;
-					coverage-ratio-boost = <1e>;
-					active-ratio = <4b>;
-					active-ratio-boost = <19>;
+					coverage-ratio-boost = <0x1e>;
+					active-ratio = <0x4b>;
+					active-ratio-boost = <0x19>;
 				};
 
 				coregroup1 {
 					coverage-ratio = <0x1e>;
-					coverage-ratio-boost = <14>;
-					active-ratio = <55>;
-					active-ratio-boost = <19>;
+					coverage-ratio-boost = <0x14>;
+					active-ratio = <0x55>;
+					active-ratio-boost = <0x19>;
 				};
 
 				coregroup2 {
 					coverage-ratio = <0x1e>;
-					coverage-ratio-boost = <0f>;
-					active-ratio = <64>;
-					active-ratio-boost = <19>;
+					coverage-ratio-boost = <0x0f>;
+					active-ratio = <0x64>;
+					active-ratio-boost = <0x19>;
 				};
 			};
 
