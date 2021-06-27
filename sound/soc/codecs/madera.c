@@ -30,6 +30,15 @@
 
 #include "madera.h"
 
+#ifdef CONFIG_MORO_SOUND
+// pointer to regmap
+static struct regmap *map;
+// Switches
+static int moro_sound, eq, reset = 0;
+static void set_eq(bool reset);
+static void reset_moro_sound(void);
+#endif
+
 #define MADERA_AIF_BCLK_CTRL			0x00
 #define MADERA_AIF_TX_PIN_CTRL			0x01
 #define MADERA_AIF_RX_PIN_CTRL			0x02
