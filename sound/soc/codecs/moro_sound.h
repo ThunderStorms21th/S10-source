@@ -1,9 +1,11 @@
 /*
- * moro_sound.h  --  Sound mod for Madera, S10 sound driver
+ * moro_sound.h  --  Sound mod for Moon, S7 sound driver
  *
  * Author	: @morogoku https://github.com/morogoku
  *
- *
+ * Modded by XDA@nalas - ThunderStorms21th for S10 / N10
+ *                       Removed Dual Speaker features
+ * 
  */
 
 
@@ -16,48 +18,151 @@
 
 #include <linux/mfd/madera/registers.h>
 
-/* External function declarations */
-void moro_sound_hook_madera_pcm_probe(struct regmap *pmap);
+
+/*****************************************/
+// External function declarations
+/*****************************************/
+
+void moro_sound_hook_moon_pcm_probe(struct regmap *pmap);
 int _regmap_write_nohook(struct regmap *map, unsigned int reg, unsigned int val);
-int set_speaker_gain(int gain);
-int get_speaker_gain(void);
 
-/* Definitions */
+/*****************************************/
+// Definitions
+/*****************************************/
 
-/* Moro sound general */
+// Moro sound general
 #define MORO_SOUND_DEFAULT 		0
-#define MORO_SOUND_VERSION 		"2.1.1"
+#define MORO_SOUND_VERSION 		"2.2.0"
 
-/* Headphone levels */
+// headphone levels
 #define HEADPHONE_DEFAULT		113
 #define HEADPHONE_MIN 			60
-#define HEADPHONE_MAX 			170
+#define HEADPHONE_MAX 			190
+#define HEADPHONE_MONO_DEFAULT		0
 
-/* Earpiece levels */
+// earpiece levels
 #define EARPIECE_DEFAULT		128
 #define EARPIECE_MIN 			60
 #define EARPIECE_MAX 			190
 
-/* Speaker levels */
-#define SPEAKER_DEFAULT			20
-#define SPEAKER_MIN 			0
-#define SPEAKER_MAX 			63
-
-/* Mixers sources */
-#define OUT2L_MIX_DEFAULT		32
-#define OUT2R_MIX_DEFAULT		33
+// Mixers sources
+#define OUT1L_MIX_DEFAULT		32
+#define OUT1R_MIX_DEFAULT		33
 #define EQ1_MIX_DEFAULT			0
 #define EQ2_MIX_DEFAULT			0
 
-/* EQ gain */
+// EQ gain
 #define EQ_DEFAULT			0
 #define EQ_GAIN_DEFAULT 		0
 #define EQ_GAIN_OFFSET 			12
 #define EQ_GAIN_MIN 			-12
 #define EQ_GAIN_MAX  			12
+#define EQ_B1_GAIN_DEFAULT		0
+#define EQ_B2_GAIN_DEFAULT		0
+#define EQ_B3_GAIN_DEFAULT		0
+#define EQ_B4_GAIN_DEFAULT		0
+#define EQ_B5_GAIN_DEFAULT		0
 
-/* Mixers */
+
+// Mixers
 #define MADERA_MIXER_SOURCE_MASK	0xff
 #define MADERA_MIXER_SOURCE_SHIFT	0
 #define MADERA_MIXER_VOLUME_MASK	0xfe
 #define MADERA_MIXER_VOLUME_SHIFT	1
+
+// Mic
+#define MIC_DEFAULT			0
+#define MIC_DOWN_GAIN_DEFAULT		128
+#define MIC_UP_GAIN_DEFAULT		128
+#define MIC_HP_GAIN_DEFAULT		128
+
+
+// REGS FOR GET AND SET
+// Headphone
+#define OUT1L_VOLUME \
+	MADERA_DAC_DIGITAL_VOLUME_2L, \
+	MADERA_OUT1L_VOL_MASK, \
+	MADERA_OUT1L_VOL_SHIFT
+
+#define OUT1R_VOLUME \
+	MADERA_DAC_DIGITAL_VOLUME_2R, \
+	MADERA_OUT1R_VOL_MASK, \
+	MADERA_OUT1R_VOL_SHIFT
+
+#define OUT1_MONO \
+	MADERA_OUTPUT_PATH_CONFIG_1L, \
+	MADERA_OUT1_MONO_MASK, \
+	MADERA_OUT1_MONO_SHIFT
+
+#define OUT1L_MIX \
+	MADERA_OUT1LMIX_INPUT_1_SOURCE, \
+	MADERA_MIXER_SOURCE_MASK, \
+	MADERA_MIXER_SOURCE_SHIFT
+
+#define OUT1R_MIX \
+	MADERA_OUT1RMIX_INPUT_1_SOURCE, \
+	MADERA_MIXER_SOURCE_MASK, \
+	MADERA_MIXER_SOURCE_SHIFT
+
+// Earpiece
+#define OUT3L_ENA \
+	MADERA_OUTPUT_ENABLES_1, \
+	MADERA_OUT3L_ENA_MASK, \
+	MADERA_OUT3L_ENA_SHIFT
+
+#define OUT3R_ENA \
+	MADERA_OUTPUT_ENABLES_1, \
+	MADERA_OUT3R_ENA_MASK, \
+	MADERA_OUT3R_ENA_SHIFT	
+
+#define OUT3L_VOLUME \
+	MADERA_DAC_DIGITAL_VOLUME_3L, \
+	MADERA_OUT3L_VOL_MASK, \
+	MADERA_OUT3L_VOL_SHIFT
+
+#define OUT3L_MIX \
+	MADERA_OUT3LMIX_INPUT_1_SOURCE, \
+	MADERA_MIXER_SOURCE_MASK, \
+	MADERA_MIXER_SOURCE_SHIFT
+
+#define OUT3R_MIX \
+	MADERA_OUT3RMIX_INPUT_1_SOURCE, \
+	MADERA_MIXER_SOURCE_MASK, \
+	MADERA_MIXER_SOURCE_SHIFT
+
+// Eq
+#define EQ1_ENA \
+	MADERA_EQ1_1, \
+	MADERA_EQ1_ENA_MASK, \
+	MADERA_EQ1_ENA_SHIFT
+
+#define EQ2_ENA \
+	MADERA_EQ2_1, \
+	MADERA_EQ2_ENA_MASK, \
+	MADERA_EQ2_ENA_SHIFT
+
+#define EQ1_MIX \
+	MADERA_EQ1MIX_INPUT_1_SOURCE, \
+	MADERA_MIXER_SOURCE_MASK, \
+	MADERA_MIXER_SOURCE_SHIFT
+
+#define EQ2_MIX \
+	MADERA_EQ2MIX_INPUT_1_SOURCE, \
+	MADERA_MIXER_SOURCE_MASK, \
+	MADERA_MIXER_SOURCE_SHIFT
+
+// Mic
+#define MIC1R_VOLUME \
+	MADERA_ADC_DIGITAL_VOLUME_1R, \
+	MADERA_IN1R_DIG_VOL_MASK, \
+	MADERA_IN1R_DIG_VOL_SHIFT
+
+#define MIC3L_VOLUME \
+	MADERA_ADC_DIGITAL_VOLUME_3L, \
+	MADERA_IN3L_DIG_VOL_MASK, \
+	MADERA_IN3L_DIG_VOL_SHIFT
+
+#define MIC2L_VOLUME \
+	MADERA_ADC_DIGITAL_VOLUME_2L, \
+	MADERA_IN2L_DIG_VOL_MASK, \
+	MADERA_IN2L_DIG_VOL_SHIFT
