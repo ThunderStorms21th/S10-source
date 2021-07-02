@@ -18,7 +18,7 @@
 /*
  * Modded by XDA@nalas (2021)
  *
- * - added some mods for almost all features selectable for each CPU cluster
+ * - added some mods for features selectable for each CPU cluster
  *
 */
 
@@ -65,10 +65,7 @@ struct interactive_tunables {
 	unsigned int hispeed_freq;
 
 	/* Go to hi speed when CPU load at or above this value.  Default 99 */
-#define DEFAULT_GO_HISPEED_LOAD 93
-#define DEFAULT_GO_HISPEED_LOAD_LITTLE 87
-#define DEFAULT_GO_HISPEED_LOAD_MID 93
-#define DEFAULT_GO_HISPEED_LOAD_BIG 97
+#define DEFAULT_GO_HISPEED_LOAD 95
 	unsigned long go_hispeed_load;
 
 	/* Target load. Lower values result in higher CPU speeds. */
@@ -80,10 +77,7 @@ struct interactive_tunables {
 	 * The minimum amount of time to spend at a frequency before we can ramp
 	 * down. Default :  80 * USEC_PER_MSEC .
 	 */
-#define DEFAULT_MIN_SAMPLE_TIME (40 * USEC_PER_MSEC)
-#define DEFAULT_MIN_SAMPLE_TIME_LITTLE (50 * USEC_PER_MSEC)
-#define DEFAULT_MIN_SAMPLE_TIME_MID (40 * USEC_PER_MSEC)
-#define DEFAULT_MIN_SAMPLE_TIME_BIG (30 * USEC_PER_MSEC)
+#define DEFAULT_MIN_SAMPLE_TIME (50 * USEC_PER_MSEC)
 	unsigned long min_sample_time;
 
 	/* The sample rate of the timer used to increase frequency */
@@ -111,9 +105,6 @@ struct interactive_tunables {
 	 * Default : 4 * DEFAULT_SAMPLING_RATE .
 	 */
 #define DEFAULT_TIMER_SLACK (2 * DEFAULT_SAMPLING_RATE)
-#define DEFAULT_TIMER_SLACK_LITTLE (30 * USEC_PER_MSEC)
-#define DEFAULT_TIMER_SLACK_MID (25 * USEC_PER_MSEC)
-#define DEFAULT_TIMER_SLACK_BIG (20 * USEC_PER_MSEC)
 	unsigned long timer_slack_delay;
 	unsigned long timer_slack;
 	bool io_is_busy;
@@ -169,9 +160,6 @@ static unsigned int default_target_loads[] = {
     };
 
 #define DEFAULT_SAMPLING_RATE (20 * USEC_PER_MSEC)
-#define DEFAULT_SAMPLING_RATE_LITTLE (20 * USEC_PER_MSEC)
-#define DEFAULT_SAMPLING_RATE_MID (25 * USEC_PER_MSEC)
-#define DEFAULT_SAMPLING_RATE_BIG (30 * USEC_PER_MSEC)
 /* Default HISPEED DELAY : DEFAULT_SAMPLING_RATE . */
 #define DEFAULT_ABOVE_HISPEED_DELAY (2 * DEFAULT_SAMPLING_RATE)
 static unsigned int default_above_hispeed_delay[] = {
@@ -319,7 +307,7 @@ static unsigned int choose_freq(struct interactive_cpu *icpu,
 
 			/* Find highest frequency that is less than freqmax */
 			index = cpufreq_frequency_table_target(policy,
-					freqmax - 1, CPUFREQ_RELATION_C);   // default H, can set at L, C, H
+					freqmax - 1, CPUFREQ_RELATION_H);   // default H, can set at L, C, H
 
 			freq = freq_table[index].frequency;
 
@@ -1213,43 +1201,28 @@ int cpufreq_interactive_init(struct cpufreq_policy *policy)
 		goto free_int_policy;
 	}
 
-	    /* Set features depends on cluster LITTLE.Mid.big  - XDA@nalas */
+	    /* Set HISPEED_FREQ depends on cluster LITTLE.Mid.big  - XDA@nalas */
 		if (policy->cpu == 0) {
             tunables->hispeed_freq = 1586000;
-            tunables->go_hispeed_load = DEFAULT_GO_HISPEED_LOAD_LITTLE;
-            tunables->min_sample_time = DEFAULT_MIN_SAMPLE_TIME_LITTLE;
-            tunables->boostpulse_duration = DEFAULT_MIN_SAMPLE_TIME_LITTLE;
-            tunables->sampling_rate = DEFAULT_SAMPLING_RATE_LITTLE;
-            tunables->timer_slack = DEFAULT_TIMER_SLACK_LITTLE;
 	    	}
 		if (policy->cpu == 4) {
-            tunables->hispeed_freq = 1222000;
-            tunables->go_hispeed_load = DEFAULT_GO_HISPEED_LOAD_MID;
-            tunables->min_sample_time = DEFAULT_MIN_SAMPLE_TIME_MID;
-            tunables->boostpulse_duration = DEFAULT_MIN_SAMPLE_TIME_MID;
-            tunables->sampling_rate = DEFAULT_SAMPLING_RATE_MID;
-            tunables->timer_slack = DEFAULT_TIMER_SLACK_MID;
+            tunables->hispeed_freq = 1690000;
 	    	}
 		if (policy->cpu == 6) {
-            tunables->hispeed_freq = 1664000;
-            tunables->go_hispeed_load = DEFAULT_GO_HISPEED_LOAD_BIG;
-            tunables->min_sample_time = DEFAULT_MIN_SAMPLE_TIME_BIG;
-            tunables->boostpulse_duration = DEFAULT_MIN_SAMPLE_TIME_BIG;
-            tunables->sampling_rate = DEFAULT_SAMPLING_RATE_BIG;
-            tunables->timer_slack = DEFAULT_TIMER_SLACK_BIG;
+            tunables->hispeed_freq = 1820000;
 	    	}
 
-	// tunables->hispeed_freq = policy->max;
+	// tunables->hispeed_freq = policy->max;    // jump to max value
 	tunables->above_hispeed_delay = default_above_hispeed_delay;
 	tunables->nabove_hispeed_delay =
 		ARRAY_SIZE(default_above_hispeed_delay);
-	// tunables->go_hispeed_load = DEFAULT_GO_HISPEED_LOAD;
+	tunables->go_hispeed_load = DEFAULT_GO_HISPEED_LOAD;
 	tunables->target_loads = default_target_loads;
 	tunables->ntarget_loads = ARRAY_SIZE(default_target_loads);
-	// tunables->min_sample_time = DEFAULT_MIN_SAMPLE_TIME;
-	// tunables->boostpulse_duration = DEFAULT_MIN_SAMPLE_TIME;
-	// tunables->sampling_rate = DEFAULT_SAMPLING_RATE;
-	// tunables->timer_slack = DEFAULT_TIMER_SLACK;
+	tunables->min_sample_time = DEFAULT_MIN_SAMPLE_TIME;
+	tunables->boostpulse_duration = DEFAULT_MIN_SAMPLE_TIME;
+	tunables->sampling_rate = DEFAULT_SAMPLING_RATE;
+	tunables->timer_slack = DEFAULT_TIMER_SLACK;
 	update_slack_delay(tunables);
 
 	spin_lock_init(&tunables->target_loads_lock);
