@@ -76,30 +76,6 @@ rm -f $LOG
 
 	echo " " >> $LOG;
 
-	## ThunderStormS kill Google and Media servers script
-	# Google play services wakelock fix
-	# echo "## -- GooglePlay wakelock fix $( date +"%d-%m-%Y %H:%M:%S" )" >> $LOG;
-
-	# FIX GOOGLE PLAY SERVICE
-	# su -c "pm enable com.google.android.gms/.ads.AdRequestBrokerService"
-	# su -c "pm enable com.google.android.gms/.ads.identifier.service.AdvertisingIdService"
-	# su -c "pm enable com.google.android.gms/.ads.social.GcmSchedulerWakeupService"
-	# su -c "pm enable com.google.android.gms/.analytics.AnalyticsService"
-	# su -c "pm enable com.google.android.gms/.analytics.service.PlayLogMonitorIntervalService"
-	# su -c "pm enable com.google.android.gms/.backup.BackupTransportService"
-	# su -c "pm enable com.google.android.gms/.update.SystemUpdateActivity"
-	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService"
-	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$ActiveReceiver"
-	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$Receiver"
-	# su -c "pm enable com.google.android.gms/.update.SystemUpdateService\$SecretCodeReceiver"
-	# su -c "pm enable com.google.android.gms/.thunderbird.settings.ThunderbirdSettingInjectorService"
-	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateActivity"
-	# su -c "pm enable com.google.android.gsf/.update.SystemUpdatePanoActivity"
-	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateService"
-	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateService\$Receiver"
-	# su -c "pm enable com.google.android.gsf/.update.SystemUpdateService\$SecretCodeReceiver"
-	# echo " " >> $LOG;
-
     # Initial ThundeRStormS settings
     # for SM-G970 F and N - RAM is only 6GB
     if [ $MODEL == $MODEL1_DESC ] || [ $MODEL == $MODEL2_DESC ]; then
@@ -110,7 +86,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # POWER EFFCIENT WORKQUEUE (0/N = Disabled, 1/Y = Enabled)
-    echo "N" > /sys/module/workqueue/parameters/power_efficient
+    echo "Y" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -132,7 +108,7 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
     echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "1500" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
@@ -141,8 +117,8 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
     echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "5000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "1500" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
@@ -156,11 +132,11 @@ rm -f $LOG
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "2" > /sys/module/sec_battery/parameters/wl_polling
+    echo "4" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "512" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "640" > /proc/sys/kernel/random/write_wakeup_threshold
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
@@ -190,10 +166,10 @@ rm -f $LOG
     swapon /dev/block/zram0 > /dev/null 2>&1
 
     # GPU set at max/min freq
-    echo "702000" > /sys/kernel/gpu/gpu_max_clock
-    echo "100000" > /sys/kernel/gpu/gpu_min_clock
-    echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
-    echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
+    # echo "702000" > /sys/kernel/gpu/gpu_max_clock
+    # echo "100000" > /sys/kernel/gpu/gpu_min_clock
+    # echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
+    # echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
     echo "260000" > /sys/devices/platform/18500000.mali/highspeed_clock
     echo "95" > /sys/devices/platform/18500000.mali/highspeed_load
     echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
@@ -217,14 +193,14 @@ rm -f $LOG
    echo "1" > /sys/block/sda/queue/rq_affinity
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
    echo "256" > /sys/block/sda/queue/nr_requests
-   echo "128" > /sys/block/mmcblk0/queue/nr_requests
+   echo "64" > /sys/block/mmcblk0/queue/nr_requests
 
     # Initial ThundeRStormS Stune and CPU set settings
 	echo "## -- Initial Stune settings by ThundeRStormS" >> $LOG;
 
    ## Kernel Stune											DEFAULT VALUES
    # GLOBAL
-   echo "6" > /dev/stune/schedtune.boost					# 0
+   echo "5" > /dev/stune/schedtune.boost					# 0
    echo "0" > /dev/stune/schedtune.band					    # 0
    echo "0" > /dev/stune/schedtune.prefer_idle				# 0
    echo "0" > /dev/stune/schedtune.prefer_perf				# 0
@@ -248,7 +224,7 @@ rm -f $LOG
    echo "0" > /dev/stune/rt/schedtune.ontime_en				# 0
  
    # FOREGROUND-APP
-   echo "3" > /dev/stune/foreground/schedtune.boost			# 0
+   echo "4" > /dev/stune/foreground/schedtune.boost			# 0
    echo "0" > /dev/stune/foreground/schedtune.band			# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_idle	# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_perf	# 0
@@ -279,9 +255,26 @@ rm -f $LOG
    # SYSTEM-BACKGROUND
    echo "0-2" > /dev/cpuset/system-background/cpus		    # 0-2
    # MODERATE
-   echo "0-3,4-5" > /dev/cpuset/moderate/cpus				# 0-3,4-6
+   echo "0-3,4-6" > /dev/cpuset/moderate/cpus				# 0-3,4-6
    # DEXOPT
    echo "0-3" > /dev/cpuset/dexopt/cpus					    # 0-3
+
+
+   ## CPU Fluid RT
+   echo "5" > sys/kernel/ems/frt/coregroup0/active_ratio
+   echo "10" > sys/kernel/ems/frt/coregroup0/active_ratio_boost
+   echo "15" > sys/kernel/ems/frt/coregroup0/coverage_ratio
+   echo "20" > sys/kernel/ems/frt/coregroup0/coverage_ratio_boost
+
+   echo "20" > sys/kernel/ems/frt/coregroup1/active_ratio
+   echo "30" > sys/kernel/ems/frt/coregroup1/active_ratio_boost
+   echo "5" > sys/kernel/ems/frt/coregroup1/coverage_ratio
+   echo "10" > sys/kernel/ems/frt/coregroup1/coverage_ratio_boost
+
+   echo "30" > sys/kernel/ems/frt/coregroup2/active_ratio
+   echo "37" > sys/kernel/ems/frt/coregroup2/active_ratio_boost
+   echo "10" > sys/kernel/ems/frt/coregroup2/coverage_ratio
+   echo "15" > sys/kernel/ems/frt/coregroup2/coverage_ratio_boost
 
    ## Kernel Scheduler
    echo "2000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
@@ -322,7 +315,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # POWER EFFCIENT WORKQUEUE (0/N = Disabled, 1/Y = Enabled)
-    echo "N" > /sys/module/workqueue/parameters/power_efficient
+    echo "Y" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -344,7 +337,7 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
     echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "1500" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
@@ -353,8 +346,8 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
     echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
-    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
-    echo "5000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
+    echo "1500" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
 
@@ -368,16 +361,16 @@ rm -f $LOG
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "2" > /sys/module/sec_battery/parameters/wl_polling
+    echo "4" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "512" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "640" > /proc/sys/kernel/random/write_wakeup_threshold
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
-    echo "80" > /proc/sys/vm/vfs_cache_pressure
-    echo "60" > /proc/sys/vm/swappiness
+    echo "95" > /proc/sys/vm/vfs_cache_pressure
+    echo "100" > /proc/sys/vm/swappiness
     echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
     echo "500" > /proc/sys/vm/dirty_expire_centisecs
     echo "50" > /proc/sys/vm/overcommit_ratio
@@ -406,10 +399,10 @@ rm -f $LOG
     swapon /dev/block/zram0 > /dev/null 2>&1
 
     # GPU set at max/min freq
-    echo "702000" > /sys/kernel/gpu/gpu_max_clock
-    echo "100000" > /sys/kernel/gpu/gpu_min_clock
-    echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
-    echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
+    # echo "702000" > /sys/kernel/gpu/gpu_max_clock
+    # echo "100000" > /sys/kernel/gpu/gpu_min_clock
+    # echo "coarse_demand" > /sys/devices/platform/18500000.mali/power_policy
+    # echo "1" > /sys/devices/platform/18500000.mali/dvfs_governor
     echo "260000" > /sys/devices/platform/18500000.mali/highspeed_clock
     echo "95" > /sys/devices/platform/18500000.mali/highspeed_load
     echo "1" > /sys/devices/platform/18500000.mali/highspeed_delay
@@ -433,14 +426,14 @@ rm -f $LOG
    echo "1" > /sys/block/sda/queue/rq_affinity
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
    echo "256" > /sys/block/sda/queue/nr_requests
-   echo "128" > /sys/block/mmcblk0/queue/nr_requests
+   echo "64" > /sys/block/mmcblk0/queue/nr_requests
 
     # Initial ThundeRStormS Stune and CPU set settings
 	echo "## -- Initial Stune settings by ThundeRStormS" >> $LOG;
 
    ## Kernel Stune											DEFAULT VALUES
    # GLOBAL
-   echo "6" > /dev/stune/schedtune.boost					# 0
+   echo "5" > /dev/stune/schedtune.boost					# 0
    echo "0" > /dev/stune/schedtune.band					    # 0
    echo "0" > /dev/stune/schedtune.prefer_idle				# 0
    echo "0" > /dev/stune/schedtune.prefer_perf				# 0
@@ -464,7 +457,7 @@ rm -f $LOG
    echo "0" > /dev/stune/rt/schedtune.ontime_en				# 0
  
    # FOREGROUND-APP
-   echo "3" > /dev/stune/foreground/schedtune.boost			# 0
+   echo "4" > /dev/stune/foreground/schedtune.boost			# 0
    echo "0" > /dev/stune/foreground/schedtune.band			# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_idle	# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_perf	# 0
@@ -495,9 +488,26 @@ rm -f $LOG
    # SYSTEM-BACKGROUND
    echo "0-2" > /dev/cpuset/system-background/cpus		    # 0-2
    # MODERATE
-   echo "0-3,4-5" > /dev/cpuset/moderate/cpus				# 0-3,4-6
+   echo "0-3,4-6" > /dev/cpuset/moderate/cpus				# 0-3,4-6
    # DEXOPT
    echo "0-3" > /dev/cpuset/dexopt/cpus					    # 0-3
+
+   ## CPU Fluid RT
+   echo "5" > sys/kernel/ems/frt/coregroup0/active_ratio
+   echo "10" > sys/kernel/ems/frt/coregroup0/active_ratio_boost
+   echo "15" > sys/kernel/ems/frt/coregroup0/coverage_ratio
+   echo "20" > sys/kernel/ems/frt/coregroup0/coverage_ratio_boost
+
+   echo "20" > sys/kernel/ems/frt/coregroup1/active_ratio
+   echo "30" > sys/kernel/ems/frt/coregroup1/active_ratio_boost
+   echo "5" > sys/kernel/ems/frt/coregroup1/coverage_ratio
+   echo "10" > sys/kernel/ems/frt/coregroup1/coverage_ratio_boost
+
+   echo "20" > sys/kernel/ems/frt/coregroup2/active_ratio
+   echo "30" > sys/kernel/ems/frt/coregroup2/active_ratio_boost
+   echo "10" > sys/kernel/ems/frt/coregroup2/coverage_ratio
+   echo "15" > sys/kernel/ems/frt/coregroup2/coverage_ratio_boost
+
 
    ## Kernel Scheduler
    echo "2000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
