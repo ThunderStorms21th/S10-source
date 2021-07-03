@@ -6,14 +6,14 @@
 LOG=compile_build.log
 RDIR=$(pwd)
 export K_VERSION="v2.5"
-export K_NAME="ThundeRStormS-Kernel"
+export K_NAME="ThundeRStormS-AOSP-Kernel"
 export K_BASE="FUE3"
-export ANDROID_VERSION=110000
-export PLATFORM_VERSION=11
-export ANDROID_MAJOR_VERSION=r
-export CURRENT_ANDROID_MAJOR_VERSION=r
-export BUILD_PLATFORM_VERSION=11
-ANDROID=OneUI-R
+export ANDROID_VERSION=100000
+export PLATFORM_VERSION=10
+export ANDROID_MAJOR_VERSION=q
+export CURRENT_ANDROID_MAJOR_VERSION=q
+export BUILD_PLATFORM_VERSION=10
+ANDROID=AOSP-R
 
 # export BUILD_CROSS_COMPILE=/home/nalas/kernel/AiO-S10-TS/toolchain/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-
 # export CROSS_COMPILE=$BUILD_CROSS_COMPILE
@@ -32,36 +32,38 @@ DTB_PADDING=0
 MAIN()
 {
 (
-    ## COPY BACK CAMERA FILES FOR OneUI 3.x
-	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-oneui3/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
-
 	START_TIME=`date +%T`
+
+    ## COPY CAMERA FILES FOR AOSP - GCAM modded app
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-aosp/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
+
+
     if [ $MODEL = "G970F" ]; then
-    ./build mkimg model=G970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G970F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G970N" ]; then
-    ./build mkimg model=G970N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G970N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G973F" ]; then
-    ./build mkimg model=G973F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G973F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G973N" ]; then
-    ./build mkimg model=G973N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G973N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G975F" ]; then
-    ./build mkimg model=G975F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G975F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G975N" ]; then
-    ./build mkimg model=G975N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G975N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G977B" ]; then
-    ./build mkimg model=G977B name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G977B name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "G977N" ]; then
-    ./build mkimg model=G977N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=G977N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "N970F" ]; then
-    ./build mkimg model=N970F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=N970F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "N971N" ]; then
-    ./build mkimg model=N971N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=N971N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "N975F" ]; then
-    ./build mkimg model=N975F name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=N975F name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "N976N" ]; then
-    ./build mkimg model=N976N name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=N976N name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     elif [ $MODEL = "N976B" ]; then
-    ./build mkimg model=N976B name="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION" toolchain=samsung +dtb
+    ./build-aosp mkimg model=N976B name="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION" toolchain=clang-12 +dtb
     fi
 
 	END_TIME=`date +%T`
@@ -69,8 +71,9 @@ MAIN()
 	echo "End compile time is $END_TIME"
 	echo ""
 	echo "Your flasheable release can be found in the builds folder with name :"
-	echo "$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION-`date +%Y-%m-%d`.img"
+	echo "$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION-`date +%Y-%m-%d`.img"
 	echo ""
+
 ) 2>&1 | tee -a ./$LOG
 }
 
@@ -78,7 +81,7 @@ BUILD_FLASHABLES()
 {
 	cd $RDIR/builds
 	mkdir temp2
-	cp -rf zip-OneUIR/common/. temp2
+	cp -rf zip-AOSP/common/. temp2
     cp -rf *.img temp2/
 	cd temp2
 	echo ""
@@ -100,9 +103,9 @@ RUN_PROGRAM()
     MAIN
     # BUILD_DTBO
     # BUILD_DTB
-    cp -f boot-$MODEL.img builds/$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION.img
-    cp -f $MODEL-dtb.img builds/zip-OneUIR/common/ts/dtb/$MODEL-dtb.img
-    cp -f $MODEL-dtbo.img builds/zip-OneUIR/common/ts/dtb/$MODEL-dtbo.img
+    cp -f boot-$MODEL.img builds/$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION.img
+    cp -f $MODEL-dtb.img builds/zip-AOSP/common/ts/dtb/$MODEL-dtb.img
+    cp -f $MODEL-dtbo.img builds/zip-AOSP/common/ts/dtb/$MODEL-dtbo.img
 }
 
 RUN_PROGRAM2()
@@ -110,9 +113,9 @@ RUN_PROGRAM2()
     MAIN
     # BUILD_DTBO
     # BUILD_DTB
-    cp -f boot-$MODEL.img builds/$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION.img
-    cp -f $MODEL-dtb.img builds/zip-OneUIR/common/ts/dtb/$MODEL-dtb.img
-    cp -f $MODEL-dtbo.img builds/zip-OneUIR/common/ts/dtb/$MODEL-dtbo.img
+    cp -f boot-$MODEL.img builds/$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION.img
+    cp -f $MODEL-dtb.img builds/zip-AOSP/common/ts/dtb/$MODEL-dtb.img
+    cp -f $MODEL-dtbo.img builds/zip-AOSP/common/ts/dtb/$MODEL-dtbo.img
 }
 
 BUILD_DTBO()
@@ -149,10 +152,10 @@ echo "*   ThunderStorms Kernel Build Script   *"
 echo "*****************************************"
 echo ""
 echo "    CUSTOMIZABLE STOCK SAMSUNG KERNEL"
-echo "               Samsung S20"
+echo "              Clang 12.05"
 echo "            Build Kernel for"
 echo "-----------------------------------------"
-echo "|   S10 / N10 family for OneUI Q ROMs   |"
+echo "|   S10 / N10  family  for  AOSP ROMs   |"
 echo "-----------------------------------------"
 echo "(1) SM-G970F"
 echo "(2) SM-G970N"
@@ -172,105 +175,105 @@ read -p "Select an option to compile the kernel: " prompt
 if [ $prompt = "1" ]; then
     MODEL=G970F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G970F Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "2" ]; then
     MODEL=G970N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G973N Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "3" ]; then
     MODEL=G973F
     ZIP_DATE=`date +%Y%m%d`
-    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G973F Selected"
     RUN_PROGRAM
     MODEL=G973N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G973N Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "4" ]; then
     MODEL=G975F
     ZIP_DATE=`date +%Y%m%d`
-    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G975F Selected"
     RUN_PROGRAM
     MODEL=G975N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G975N Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "5" ]; then
     MODEL=G977B
     ZIP_DATE=`date +%Y%m%d`
-    # ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G977B Selected"
     RUN_PROGRAM
     MODEL=G977N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-F-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-G977N Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "6" ]; then
     MODEL=N970F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N970F Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "7" ]; then
     MODEL=N971N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N971N Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "8" ]; then
     MODEL=N975F
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N975F Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "9" ]; then
     MODEL=N976N
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N976N Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "10" ]; then
     MODEL=N976B
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-$MODEL-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-$MODEL-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "SM-N976B Selected"
     RUN_PROGRAM
     BUILD_FLASHABLES
 elif [ $prompt = "11" ]; then
     ZIP_DATE=`date +%Y%m%d`
-    ZIP_NAME=$K_NAME-S10-N10-$ANDROID-$K_VERSION-SAMSUNGS20-$ZIP_DATE.zip
-    export KERNEL_VERSION="$K_NAME-$K_BASE-$ANDROID-$MODEL-$K_VERSION"
+    ZIP_NAME=$K_NAME-S10-N10-$K_VERSION-CLANG12-$ZIP_DATE.zip
+    export KERNEL_VERSION="$K_NAME-$K_BASE-AOSP-$MODEL-$K_VERSION"
     echo "All variants Selected"
     MODEL=G970F
     echo "Compiling SM-G970F ..."
@@ -313,3 +316,6 @@ elif [ $prompt = "11" ]; then
     RUN_PROGRAM2
     BUILD_FLASHABLES
 fi
+
+    ## COPY BACK CAMERA FILES FOR OneUI 3.x
+	cp -rf /home/nalas/kernel/AiO-S10-TS/builds/camera-oneui3/. /home/nalas/kernel/AiO-S10-TS/drivers/media/platform/exynos/fimc-is2
