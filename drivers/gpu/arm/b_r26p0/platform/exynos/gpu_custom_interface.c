@@ -1002,6 +1002,7 @@ static ssize_t show_max_lock_dvfs(struct device *dev, struct device_attribute *a
 	return ret;
 }
 
+#define SUSTAINABLE_FREQ 377000 // KHz
 static ssize_t set_max_lock_dvfs(struct device *dev, struct device_attribute *attr, const char *buf, size_t count)
 {
 	int ret, clock = 0;
@@ -1021,6 +1022,9 @@ static ssize_t set_max_lock_dvfs(struct device *dev, struct device_attribute *at
 		}
 
 		clock = platform->gpu_max_clock;
+
+		if (clock < SUSTAINABLE_FREQ)
+			clock = SUSTAINABLE_FREQ;
 
 		platform->user_max_lock_input = clock;
 
@@ -2056,6 +2060,9 @@ static ssize_t set_kernel_sysfs_max_lock_dvfs(struct kobject *kobj, struct kobj_
 			GPU_LOG(DVFS_WARNING, DUMMY, 0u, 0u, "%s: invalid value\n", __func__);
 			return -ENOENT;
 		}
+
+		if (clock < SUSTAINABLE_FREQ)
+			clock = SUSTAINABLE_FREQ;
 
 		platform->user_max_lock_input = clock;
 
