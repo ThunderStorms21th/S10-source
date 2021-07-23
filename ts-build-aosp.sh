@@ -5,9 +5,9 @@
 
 LOG=compile_build.log
 RDIR=$(pwd)
-export K_VERSION="v2.5"
+export K_VERSION="v2.6"
 export K_NAME="ThundeRStormS-AOSP-Kernel"
-export K_BASE="FUE3"
+export K_BASE="FUE6"
 export ANDROID_VERSION=100000
 export PLATFORM_VERSION=10
 export ANDROID_MAJOR_VERSION=q

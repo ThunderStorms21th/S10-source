@@ -108,7 +108,7 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
     echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    echo "1500" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
@@ -117,7 +117,7 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
     echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
-    echo "1500" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
@@ -132,11 +132,11 @@ rm -f $LOG
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "4" > /sys/module/sec_battery/parameters/wl_polling
+    echo "3" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "640" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "512" > /proc/sys/kernel/random/write_wakeup_threshold
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
@@ -193,7 +193,7 @@ rm -f $LOG
    echo "1" > /sys/block/sda/queue/rq_affinity
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
    echo "256" > /sys/block/sda/queue/nr_requests
-   echo "64" > /sys/block/mmcblk0/queue/nr_requests
+   echo "128" > /sys/block/mmcblk0/queue/nr_requests
 
     # Initial ThundeRStormS Stune and CPU set settings
 	echo "## -- Initial Stune settings by ThundeRStormS" >> $LOG;
@@ -255,7 +255,7 @@ rm -f $LOG
    # SYSTEM-BACKGROUND
    echo "0-2" > /dev/cpuset/system-background/cpus		    # 0-2
    # MODERATE
-   echo "0-3,4-6" > /dev/cpuset/moderate/cpus				# 0-3,4-6
+   echo "0-3,4-5" > /dev/cpuset/moderate/cpus				# 0-3,4-6
    # DEXOPT
    echo "0-3" > /dev/cpuset/dexopt/cpus					    # 0-3
 
@@ -337,7 +337,7 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
     echo "377000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
     echo "2314000" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-    echo "1500" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "2000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu4/cpufreq/ts_schedutil/fb_legacy
@@ -346,7 +346,7 @@ rm -f $LOG
     echo "ts_schedutil" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_governor
     echo "520000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_min_freq
     echo "2730000" > /sys/devices/system/cpu/cpu6/cpufreq/scaling_max_freq
-    echo "1500" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
+    echo "2000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/down_rate_limit_us
     echo "4000" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/up_rate_limit_us
     echo "0" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/iowait_boost_enable
     echo "1" > /sys/devices/system/cpu/cpu6/cpufreq/ts_schedutil/fb_legacy
@@ -361,18 +361,18 @@ rm -f $LOG
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
-    echo "4" > /sys/module/sec_battery/parameters/wl_polling
+    echo "3" > /sys/module/sec_battery/parameters/wl_polling
     echo "1" > /sys/module/sec_nfc/parameters/wl_nfc
 
     # Entropy
-    echo "640" > /proc/sys/kernel/random/write_wakeup_threshold
+    echo "512" > /proc/sys/kernel/random/write_wakeup_threshold
     echo "64" > /proc/sys/kernel/random/read_wakeup_threshold
 
     # VM
     echo "95" > /proc/sys/vm/vfs_cache_pressure
     echo "100" > /proc/sys/vm/swappiness
-    echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
-    echo "500" > /proc/sys/vm/dirty_expire_centisecs
+    echo "800" > /proc/sys/vm/dirty_writeback_centisecs
+    echo "400" > /proc/sys/vm/dirty_expire_centisecs
     echo "50" > /proc/sys/vm/overcommit_ratio
 
     # Battery
@@ -389,8 +389,8 @@ rm -f $LOG
     # for another SM-G97x - ZRAM is OFF because RAM is 8GB (no needed)
     swapoff /dev/block/zram0 > /dev/null 2>&1
     echo "1" > /sys/block/zram0/reset
-    echo "1073741824" > /sys/block/zram0/disksize  # 1,0 GB
-    # echo "1610612736" > /sys/block/zram0/disksize  # 1,5 GB
+    # echo "1073741824" > /sys/block/zram0/disksize  # 1,0 GB
+    echo "1610612736" > /sys/block/zram0/disksize  # 1,5 GB
     # echo "2147483648" > /sys/block/zram0/disksize  # 2,0 GB
     # echo "2684354560" > /sys/block/zram0/disksize  # 2,5 GB
     # echo "3221225472" > /sys/block/zram0/disksize  # 3,0 GB
@@ -426,7 +426,7 @@ rm -f $LOG
    echo "1" > /sys/block/sda/queue/rq_affinity
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
    echo "256" > /sys/block/sda/queue/nr_requests
-   echo "64" > /sys/block/mmcblk0/queue/nr_requests
+   echo "128" > /sys/block/mmcblk0/queue/nr_requests
 
     # Initial ThundeRStormS Stune and CPU set settings
 	echo "## -- Initial Stune settings by ThundeRStormS" >> $LOG;
@@ -488,7 +488,7 @@ rm -f $LOG
    # SYSTEM-BACKGROUND
    echo "0-2" > /dev/cpuset/system-background/cpus		    # 0-2
    # MODERATE
-   echo "0-3,4-6" > /dev/cpuset/moderate/cpus				# 0-3,4-6
+   echo "0-3,4-5" > /dev/cpuset/moderate/cpus				# 0-3,4-6
    # DEXOPT
    echo "0-3" > /dev/cpuset/dexopt/cpus					    # 0-3
 
