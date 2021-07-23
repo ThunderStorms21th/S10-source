@@ -5187,7 +5187,7 @@
 
 		mfc_perf_boost_table {
 			num_cluster = <0x3>;
-			freq_cluster = <0x1a94b0 0x1cf610 0x163780>;
+			freq_cluster = <0x163780 0x19c990 0x196400>;    // 0x1a94b0 0x1cf610 0x163780 - little, mid, bif
 			freq_mfc = <0xa2990>;
 			freq_int = <0x825f0>;
 			freq_mif = <0x1fefc8>;
@@ -5238,7 +5238,7 @@
 		gpu_pmqos_mif_max_clock_base = <0x9eb10>;
 		gpu_cl_dvfs_start_base = <0x5c0a8>;
 		gpu_debug_level = <0x1>;    // 0x3
-		gpu_trace_level = <0x8>;
+		gpu_trace_level = <0x4>;    // 0x8
 		gpu_mo_min_clock = <0x5c0a8>;
 		gpu_boost_gpu_min_lock = <0x0>;
 		gpu_boost_egl_min_lock = <0x1c9080>;
@@ -10200,7 +10200,7 @@
 		samsung,tmu_reference_voltage = <0x0>;
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
-		samsung,tmu_first_point_trim = <0x1b>;  // 0x19
+		samsung,tmu_first_point_trim = <0x1d>;  // 0x19
 		samsung,tmu_second_point_trim = <0x50>; // 0x93
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
@@ -10223,7 +10223,7 @@
 		samsung,tmu_reference_voltage = <0x0>;
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
-		samsung,tmu_first_point_trim = <0x1b>;  // 0x19
+		samsung,tmu_first_point_trim = <0x1d>;  // 0x19
 		samsung,tmu_second_point_trim = <0x50>; // 0x93
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
@@ -10246,7 +10246,7 @@
 		samsung,tmu_reference_voltage = <0x0>;
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
-		samsung,tmu_first_point_trim = <0x1b>;  // 0x19
+		samsung,tmu_first_point_trim = <0x1d>;  // 0x19
 		samsung,tmu_second_point_trim = <0x50>; // 0x93
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
@@ -10269,7 +10269,7 @@
 		samsung,tmu_reference_voltage = <0x0>;
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
-		samsung,tmu_first_point_trim = <0x1b>;  // 0x19
+		samsung,tmu_first_point_trim = <0x1d>;  // 0x19
 		samsung,tmu_second_point_trim = <0x50>; // 0x93
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
@@ -10292,7 +10292,7 @@
 		samsung,tmu_reference_voltage = <0x0>;
 		samsung,tmu_noise_cancel_mode = <0x4>;
 		samsung,tmu_efuse_value = <0x37>;
-		samsung,tmu_first_point_trim = <0x1b>;  // 0x19
+		samsung,tmu_first_point_trim = <0x1d>;  // 0x19
 		samsung,tmu_second_point_trim = <0x50>; // 0x93
 		samsung,tmu_default_temp_offset = <0x32>;
 		samsung,tmu_default_trip_temp = <0x73>;
