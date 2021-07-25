@@ -404,7 +404,7 @@ static int gpu_dvfs_update_asv_table(struct kbase_device *kbdev)
 				table_idx = j * dvfs_table_col_num;
 				// Compare cal_freq with DVFS table freq
 				if (cal_freq == of_data_int_array[table_idx]) {
-					if (!cal_vol || cal_vol == 0)
+					if (!cal_vol || 0 > cal_vol)
 						cal_vol = platform->gpu_default_vol;
 					dvfs_table[j].clock = cal_freq;
 					dvfs_table[j].voltage = cal_vol;
