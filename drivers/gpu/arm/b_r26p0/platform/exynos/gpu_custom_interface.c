@@ -574,15 +574,14 @@ static ssize_t set_gpu_custom_max_clock(struct device *dev, struct device_attrib
 		return -ENOENT;
 	}
 
+	platform->gpu_max_clock = gpu_max_clock;
+	platform->user_max_lock_input = gpu_max_clock;
+	gpu_dvfs_clock_lock(GPU_DVFS_MAX_UNLOCK, SYSFS_LOCK, 0);
+
 	if ((gpu_max_clock < platform->gpu_min_clock_limit) || (gpu_max_clock > platform->gpu_max_clock_limit)) {
 		GPU_LOG(DVFS_WARNING, DUMMY, 0u, 0u, "%s: out of range (%d)\n", __func__, gpu_max_clock);
 		return -ENOENT;
 	}
-
-	platform->gpu_max_clock = gpu_max_clock;
-	platform->user_max_lock_input = 0;
-	gpu_dvfs_clock_lock(GPU_DVFS_MAX_UNLOCK, SYSFS_LOCK, 0);
-
 
 	return count;
 }
@@ -623,12 +622,13 @@ static ssize_t set_gpu_custom_min_clock(struct device *dev, struct device_attrib
 		return -ENOENT;
 	}
 
+	platform->gpu_min_clock = gpu_min_clock;
+	platform->user_min_lock_input = gpu_min_clock;
+
 	if ((gpu_min_clock < platform->gpu_min_clock_limit) || (gpu_min_clock > platform->gpu_max_clock_limit)) {
 		GPU_LOG(DVFS_WARNING, DUMMY, 0u, 0u, "%s: out of range (%d)\n", __func__, gpu_min_clock);
 		return -ENOENT;
 	}
-
-	platform->gpu_min_clock = gpu_min_clock;
 
 	return count;
 }
