@@ -2,8 +2,8 @@
 <b>KERNEL INFORMATION:</b>
 
 	NAME	: <b><#selectbg_g>ThundeRStormS-Kernel-OneUI R</#></b>	
-	VERSION	: <b><#selectbg_g>v2.6</#></b>
-	DATE	: <b><#selectbg_g>21/07/2021</#></b>
+	VERSION	: <b><#selectbg_g>v2.7</#></b>
+	DATE	: <b><#selectbg_g>10/09/2021</#></b>
 	AUTHOR	: <b><#selectbg_g>ThundeRStormS Team</#></b>
 
 <#53a6f4><b>        Only For Galaxy S10/N10 | OneUI R Roms |</b></#>
@@ -12,17 +12,28 @@
 <b>CHANGELOG:</b>
 
 --------------------------------------------------------------------------
-<u><b><#selectbg_g>ThunderStorms-Kernel-R-v2.6 : 21.07.2021</#></b></u>
-<*>Samsung source : FUE6 OneUI 3.1 </*>
-<*>Linux source : upstreamed to 4.14.240 </*>
+<u><b><#selectbg_g>ThunderStorms-Kernel-R-v2.7 : 10.09.2021</#></b></u>
+<*>Samsung source : FUF3/FUH3/FUH5 OneUI 3.1 </*>
+<*>Linux source : upstreamed to 4.14.246 </*>
+<*>Samsung os patch level: 2021-07 </*>
+<*>HZ tick set at 100HZ </*>
+<*>Support Init.d scripts: /vendor/etc/init.d </*>
+<*>ThunderTweaks v1.1.0.2 </*>
+<*>Magisk 23.0 Offcial build in kernel - thx to CruelKernel Team </*>
+<*>Compiled via Cnalg 12.06</*>
+<*>Rest like in realease 2.6 </*>
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+<u><b><#selectbg_g>ThunderStorms-Kernel-R-v2.6 : 06.09.2021</#></b></u>
+<*>Samsung source : FUF3/FUH3 OneUI 3.1 </*>
+<*>Linux source : upstreamed to 4.14.246 </*>
 <*>Samsung os patch level: 2021-07 </*>
 <*>Added some Thermall and SCHED improvements</*>
 <*>HZ tick set at 100HZ </*>
 <*>Support Battery_Saver module </*>
 <*>Used Relaxed version of atomic read </*>
-<*>Support Sustanable Frequenties for BIG and MID CPUs </*>
 <*>Support Init.d scripts: /vendor/etc/init.d </*>
-<*>ThunderTweaks v1.1.0.0 </*>
+<*>ThunderTweaks v1.1.0.2 </*>
 <*>Magisk 23.0 Offcial build in kernel - thx to CruelKernel Team </*>
 <*>Compiled via Cnalg 12.06</*>
 <*>Optimized for battery life </*>

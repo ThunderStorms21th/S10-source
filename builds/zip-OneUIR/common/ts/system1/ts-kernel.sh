@@ -33,11 +33,11 @@ rm -f $LOG
 
 	# SafetyNet
 	# SELinux (0 / 640 = Permissive, 1 / 644 = Enforcing)
-	# echo "## -- SafetyNet permissions" >> $LOG;
-	# chmod 644 /sys/fs/selinux/enforce;
-	# chmod 440 /sys/fs/selinux/policy;
-    # echo "0" > /sys/fs/selinux/enforce
-	# echo " " >> $LOG;
+	echo "## -- SafetyNet permissions" >> $LOG;
+	chmod 644 /sys/fs/selinux/enforce;
+	chmod 440 /sys/fs/selinux/policy;
+    echo "1" > /sys/fs/selinux/enforce
+	echo " " >> $LOG;
 
 	# deepsleep fix
 	echo "## -- DeepSleep Fix" >> $LOG;

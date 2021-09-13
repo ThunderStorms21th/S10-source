@@ -5,9 +5,9 @@
 
 LOG=compile_build.log
 RDIR=$(pwd)
-export K_VERSION="v2.6"
+export K_VERSION="v2.7"
 export K_NAME="ThundeRStormS-AOSP-Kernel"
-export K_BASE="FUE6"
+export K_BASE="FUH3"
 export ANDROID_VERSION=100000
 export PLATFORM_VERSION=10
 export ANDROID_MAJOR_VERSION=q
@@ -152,7 +152,7 @@ echo "*   ThunderStorms Kernel Build Script   *"
 echo "*****************************************"
 echo ""
 echo "    CUSTOMIZABLE STOCK SAMSUNG KERNEL"
-echo "              Clang 12.05"
+echo "              Clang 12.06"
 echo "            Build Kernel for"
 echo "-----------------------------------------"
 echo "|   S10 / N10  family  for  AOSP ROMs   |"
