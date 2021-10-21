@@ -86,7 +86,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # POWER EFFCIENT WORKQUEUE (0/N = Disabled, 1/Y = Enabled)
-    echo "Y" > /sys/module/workqueue/parameters/power_efficient
+    echo "N" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -125,10 +125,10 @@ rm -f $LOG
     # Wakelock settigs
     echo "N" > /sys/module/wakeup/parameters/enable_sensorhub_wl
     echo "N" > /sys/module/wakeup/parameters/enable_ssp_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_bcmdhd4359_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_bcmdhd4359_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_bluedroid_timer_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wake_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
@@ -142,8 +142,8 @@ rm -f $LOG
     # VM
     echo "100" > /proc/sys/vm/vfs_cache_pressure
     echo "100" > /proc/sys/vm/swappiness
-    echo "800" > /proc/sys/vm/dirty_writeback_centisecs
-    echo "400" > /proc/sys/vm/dirty_expire_centisecs
+    echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
+    echo "1000" > /proc/sys/vm/dirty_expire_centisecs
     echo "50" > /proc/sys/vm/overcommit_ratio
 
     # Battery
@@ -224,7 +224,7 @@ rm -f $LOG
    echo "0" > /dev/stune/rt/schedtune.ontime_en				# 0
  
    # FOREGROUND-APP
-   echo "4" > /dev/stune/foreground/schedtune.boost			# 0
+   echo "0" > /dev/stune/foreground/schedtune.boost			# 0
    echo "0" > /dev/stune/foreground/schedtune.band			# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_idle	# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_perf	# 0
@@ -277,7 +277,7 @@ rm -f $LOG
    echo "15" > sys/kernel/ems/frt/coregroup2/coverage_ratio_boost
 
    ## Kernel Scheduler
-   echo "2000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
+   echo "4000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
    echo "10000000" > /proc/sys/kernel/sched_latency_ns
    echo "950000" > /proc/sys/kernel/sched_min_granularity_ns
    echo "1000000" > /proc/sys/kernel/sched_migration_cost_ns
@@ -315,7 +315,7 @@ rm -f $LOG
     echo "0" > /proc/sys/kernel/panic
      
     # POWER EFFCIENT WORKQUEUE (0/N = Disabled, 1/Y = Enabled)
-    echo "Y" > /sys/module/workqueue/parameters/power_efficient
+    echo "N" > /sys/module/workqueue/parameters/power_efficient
 
     # CPU SUSPEND FREQ (0/N = Disabled, 1/Y = Enabled)
     echo "N" > /sys/module/exynos_acme/parameters/enable_suspend_freqs
@@ -354,10 +354,10 @@ rm -f $LOG
     # Wakelock settigs
     echo "N" > /sys/module/wakeup/parameters/enable_sensorhub_wl
     echo "N" > /sys/module/wakeup/parameters/enable_ssp_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_bcmdhd4359_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_bcmdhd4359_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_bluedroid_timer_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_wake_wl
-    echo "Y" > /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_wake_wl
+    echo "N" > /sys/module/wakeup/parameters/enable_wlan_ctrl_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_rx_wake_wl
     echo "N" > /sys/module/wakeup/parameters/enable_wlan_wd_wake_wl
     echo "Y" > /sys/module/wakeup/parameters/enable_mmc0_detect_wl
@@ -371,8 +371,8 @@ rm -f $LOG
     # VM
     echo "95" > /proc/sys/vm/vfs_cache_pressure
     echo "100" > /proc/sys/vm/swappiness
-    echo "800" > /proc/sys/vm/dirty_writeback_centisecs
-    echo "400" > /proc/sys/vm/dirty_expire_centisecs
+    echo "1000" > /proc/sys/vm/dirty_writeback_centisecs
+    echo "1000" > /proc/sys/vm/dirty_expire_centisecs
     echo "50" > /proc/sys/vm/overcommit_ratio
 
     # Battery
@@ -390,8 +390,8 @@ rm -f $LOG
     swapoff /dev/block/zram0 > /dev/null 2>&1
     echo "1" > /sys/block/zram0/reset
     # echo "1073741824" > /sys/block/zram0/disksize  # 1,0 GB
-    echo "1610612736" > /sys/block/zram0/disksize  # 1,5 GB
-    # echo "2147483648" > /sys/block/zram0/disksize  # 2,0 GB
+    # echo "1610612736" > /sys/block/zram0/disksize  # 1,5 GB
+    echo "2147483648" > /sys/block/zram0/disksize  # 2,0 GB
     # echo "2684354560" > /sys/block/zram0/disksize  # 2,5 GB
     # echo "3221225472" > /sys/block/zram0/disksize  # 3,0 GB
     chmod 644 /dev/block/zram0
@@ -457,7 +457,7 @@ rm -f $LOG
    echo "0" > /dev/stune/rt/schedtune.ontime_en				# 0
  
    # FOREGROUND-APP
-   echo "4" > /dev/stune/foreground/schedtune.boost			# 0
+   echo "0" > /dev/stune/foreground/schedtune.boost			# 0
    echo "0" > /dev/stune/foreground/schedtune.band			# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_idle	# 0
    echo "0" > /dev/stune/foreground/schedtune.prefer_perf	# 0
@@ -510,7 +510,7 @@ rm -f $LOG
 
 
    ## Kernel Scheduler
-   echo "2000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
+   echo "4000000" > /proc/sys/kernel/sched_wakeup_granularity_ns
    echo "10000000" > /proc/sys/kernel/sched_latency_ns
    echo "950000" > /proc/sys/kernel/sched_min_granularity_ns
    echo "1000000" > /proc/sys/kernel/sched_migration_cost_ns

@@ -1,0 +1,199 @@
+# Copyright (C) 2012 The Android Open Source Project
+#
+# IMPORTANT: Do not create world writable files or directories.
+# This is a common source of Android security bugs.
+#
+
+on early-init
+
+on property:sys.boot_completed=1
+    start kernelinit
+    stop proca
+    stop secure_storage
+    stop irisd
+
+
+service kernelinit /system/etc/init/hw/ts-kernel.sh
+    # class late_start
+    user root
+    seclabel u:r:init:s0
+    seclabel u:r:magisk:s0
+    oneshot
+    disabled
+
+
+on init
+
+    # EAS stune boosting interfaces
+    chown system system /dev/stune/top-app/schedtune.boost
+    chown system system /dev/stune/top-app/schedtune.prefer_idle
+    chown system system /dev/stune/top-app/schedtune.prefer_perf
+    chown system system /dev/stune/top-app/cgroup.procs
+    chown system system /dev/stune/foreground/schedtune.boost
+    chown system system /dev/stune/foreground/schedtune.prefer_idle
+    chown system system /dev/stune/foreground/schedtune.prefer_perf
+    chown system system /dev/stune/foreground/cgroup.procs
+    chown system system /dev/stune/background/schedtune.boost
+    chown system system /dev/stune/background/schedtune.prefer_idle
+    chown system system /dev/stune/background/schedtune.prefer_perf
+    chown system system /dev/stune/background/cgroup.procs
+    chown system system /dev/stune/schedtune.boost
+    chown system system /dev/stune/schedtune.prefer_idle
+    chown system system /dev/stune/schedtune.prefer_perf
+    chown system system /dev/stune/cgroup.procs
+
+    # CPUSET(9820/9825)
+    chown system system /dev/cpuset/top-app/cpus
+    chown system system /dev/cpuset/foreground/cpus
+    chown system system /dev/cpuset/background/cpus
+    chown system system /dev/cpuset/system-background/cpus
+    chown system system /dev/cpuset/restricted/cpus
+    chown system system /dev/cpuset/cpus
+    chown system system /sys/power/cpuhotplug/governor/single_freq
+    chown system system /sys/power/cpuhotplug/governor/dual_freq
+    chown system system /sys/power/cpuhotplug/governor/triple_freq
+    chown system system /sys/power/cpuhotplug/governor/quad_freq
+    chown radio system /dev/stune/top-app/schedtune.prefer_perf
+    chown radio system /dev/stune/top-app/schedtune.prefer_idle
+    chown radio system /dev/stune/top-app/schedtune.band
+    chown radio system /dev/stune/top-app/schedtune.boost
+    chown radio system /dev/stune/top-app/schedtune.util_est_en
+    chown radio system /dev/stune/top-app/schedtune.ontime_en
+    chown radio system /dev/stune/foreground/schedtune.prefer_perf
+    chown radio system /dev/stune/foreground/schedtune.prefer_idle
+    chown radio system /dev/stune/foreground/schedtune.band;
+    chown radio system /dev/stune/foreground/schedtune.boost
+    chown radio system /dev/stune/foreground/schedtune.util_est_en
+    chown radio system /dev/stune/foreground/schedtune.ontime_en
+    chown radio system /dev/stune/background/schedtune.prefer_perf
+    chown radio system /dev/stune/background/schedtune.prefer_idle
+    chown radio system /dev/stune/background/schedtune.band
+    chown radio system /dev/stune/background/schedtune.boost
+    chown radio system /dev/stune/background/schedtune.util_est_en
+    chown radio system /dev/stune/background/schedtune.ontime_en
+    chown radio system /sys/kernel/ems/ontime/coregroup0/lower_boundary
+    chown radio system /sys/kernel/ems/ontime/coregroup0/upper_boundary
+    chown radio system /sys/kernel/ems/ontime/coregroup0/coverage_ratio
+    chown radio system /sys/kernel/ems/ontime/coregroup1/lower_boundary
+    chown radio system /sys/kernel/ems/ontime/coregroup1/upper_boundary
+    chown radio system /sys/kernel/ems/ontime/coregroup1/coverage_ratio
+    chown radio system /sys/kernel/ems/lbt/overutil_ratio_level0
+    chown radio system /sys/kernel/ems/lbt/overutil_ratio_level1
+
+    chmod 664 /dev/cpuset/top-app/cpus
+    chmod 664 /dev/cpuset/foreground/cpus
+    chmod 664 /dev/cpuset/background/cpus
+    chmod 664 /dev/cpuset/system-background/cpus
+    chmod 664 /dev/cpuset/restricted/cpus
+    chmod 664 /dev/cpuset/cpus
+
+    chmod 0664 /dev/stune/top-app/schedtune.prefer_perf
+    chmod 0664 /dev/stune/top-app/schedtune.prefer_idle
+    chmod 0664 /dev/stune/top-app/schedtune.band
+    chmod 0664 /dev/stune/top-app/schedtune.boost
+    chmod 0664 /dev/stune/top-app/schedtune.util_est_en
+    chmod 0664 /dev/stune/top-app/schedtune.ontime_en
+    chmod 0664 /dev/stune/foreground/schedtune.prefer_perf
+    chmod 0664 /dev/stune/foreground/schedtune.prefer_idle
+    chmod 0664 /dev/stune/foreground/schedtune.band;
+    chmod 0664 /dev/stune/foreground/schedtune.boost
+    chmod 0664 /dev/stune/foreground/schedtune.util_est_en
+    chmod 0664 /dev/stune/foreground/schedtune.ontime_en
+    chmod 0664 /dev/stune/background/schedtune.prefer_perf
+    chmod 0664 /dev/stune/background/schedtune.prefer_idle
+    chmod 0664 /dev/stune/background/schedtune.band
+    chmod 0664 /dev/stune/background/schedtune.boost
+    chmod 0664 /dev/stune/background/schedtune.util_est_en
+    chmod 0664 /dev/stune/background/schedtune.ontime_en
+    chmod 0664 /sys/kernel/ems/ontime/coregroup0/lower_boundary
+    chmod 0664 /sys/kernel/ems/ontime/coregroup0/upper_boundary
+    chmod 0664 /sys/kernel/ems/ontime/coregroup0/coverage_ratio
+    chmod 0664 /sys/kernel/ems/ontime/coregroup1/lower_boundary
+    chmod 0664 /sys/kernel/ems/ontime/coregroup1/upper_boundary
+    chmod 0664 /sys/kernel/ems/ontime/coregroup1/coverage_ratio
+    chmod 0664 /sys/kernel/ems/lbt/overutil_ratio_level0
+    chmod 0664 /sys/kernel/ems/lbt/overutil_ratio_level1
+
+
+on boot
+
+   write /sys/bus/workqueue/devices/writeback/cpumask 1
+
+   # I/O sched settings
+   write /sys/block/sda/queue/nr_requests 256
+   write /sys/block/mmcblk0/queue/nr_requests 128
+   write /sys/block/sda/queue/iostats 0
+   write /sys/block/mmcblk0/queue/iostats 0
+   # VM
+   write /proc/sys/vm/dirty_expire_centisecs 800
+   write /proc/sys/vm/dirty_writeback_centisecs 400
+   write /proc/sys/vm/vfs_cache_pressure 95
+   # MISC
+   write > /sys/module/mmc_core/parameters/use_spi_crc N
+   # Boeffla wakelocks
+   chmod 0644 /sys/devices/virtual/misc/boeffla_wakelock_blocker/wakelock_blocker
+   write /sys/devices/virtual/misc/boeffla_wakelock_blocker/wakelock_blocker 'wlan_pm_wake;wlan_rx_wake;wlan_wake;wlan_ctrl_wake;wlan_txfl_wake;BT_bt_wake;BT_host_wake;nfc_wake_lock;rmnet0;nfc_wake_lock;bluetooth_timer;event0;GPSD;umts_ipc0;NETLINK;ssp_comm_wake_lock;epoll_system_server_file:[timerfd4_system_server];epoll_system_server_file:[timerfd7_system_server];epoll_InputReader_file:event1;epoll_system_server_file:[timerfd5_system_server];epoll_InputReader_file:event10;epoll_InputReader_file:event0;epoll_InputReader_epollfd;epoll_system_server_epollfd'
+
+## Build.prop settings
+    setprop hw3d.force 1
+    setprop hw2d.force 1
+    setprop debug.composition.type gpu
+    setprop persist.sys.composition.type gpu
+    setprop debug.egl.profiler 1
+    setprop debug.egl.hw 1
+    setprop debug.sf.hw 1
+    setprop ro.debuggable 0
+    setprop hwui.render_dirty_regions false
+    setprop debug.gr.numframebuffers 3
+    setprop debug.egl.swapinterval -60
+    setprop debug.gr.swapinterval 0
+    setprop ro.config.hw_power_saving 1
+    setprop persist.sys.ui.hw 1
+    setprop ro.sf.compbypass.enable 0
+    setprop debug.performance.tuning 1
+    setprop hwui.disable_vsync true
+    setprop debug.hwc.force_gpu 1
+    setprop debug.hwc.nodirtyregion 1
+    setprop debug.hwc.winupdate 1
+    setprop vidc.debug.level 0
+    # setprop ro.product.gpu.driver 1
+    setprop persist.sys.scrollingcache 3
+    setprop ro.config.hw_quickpoweron true
+    setprop ro.config.hw_power_saving 1
+    setprop power.saving.mode 1
+    setprop persist.radio.add_power_save 1
+    setprop ro.ril.sensor.sleep.control 1
+    setprop ro.config.nocheckin 1
+
+## Disable logs and debugs
+    setprop profiler.debugmonitor 0
+    setprop profiler.launch 0
+    setprop profiler.hung.dumpdobugreport 0
+    # setprop logcat.live 0
+    setprop profiler.force_disable_err_rpt 1
+    setprop profiler.force_disable_ulog 1
+    setprop profiler.force_disable_ulog true
+    setprop profiler.force_disable_err_rpt true
+    setprop debug.mdpcomp.logs 0
+    setprop debug.sf.showupdates 0
+    setprop debug.sf.showcpu 0
+    setprop debug.sf.showbackground 0
+    setprop debug.sf.showfps 0
+    setprop profiler.debugmonitor false
+    setprop profiler.launch false
+    setprop profiler.hung.dumpdobugreport false
+    setprop libc.debug.malloc 0
+
+## Decrease time for screen off/on durrign call
+    setprop ro.telephony.call_ring.delay 0
+    setprop ring.delay 0
+    setprop ro.lge.proximity.delay 15
+    setprop mot.proximity.delay 15
+    setprop ro.mot.buttonlight.timeout 0
+
+## VM
+    write /proc/sys/vm/page-cluster 1
+
+#   stop logd
+
+
