@@ -195,6 +195,10 @@ rm -f $LOG
    echo "256" > /sys/block/sda/queue/nr_requests
    echo "128" > /sys/block/mmcblk0/queue/nr_requests
 
+   #Devfreq
+   # default 2093 MHz
+   echo "1794000" > /sys/devices/platform/17000010.devfreq_mif/devfreq/17000010.devfreq_mif/max_freq
+
     # Initial ThundeRStormS Stune and CPU set settings
 	echo "## -- Initial Stune settings by ThundeRStormS" >> $LOG;
 
@@ -427,6 +431,10 @@ rm -f $LOG
    echo "1" > /sys/block/mmcblk0/queue/rq_affinity
    echo "256" > /sys/block/sda/queue/nr_requests
    echo "128" > /sys/block/mmcblk0/queue/nr_requests
+
+   #Devfreq
+   # default 2093 MHz
+   echo "1794000" > /sys/devices/platform/17000010.devfreq_mif/devfreq/17000010.devfreq_mif/max_freq
 
     # Initial ThundeRStormS Stune and CPU set settings
 	echo "## -- Initial Stune settings by ThundeRStormS" >> $LOG;
