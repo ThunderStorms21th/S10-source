@@ -2934,7 +2934,6 @@ static inline struct f_fs_opts *ffs_do_functionfs_bind(struct usb_function *f,
 		container_of(f->fi, struct f_fs_opts, func_inst);
 	struct ffs_data *ffs_data;
 	int ret;
-	int retries = 100;
 
 	ENTER();
 
@@ -2958,7 +2957,7 @@ static inline struct f_fs_opts *ffs_do_functionfs_bind(struct usb_function *f,
 			break;
 	} while (--retries);
 
-	pr_info("ffs_do_functionfs_bind %d %d\n", ret, retries);
+	pr_info("ffs_do_functionfs_bind %d\n", ret);
 
 	if (ret)
 		return ERR_PTR(ret);
@@ -3513,6 +3512,7 @@ static void ffs_func_unbind(struct usb_configuration *c,
 static struct usb_function *ffs_alloc(struct usb_function_instance *fi)
 {
 	struct ffs_function *func;
+	struct ffs_dev *dev;
 
 	ENTER();
 
@@ -3520,7 +3520,8 @@ static struct usb_function *ffs_alloc(struct usb_function_instance *fi)
 	if (unlikely(!func))
 		return ERR_PTR(-ENOMEM);
 
-	func->function.name    = "adb";
+	dev = to_f_fs_opts(fi)->dev;
+	func->function.name    = dev->name;
 
 	func->function.bind    = ffs_func_bind;
 	func->function.unbind  = ffs_func_unbind;

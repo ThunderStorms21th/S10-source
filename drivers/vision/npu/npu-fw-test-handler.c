@@ -190,7 +190,7 @@ static int fw_utc_save_result_cb(struct npu_session *sess, struct nw_result resu
 
 static int execute_fw_utc_vector(struct npu_session *sess, struct vs4l_param *param)
 {
-	int				ret;
+	int				ret = 0;
 	struct npu_nw			nw;
 	int				test_result = 0;
 	struct npu_system		*system;
