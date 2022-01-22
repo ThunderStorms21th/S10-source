@@ -29,6 +29,16 @@ toolchain = {
         'CLANG_TRIPLE': 'toolchain/clang-11/clang/host/linux-x86/clang-r399163b/bin/aarch64-linux-gnu-',
         'CC': 'toolchain/clang-11/host/linux-x86/clang-r399163b/bin/clang'
     },
+    'clang-12': {
+        'CROSS_COMPILE': 'toolchain/samsung/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-',
+        'CLANG_TRIPLE': 'toolchain/clang-12/clang/host/linux-x86/clang-r416183c/bin/aarch64-linux-gnu-',
+        'CC': 'toolchain/clang-12/host/linux-x86/clang-r416183c/bin/clang'  #12.06
+    },
+    'clang-14': {
+        'CROSS_COMPILE': 'toolchain/samsung/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-',
+        'CLANG_TRIPLE': 'toolchain/clang-14/clang/host/linux-x86/clang-r437112b/bin/aarch64-linux-gnu-',
+        'CC': 'toolchain/clang-14/host/linux-x86/clang-r437112b/bin/clang'  #14.00
+    },
     'proton': {
         'CROSS_COMPILE': 'toolchain/proton/bin/aarch64-linux-gnu-',
         'CROSS_COMPILE_ARM32': 'toolchain/proton/bin/arm-linux-gnueabi-',
@@ -611,7 +621,7 @@ if __name__ == '__main__':
                 make_config(configs, model)
 
             if configs['kernel']['magisk']['enabled']:
-                update_magisk(configs['kernel']['magisk'].get('version'))
+               update_magisk(configs['kernel']['magisk'].get('version'))
             build(compiler, objtree)
             if not single_model:
                 os.remove(objtree + '/.config')
