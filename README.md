@@ -11,7 +11,7 @@ Supported devices:
 G970F, G970N, G973F, G975F, G975F G977B, G977N,
 N970F, N975F, N971N, N976B, N976N.
 
-OneUI + AOSP (for some AOSP Q OS - kernel doesn't work)
+OneUI + AOSP (for some AOSP Q | OneUI 4 (S) OS - kernel doesn't work)
 
 ## Credits
 
