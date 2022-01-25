@@ -36,8 +36,10 @@ toolchain = {
     },
     'clang-14': {
         'CROSS_COMPILE': 'toolchain/samsung/gcc-cfp/gcc-cfp-jopp-only/aarch64-linux-android-4.9/bin/aarch64-linux-android-',
-        'CLANG_TRIPLE': 'toolchain/clang-14/clang/host/linux-x86/clang-r437112b/bin/aarch64-linux-gnu-',
-        'CC': 'toolchain/clang-14/host/linux-x86/clang-r437112b/bin/clang'  #14.00
+        #'CLANG_TRIPLE': 'toolchain/clang-14/clang/host/linux-x86/clang-r437112/bin/aarch64-linux-gnu-', # 14.0.0
+        #'CC': 'toolchain/clang-14/host/linux-x86/clang-r437112/bin/clang'  #14.0.0
+        'CLANG_TRIPLE': 'toolchain/clang-14/clang/host/linux-x86/clang-r437112b/bin/aarch64-linux-gnu-', # 14.0.1
+        'CC': 'toolchain/clang-14/host/linux-x86/clang-r437112b/bin/clang'  #14.0.1
     },
     'proton': {
         'CROSS_COMPILE': 'toolchain/proton/bin/aarch64-linux-gnu-',
